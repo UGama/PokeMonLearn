@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/item_background"
+        android:layout_width="match_parent"
+        app:layout_heightPercent="88%"
+        app:layout_widthPercent="75%"
+        android:background="@drawable/shape2"
+        android:layout_alignParentRight="true"
+        />
+
+    <ImageView
+        app:layout_widthPercent="10%"
+        app:layout_heightPercent="45%"
+        app:layout_marginLeftPercent="33%"
+        app:layout_marginTopPercent="9%"
+        android:src="@drawable/decorte_ball2"
+        />
+
+    <ImageView
+        app:layout_widthPercent="18%"
+        app:layout_heightPercent="76%"
+        app:layout_marginLeftPercent="48%"
+        app:layout_marginTopPercent="9%"
+        android:id="@+id/pet_pic"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/pet_name"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        app:layout_marginLeftPercent="67%"
+        app:layout_marginTopPercent="40%"
+        />
+
+
+</android.support.percent.PercentRelativeLayout>

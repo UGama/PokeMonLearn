@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        app:layout_heightPercent="90%"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="match_parent"
+        >
+    </android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/transfer1"
+        android:background="@drawable/transfer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <ImageView
+        android:id="@+id/transfer2"
+        android:background="@drawable/transfer2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+</android.support.percent.PercentRelativeLayout>

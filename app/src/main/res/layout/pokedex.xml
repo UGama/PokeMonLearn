@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/pokeDex_Layout_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu"
+        app:layout_heightPercent="70%">
+        <ImageView
+            android:id="@+id/choseList"
+            android:background="@drawable/pokedex_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="40%"
+            app:layout_heightPercent="55%"
+            app:layout_marginTopPercent="5%"
+            app:layout_marginLeftPercent="3%"
+            />
+        <ImageView
+            android:id="@+id/Dex"
+            android:background="@drawable/pokedex_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="50%"
+            app:layout_heightPercent="95%"
+            android:layout_alignParentRight="true"
+            />
+        <ImageView
+            android:id="@+id/computer"
+            android:src="@drawable/computer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="35%"
+            app:layout_heightPercent="30%"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="5%"
+            app:layout_marginLeftPercent="5%"
+            />
+
+        <ImageView
+            android:id="@+id/flash2"
+            android:background="#000000"
+            app:layout_widthPercent="29%"
+            app:layout_heightPercent="15.5%"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="18%"
+            app:layout_marginLeftPercent="8%"
+            />
+        <ImageView
+            android:id="@+id/connect1"
+            android:background="#f8e08a"
+            app:layout_widthPercent="4%"
+            app:layout_heightPercent="7%"
+            app:layout_marginTopPercent="58%"
+            app:layout_marginLeftPercent="20%"
+            />
+        <ImageView
+            android:id="@+id/connect2"
+            android:background="#f8e08a"
+            app:layout_widthPercent="8%"
+            app:layout_heightPercent="4%"
+            app:layout_marginTopPercent="30%"
+            app:layout_marginLeftPercent="43%"
+            />
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/pokeDex_Layout_down"
+        android:background="@drawable/shape_bag_explain"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="28%"
+        app:layout_marginBottomPercent="2%"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pokeDex_explain"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            />
+
+
+    </android.support.percent.PercentRelativeLayout>
+    <ImageView
+        android:id="@+id/transfer1"
+        android:background="@drawable/transfer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <ImageView
+        android:id="@+id/transfer2"
+        android:background="@drawable/transfer2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+</android.support.percent.PercentRelativeLayout>
