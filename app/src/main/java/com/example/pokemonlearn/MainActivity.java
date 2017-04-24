@@ -38,6 +38,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Gama on 8/3/17 (Test Version) (Happy Birthday, Cloud!).
+ * Created by Gama on 9/3/17 (First Version) (Happy Birthday, TaeYeon!).
+ * Created by Gama on 7/4/17 (Second Version).
+ */
+
 public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarkerClickListener, View.OnClickListener, View.OnTouchListener, BaiduMap.OnMapClickListener {
     public LocationClient mLocClient = null;
     public BDLocationListener myListener = new MyLocationListener();
@@ -46,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     private BaiduMap mBaiduMap = null;
     private boolean isFirstLoc = true;
     private MyLocationConfiguration myLocationConfiguration;
-    private DistanceUtil distanceUtil;
 
     private Animation anim0;
     private Animation anim1;
@@ -376,10 +381,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        distanceUtil = new DistanceUtil();
         LatLng myPosition = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
         if (marker == markerA) {
-            if (distanceUtil.getDistance(myPosition, markerA.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerA.getPosition()) < 20) {
                 WarningTimes = 0;
                 warning.setVisibility(View.VISIBLE);
                 Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
@@ -461,39 +465,39 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 });
                 //Toast.makeText(this, String.valueOf(distanceUtil.getDistance(myPosition, markerA.getPosition())), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, String.valueOf(distanceUtil.getDistance(myPosition, markerA.getPosition())),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerA.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerB) {
-            if (distanceUtil.getDistance(myPosition, markerB.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerB.getPosition()) < 20) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, String.valueOf(distanceUtil.getDistance(myPosition, markerB.getPosition())),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerB.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerC) {
-            if (distanceUtil.getDistance(myPosition, markerC.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerC.getPosition()) < 20) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, String.valueOf(distanceUtil.getDistance(myPosition, markerC.getPosition())),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerC.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerD) {
-            if (distanceUtil.getDistance(myPosition, markerD.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerD.getPosition()) < 20) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, String.valueOf(distanceUtil.getDistance(myPosition, markerD.getPosition())),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerD.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else {
-            if (distanceUtil.getDistance(myPosition, markerE.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerE.getPosition()) < 20) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, String.valueOf(distanceUtil.getDistance(myPosition, markerE.getPosition())),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerE.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -831,7 +835,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         return false;
     }
 
-    public class MyLocationListener implements BDLocationListener {
+    private class MyLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
