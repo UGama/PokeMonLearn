@@ -24,5 +24,4 @@ public class PokeMon {
     public int getImageSourceId() {
         return ImageSourceId;
     }
-
 }

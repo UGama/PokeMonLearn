@@ -29,6 +29,38 @@
             app:layout_heightPercent="95%"
             android:layout_alignParentRight="true"
             />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="44%"
+            app:layout_heightPercent="83%"
+            android:layout_alignParentRight="true"
+            app:layout_marginRightPercent="3%"
+            app:layout_marginTopPercent="6%"
+            />
+        <ImageView
+            android:id="@+id/gold_up"
+            android:src="#f8e08a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="3%"
+            app:layout_widthPercent="44%"
+            android:layout_alignParentRight="true"
+            app:layout_marginRightPercent="3%"
+            app:layout_marginTopPercent="3%"
+            />
+        <ImageView
+            android:id="@+id/gold_down"
+            android:src="#f8e08a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="3%"
+            app:layout_widthPercent="44%"
+            android:layout_alignParentRight="true"
+            app:layout_marginRightPercent="3%"
+            android:layout_below="@+id/RecyclerView"
+            />
         <ImageView
             android:id="@+id/computer"
             android:src="@drawable/computer"
@@ -65,6 +97,14 @@
             app:layout_heightPercent="4%"
             app:layout_marginTopPercent="30%"
             app:layout_marginLeftPercent="43%"
+            />
+        <ImageView
+            android:background="@drawable/pokedexinit"
+            android:id="@+id/pokeDex_Pic"
+            app:layout_widthPercent="33%"
+            app:layout_heightPercent="35%"
+            app:layout_marginTopPercent="14%"
+            app:layout_marginLeftPercent="6.5%"
             />
 
 
@@ -103,6 +143,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-
 
 </android.support.percent.PercentRelativeLayout>

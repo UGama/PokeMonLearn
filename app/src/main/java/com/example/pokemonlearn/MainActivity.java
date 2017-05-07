@@ -41,6 +41,7 @@ import java.util.List;
 /**
  * Created by Gama on 8/3/17 (Test Version) (Happy Birthday, Cloud!).
  * Created by Gama on 9/3/17 (First Version) (Happy Birthday, TaeYeon!).
+ * Noted by Gama on 21/3/17 (Happy Birthday, MCX!).
  * Created by Gama on 7/4/17 (Second Version).
  */
 
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);// 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
+        //option.setScanSpan(1000);
 
         mLocClient.setLocOption(option);
         mLocClient.start();
