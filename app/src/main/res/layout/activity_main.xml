@@ -284,4 +284,13 @@
         app:layout_heightPercent="12.5%"
         android:layout_below="@+id/fight_trans_07"
         />
+    <Button
+        android:id="@+id/dataBase"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="DataBase"
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </android.support.percent.PercentRelativeLayout>

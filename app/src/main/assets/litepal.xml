@@ -3,6 +3,6 @@
     <dbname value="PokeMonDatabase" />
     <version value="1" />
     <list>
-        <mapping class="com.example.pokemonlearn.PokeDex" />
+        <mapping class="com.example.pokemonlearn.PokeMon" />
     </list>
 </litepal>

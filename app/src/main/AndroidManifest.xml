@@ -40,6 +40,7 @@
         <activity android:name=".Bag" />
         <activity android:name=".PokeDex" />
         <activity android:name=".MyPet" />
+        <activity android:name=".DatabaseOperate"/>
     </application>
 
 </manifest>

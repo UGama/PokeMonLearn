@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     private Animation trans_out1;
     private Animation trans_out2;
 
+    private Button Database;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,6 +324,15 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
             }
         });
         mapModeChose.setOnClickListener(this);
+
+        Database = (Button) findViewById(R.id.dataBase);
+        Database.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DatabaseOperate.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void initOverlay() {

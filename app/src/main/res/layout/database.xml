@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Databases Adddata"
+        android:textSize="24sp"
+        android:id="@+id/AddDataDatabases"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Databases Query"
+        android:textSize="24sp"
+        android:id="@+id/queryDatabases"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Databases Delete"
+        android:textSize="24sp"
+        android:id="@+id/deleteDatabases"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Databases Update"
+        android:textSize="24sp"
+        android:id="@+id/updateDatabases"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Databases DeleteAll"
+        android:textSize="24sp"
+        android:id="@+id/deleteAll"
+        />
+</LinearLayout>

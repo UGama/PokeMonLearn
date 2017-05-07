@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/menu"
         app:layout_heightPercent="70%">
-        <ImageView
+        <android.support.percent.PercentRelativeLayout
             android:id="@+id/choseList"
             android:background="@drawable/pokedex_shape"
             android:layout_width="wrap_content"
@@ -19,7 +19,30 @@
             app:layout_heightPercent="55%"
             app:layout_marginTopPercent="5%"
             app:layout_marginLeftPercent="3%"
-            />
+            >
+            <ImageView
+                android:id="@+id/wood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_widthPercent="72%"
+                app:layout_heightPercent="22%"
+                android:background="@drawable/wood"
+                app:layout_marginTopPercent="68%"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:id="@+id/wood_name"
+                android:text=" ??? "
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_marginTopPercent="78%"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </android.support.percent.PercentRelativeLayout>
+
         <ImageView
             android:id="@+id/Dex"
             android:background="@drawable/pokedex_shape"
@@ -102,10 +125,11 @@
             android:background="@drawable/pokedexinit"
             android:id="@+id/pokeDex_Pic"
             app:layout_widthPercent="33%"
-            app:layout_heightPercent="35%"
-            app:layout_marginTopPercent="14%"
+            app:layout_heightPercent="30%"
+            app:layout_marginTopPercent="12%"
             app:layout_marginLeftPercent="6.5%"
             />
+
 
 
     </android.support.percent.PercentRelativeLayout>
