@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Created by Gama on 15/4/17.
  */
-class PokeMonAdapter extends RecyclerView.Adapter<PokeMonAdapter.ViewHolder> {
+class OwnPetAdapter extends RecyclerView.Adapter<OwnPetAdapter.ViewHolder> {
 
-    private List<PokeMon> myPetList;
+    private List<OwnPet> myPetList;
 
-    public PokeMonAdapter(List<PokeMon> myPetList) {
+    public OwnPetAdapter(List<OwnPet> myPetList) {
         this.myPetList = myPetList;
     }
 
@@ -36,8 +36,8 @@ class PokeMonAdapter extends RecyclerView.Adapter<PokeMonAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        PokeMon pokeMon = myPetList.get(position);
-        holder.imageView.setImageResource(pokeMon.getImageSourceId());
+        OwnPet pokeMon = myPetList.get(position);
+        holder.imageView.setImageResource(pokeMon.getPosition());
         holder.PokeMonName.setText(pokeMon.getName());
     }
 

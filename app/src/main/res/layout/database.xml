@@ -37,4 +37,18 @@
         android:textSize="24sp"
         android:id="@+id/deleteAll"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OwnPet Database Add"
+        android:textSize="24sp"
+        android:id="@+id/OwnAdd"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OwnPet Database Query"
+        android:textSize="24sp"
+        android:id="@+id/OwnQuery"
+        />
 </LinearLayout>

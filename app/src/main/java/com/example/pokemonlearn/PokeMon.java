@@ -28,15 +28,12 @@ public class PokeMon extends DataSupport{
     public int getImageSourceId() {
         return ImageSourceId;
     }
-
     public void setNumber(int Number) {
         this.Number = Number;
     }
-
     public void setName(String name) {
         Name = name;
     }
-
     public void setImageSourceId(int imageSourceId) {
         ImageSourceId = imageSourceId;
     }

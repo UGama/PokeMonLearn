@@ -20,7 +20,8 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     Button DeleteDatabases;
     Button UpdateDatabases;
     Button DeleteAllDatabases;
-
+    Button OwnPetAddDatabases;
+    Button OwnPetQueryDatabases;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -43,6 +44,16 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
             case R.id.deleteAll:
                 DeleteAll();
                 Log.i("DatabasesTest", "DeleteAll Successfully");
+                break;
+            case R.id.OwnAdd:
+                myPetAdd();
+                Log.i("DatabasesTest", "Add Successfully");
+                break;
+            case R.id.OwnQuery:
+                myPetQuery();
+                Log.i("DatabasesTest", "Query Successfully");
+                break;
+
         }
     }
 
@@ -79,13 +90,11 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     public void Delete() {
         DataSupport.deleteAll(PokeMon.class, "Number = ?", "99");
     }
-
     public void Update() {
         PokeMon pokeMon = new PokeMon();
         pokeMon.setImageSourceId(R.drawable.zapdos2);
         pokeMon.updateAll("Number = ?", "15");
     }
-
     public void Query() {
         List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
         for (PokeMon pokeMon : pokeMons) {
@@ -93,7 +102,6 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                     + String.valueOf(pokeMon.getNumber()));
         }
     }
-
     public void DeleteAll() {
         DataSupport.deleteAll(PokeMon.class);
     }
@@ -142,6 +150,20 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
         DataSupport.saveAll(list);
     }
 
+    public void myPetAdd() {
+        OwnPet Pikachu = new OwnPet();
+        Pikachu.setPosition(R.drawable.pikachu2);
+        Pikachu.setId(1);
+        Pikachu.setName("Pikachu");
+        Pikachu.save();
+    }
+    public void myPetQuery() {
+        List<OwnPet> pokeMons = DataSupport.findAll(OwnPet.class);
+        for (OwnPet pokeMon : pokeMons) {
+            Log.i("Query", pokeMon.getName() + "  " + String.valueOf(pokeMon.getPosition()) + "  "
+                    + String.valueOf(pokeMon.getId()));
+        }
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +183,11 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
         DeleteAllDatabases = (Button) findViewById(R.id.deleteAll);
         DeleteAllDatabases.setOnClickListener(this);
 
+        OwnPetAddDatabases = (Button) findViewById(R.id.OwnAdd);
+        OwnPetAddDatabases.setOnClickListener(this);
+
+        OwnPetQueryDatabases = (Button) findViewById(R.id.OwnQuery);
+        OwnPetQueryDatabases.setOnClickListener(this);
     }
 
 }
