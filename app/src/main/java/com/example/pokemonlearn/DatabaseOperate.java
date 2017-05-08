@@ -98,8 +98,8 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     public void Query() {
         List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
         for (PokeMon pokeMon : pokeMons) {
-            Log.i("Query", pokeMon.getName() + "  " + String.valueOf(pokeMon.getImageSourceId()) + "  "
-                    + String.valueOf(pokeMon.getNumber()));
+            Log.i("Query", pokeMon.getName() + "  " + String.valueOf(pokeMon.getNumber())
+                    + "  " + String.valueOf(pokeMon.getWeight()));
         }
     }
     public void DeleteAll() {
@@ -112,40 +112,39 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
         pokeMontest.setNumber(1);
         pokeMontest.save();*/
         ArrayList<PokeMon> list = new ArrayList<>();
-        PokeMon p = new PokeMon(1, "Squirtle", R.drawable.squirtle2);
-        PokeMon p1 = new PokeMon(2, "Charmander", R.drawable.charmander2);
-        PokeMon p2 = new PokeMon(3, "Bulasaur", R.drawable.bulbasaur2);
-        PokeMon p3 = new PokeMon(4, "Oddish", R.drawable.oddish2);
-        PokeMon p4 = new PokeMon(5, "Pikachu", R.drawable.pikachu2);
-        PokeMon p5 = new PokeMon(6, "Chansey", R.drawable.chansey2);
-        PokeMon p6 = new PokeMon(7, "Clefairy", R.drawable.clefairy2);
-        PokeMon p7 = new PokeMon(8, "Doduo", R.drawable.doduo2);
-        PokeMon p8 = new PokeMon(9, "Jigglypuff", R.drawable.jigglypuff2);
-        PokeMon p9 = new PokeMon(10, "Gengar", R.drawable.gengar2);
-        PokeMon p10 = new PokeMon(11, "Magnemite", R.drawable.magnemite2);
-        PokeMon p11 = new PokeMon(12, "Mankey", R.drawable.mankey2);
-        PokeMon p12 = new PokeMon(13, "Onix", R.drawable.onix2);
-        PokeMon p13 = new PokeMon(14, "Vulpix", R.drawable.vulpix2);
-        PokeMon p14 = new PokeMon(15, "Zapdos", R.drawable.zapdos2);
-        PokeMon p15 = new PokeMon(16, "Meowth", R.drawable.meowth2);
-        PokeMon p16 = new PokeMon(17, "Wobbuffet", R.drawable.wobbuffet);
-        list.add(p);
-        list.add(p1);
-        list.add(p2);
-        list.add(p3);
-        list.add(p4);
-        list.add(p5);
-        list.add(p6);
-        list.add(p7);
-        list.add(p8);
-        list.add(p9);
-        list.add(p10);
-        list.add(p11);
-        list.add(p12);
-        list.add(p13);
-        list.add(p14);
-        list.add(p15);
-        list.add(p16);
+
+
+        PokeMon p = new PokeMon(3, "Bulasaur", R.drawable.bulbasaur2, 20, R.drawable.bulbasaur);
+        PokeMon p1 = new PokeMon(2, "Charmander", R.drawable.charmander2, 20, R.drawable.charmander);
+        PokeMon p2 = new PokeMon(1, "Squirtle", R.drawable.squirtle2, 20, R.drawable.squirtle);
+        PokeMon p3 = new PokeMon(4, "Oddish", R.drawable.oddish2, 19, R.drawable.oddish);
+        PokeMon p4 = new PokeMon(5, "Caterpie", R.drawable.caterpie2, 20, R.drawable.caterpie);
+        PokeMon p5 = new PokeMon(6, "Chansey", R.drawable.chansey2, 19, R.drawable.chansey);
+        PokeMon p6 = new PokeMon(7, "Mewtwo", R.drawable.mewtwo2, 1, R.drawable.mewtwo);
+        PokeMon p7 = new PokeMon(8, "Doduo", R.drawable.doduo2, 18, R.drawable.doduo);
+        PokeMon p8 = new PokeMon(9, "Jigglypuff", R.drawable.jigglypuff2, 12, R.drawable.jigglypuff);
+        PokeMon p9 = new PokeMon(10, "Gengar", R.drawable.gengar2, 20, R.drawable.gengar);
+        PokeMon p10 = new PokeMon(11, "Magnemite", R.drawable.magnemite2, 4, R.drawable.magnemite);
+        PokeMon p11 = new PokeMon(12, "Mankey", R.drawable.mankey2, 17, R.drawable.mankey);
+        PokeMon p12 = new PokeMon(13, "Onix", R.drawable.onix2, 19, R.drawable.onix);
+        PokeMon p13 = new PokeMon(14, "Vulpix", R.drawable.vulpix2, 4, R.drawable.vulpix);
+        PokeMon p14 = new PokeMon(15, "Zapdos", R.drawable.zapdos2, 1, R.drawable.zapdos);
+        PokeMon p15 = new PokeMon(16, "Meowth", R.drawable.meowth2, 17, R.drawable.meowth);
+        PokeMon p16 = new PokeMon(17, "Wobbuffet", R.drawable.wobbuffet2, 4, R.drawable.wobbuffet);
+        PokeMon p17 = new PokeMon(18, "Eevee", R.drawable.eevee2, 4, R.drawable.eevee);
+        PokeMon p18 = new PokeMon(19, "Vaporeon", R.drawable.vaporeon2, 0, 0);
+        PokeMon p19 = new PokeMon(20, "Jolteon", R.drawable.jolteon2, 0, 0);
+        PokeMon p20 = new PokeMon(21, "Flareon", R.drawable.flareon2, 0, 0);
+        PokeMon p21 = new PokeMon(22, "Espeon", R.drawable.espeon2, 0, 0);
+        PokeMon p22 = new PokeMon(23, "Umbreon", R.drawable.umbreon2, 0, 0);
+        PokeMon p23 = new PokeMon(24, "Leafeon", R.drawable.leafeon2, 0, 0);
+        PokeMon p24 = new PokeMon(25, "Glaceon", R.drawable.glaceon2, 0, 0);
+        PokeMon p25 = new PokeMon(26, "Sylveon", R.drawable.sylveon2, 0, 0);
+
+        list.add(p);list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);list.add(p6);list.add(p7);list.add(p8);
+        list.add(p9);list.add(p10);list.add(p11);list.add(p12);list.add(p13);list.add(p14);list.add(p15);list.add(p16);
+        list.add(p17);list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);list.add(p24);
+        list.add(p25);
 
         DataSupport.saveAll(list);
     }

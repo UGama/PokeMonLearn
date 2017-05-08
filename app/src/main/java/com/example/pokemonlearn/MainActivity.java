@@ -34,6 +34,8 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 
+import org.litepal.crud.DataSupport;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     private Animation trans_out2;
 
     private Button Database;
+    private PokeMon[] Pokemon;
 
     @Override
 
@@ -337,22 +340,25 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     public void initOverlay() {
         OverlayPosition = new double[5][2];
-        OverlayPosition = getRandom(5);
+        OverlayPosition = getRandomPosition(5);
 
 
         //LatLng llA = new LatLng(30.318462, 120.385653);//寝室
-        LatLng llA = new LatLng(30.314638, 120.392251);//经济楼
-        //LatLng llA = new LatLng(OverlayPosition[0][0], OverlayPosition[0][1]);
+        //LatLng llA = new LatLng(30.314638, 120.392251);//经济楼
+        LatLng llA = new LatLng(OverlayPosition[0][0], OverlayPosition[0][1]);
         LatLng llB = new LatLng(OverlayPosition[1][0], OverlayPosition[1][1]);
         LatLng llC = new LatLng(OverlayPosition[2][0], OverlayPosition[2][1]);
         LatLng llD = new LatLng(OverlayPosition[3][0], OverlayPosition[3][1]);
         LatLng llE = new LatLng(OverlayPosition[4][0], OverlayPosition[4][1]);
 
-        BitmapDescriptor BDA = BitmapDescriptorFactory.fromResource(R.drawable.bulbasaur);
-        BitmapDescriptor BDB = BitmapDescriptorFactory.fromResource(R.drawable.charmander);
-        BitmapDescriptor BDC = BitmapDescriptorFactory.fromResource(R.drawable.squirtle);
-        BitmapDescriptor BDD = BitmapDescriptorFactory.fromResource(R.drawable.pikachu);
-        BitmapDescriptor BDE = BitmapDescriptorFactory.fromResource(R.drawable.oddish);
+        Pokemon = getRandomPokemon(5);
+        int i = 0;
+
+        BitmapDescriptor BDA = BitmapDescriptorFactory.fromResource(Pokemon[i++].getMapId());
+        BitmapDescriptor BDB = BitmapDescriptorFactory.fromResource(Pokemon[i++].getMapId());
+        BitmapDescriptor BDC = BitmapDescriptorFactory.fromResource(Pokemon[i++].getMapId());
+        BitmapDescriptor BDD = BitmapDescriptorFactory.fromResource(Pokemon[i++].getMapId());
+        BitmapDescriptor BDE = BitmapDescriptorFactory.fromResource(Pokemon[i].getMapId());
 
         MarkerOptions ooA = new MarkerOptions().position(llA).icon(BDA)
                 .zIndex(1).draggable(false);
@@ -395,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     public boolean onMarkerClick(Marker marker) {
         LatLng myPosition = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
         if (marker == markerA) {
-            if (DistanceUtil.getDistance(myPosition, markerA.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerA.getPosition()) < 25) {
                 WarningTimes = 0;
                 warning.setVisibility(View.VISIBLE);
                 Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
@@ -448,7 +454,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
+                                    String pokeMonName = Pokemon[0].Name;
                                     Intent intent3 = new Intent(MainActivity.this, Capture.class);
+                                    intent3.putExtra("Name", pokeMonName);
                                     startActivity(intent3);
                                     overridePendingTransition(0, 0);
                                     transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
@@ -481,7 +489,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerB) {
-            if (DistanceUtil.getDistance(myPosition, markerB.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerB.getPosition()) < 25) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
@@ -489,7 +497,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerC) {
-            if (DistanceUtil.getDistance(myPosition, markerC.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerC.getPosition()) < 25) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
@@ -497,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerD) {
-            if (DistanceUtil.getDistance(myPosition, markerD.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerD.getPosition()) < 25) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
@@ -505,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else {
-            if (DistanceUtil.getDistance(myPosition, markerE.getPosition()) < 20) {
+            if (DistanceUtil.getDistance(myPosition, markerE.getPosition()) < 25) {
                 Intent intent = new Intent(MainActivity.this, Capture.class);
                 startActivity(intent);
             } else {
@@ -892,7 +900,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         }
     }
 
-    public double[][] getRandom(int Number) {//30.316634 30.312634  120.401974 120.388364
+    public double[][] getRandomPosition(int Number) {//30.316634 30.312634  120.401974 120.388364
         int[][] result = new int[Number][2];
         double[][] results=new double[Number][2];
         int i=0;
@@ -925,6 +933,43 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         return results;
     }
 
+    public PokeMon[] getRandomPokemon(int Number) {
+        List<PokeMon> list = DataSupport.findAll(PokeMon.class);
+        int sumWeight = 0;
+        for (PokeMon pokeMon1 : list) {
+            sumWeight += pokeMon1.Weight;
+        }
+        Log.i("sumWeight", String.valueOf(sumWeight));
+        PokeMon pokeMon[] = new PokeMon[5];
+        int mPokeMon = 0;
+        for (int i = 0; i < Number; i ++) {
+            int Random = (int) (Math.random() * sumWeight);
+            for (PokeMon pokeMon2 : list) {
+                int Count = Random - pokeMon2.Weight;
+                if (Count > 0) {
+                    Random = Count;
+                } else {
+                    boolean repeat = false;
+                    for (int j=0;j<mPokeMon;j++) {
+                        if (pokeMon2.Name.equals(pokeMon[j].getName())) {
+                            repeat = true;
+                            break;
+                        }
+                    }
+                    if (repeat) {
+                        i--;
+                        break;
+                    } else {
+                        pokeMon[mPokeMon] = pokeMon2;
+                        mPokeMon++;
+                        Log.i("Count", String.valueOf(Random) + "  " + pokeMon2.Name);
+                        break;
+                    }
+                }
+            }
+        }
+        return pokeMon;
+    }
 
 
     /*public class MyLocationListener implements BDLocationListener {
