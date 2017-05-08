@@ -490,32 +490,348 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
             }
         } else if (marker == markerB) {
             if (DistanceUtil.getDistance(myPosition, markerB.getPosition()) < 25) {
-                Intent intent = new Intent(MainActivity.this, Capture.class);
-                startActivity(intent);
-            } else {
+                WarningTimes = 0;
+                warning.setVisibility(View.VISIBLE);
+                Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
+                Warning2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning2);
+                warning.startAnimation(Warning);
+                Warning.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        warning.startAnimation(Warning2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                Warning2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (WarningTimes < 2) {
+                            WarningTimes++;
+                            warning.startAnimation(Warning);
+                        } else {
+                            warning.setVisibility(View.GONE);
+                            cap_left = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_left);
+                            cap_right = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_right);
+                            for (int i = 0; i < 4; i++) {
+                                temp = trans_left.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_left);
+                                temp = trans_right.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_right);
+                            }
+                            cap_left.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    String pokeMonName = Pokemon[1].Name;
+                                    Intent intent3 = new Intent(MainActivity.this, Capture.class);
+                                    intent3.putExtra("Name", pokeMonName);
+                                    startActivity(intent3);
+                                    overridePendingTransition(0, 0);
+                                    transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
+                                    for (int i = 0; i < 4; i++) {
+                                        temp = trans_left.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                        temp = trans_right.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                    }
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }else {
                 Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerB.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerC) {
             if (DistanceUtil.getDistance(myPosition, markerC.getPosition()) < 25) {
-                Intent intent = new Intent(MainActivity.this, Capture.class);
-                startActivity(intent);
+                WarningTimes = 0;
+                warning.setVisibility(View.VISIBLE);
+                Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
+                Warning2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning2);
+                warning.startAnimation(Warning);
+                Warning.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        warning.startAnimation(Warning2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                Warning2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (WarningTimes < 2) {
+                            WarningTimes++;
+                            warning.startAnimation(Warning);
+                        } else {
+                            warning.setVisibility(View.GONE);
+                            cap_left = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_left);
+                            cap_right = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_right);
+                            for (int i = 0; i < 4; i++) {
+                                temp = trans_left.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_left);
+                                temp = trans_right.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_right);
+                            }
+                            cap_left.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    String pokeMonName = Pokemon[2].Name;
+                                    Intent intent3 = new Intent(MainActivity.this, Capture.class);
+                                    intent3.putExtra("Name", pokeMonName);
+                                    startActivity(intent3);
+                                    overridePendingTransition(0, 0);
+                                    transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
+                                    for (int i = 0; i < 4; i++) {
+                                        temp = trans_left.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                        temp = trans_right.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                    }
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
             } else {
                 Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerC.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
         } else if (marker == markerD) {
             if (DistanceUtil.getDistance(myPosition, markerD.getPosition()) < 25) {
-                Intent intent = new Intent(MainActivity.this, Capture.class);
-                startActivity(intent);
+                WarningTimes = 0;
+                warning.setVisibility(View.VISIBLE);
+                Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
+                Warning2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning2);
+                warning.startAnimation(Warning);
+                Warning.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        warning.startAnimation(Warning2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                Warning2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (WarningTimes < 2) {
+                            WarningTimes++;
+                            warning.startAnimation(Warning);
+                        } else {
+                            warning.setVisibility(View.GONE);
+                            cap_left = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_left);
+                            cap_right = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_right);
+                            for (int i = 0; i < 4; i++) {
+                                temp = trans_left.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_left);
+                                temp = trans_right.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_right);
+                            }
+                            cap_left.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    String pokeMonName = Pokemon[3].Name;
+                                    Intent intent3 = new Intent(MainActivity.this, Capture.class);
+                                    intent3.putExtra("Name", pokeMonName);
+                                    startActivity(intent3);
+                                    overridePendingTransition(0, 0);
+                                    transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
+                                    for (int i = 0; i < 4; i++) {
+                                        temp = trans_left.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                        temp = trans_right.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                    }
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
             } else {
                 Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerD.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
             }
-        } else {
+        } else if (marker == markerE) {
             if (DistanceUtil.getDistance(myPosition, markerE.getPosition()) < 25) {
-                Intent intent = new Intent(MainActivity.this, Capture.class);
-                startActivity(intent);
+                WarningTimes = 0;
+                warning.setVisibility(View.VISIBLE);
+                Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
+                Warning2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning2);
+                warning.startAnimation(Warning);
+                Warning.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        warning.startAnimation(Warning2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                Warning2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (WarningTimes < 2) {
+                            WarningTimes++;
+                            warning.startAnimation(Warning);
+                        } else {
+                            warning.setVisibility(View.GONE);
+                            cap_left = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_left);
+                            cap_right = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cap_trans_right);
+                            for (int i = 0; i < 4; i++) {
+                                temp = trans_left.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_left);
+                                temp = trans_right.get(i);
+                                temp.setVisibility(View.VISIBLE);
+                                temp.startAnimation(cap_right);
+                            }
+                            cap_left.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    String pokeMonName = Pokemon[4].Name;
+                                    Intent intent3 = new Intent(MainActivity.this, Capture.class);
+                                    intent3.putExtra("Name", pokeMonName);
+                                    startActivity(intent3);
+                                    overridePendingTransition(0, 0);
+                                    transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
+                                    for (int i = 0; i < 4; i++) {
+                                        temp = trans_left.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                        temp = trans_right.get(i);
+                                        temp.setVisibility(View.GONE);
+                                        temp.startAnimation(transit);
+                                    }
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
             } else {
                 Toast.makeText(this, String.valueOf(DistanceUtil.getDistance(myPosition, markerE.getPosition())),Toast.LENGTH_SHORT).show();
                 //Toast.makeText(this, "Getting a little closer.", Toast.LENGTH_SHORT).show();
@@ -656,6 +972,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
                                     Intent intent3 = new Intent(MainActivity.this, Capture.class);
+                                    intent3.putExtra("Name", "Sylveon");
                                     startActivity(intent3);
                                     overridePendingTransition(0, 0);
                                     transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);

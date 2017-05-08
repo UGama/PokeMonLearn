@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
+
 import static com.example.pokemonlearn.R.id.transfer1;
 
 /**
@@ -58,6 +62,10 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         String name = intent.getStringExtra("Name");
         Log.i("Capture", name);
 
+        List<PokeMon> List;
+        List = DataSupport.where("Name = ?", name).find(PokeMon.class);
+        C_PokeMon = List.get(0);
+
         white = (ImageView) findViewById(transfer1);
         white.setVisibility(View.VISIBLE);
         shrink_white = AnimationUtils.loadAnimation(Capture.this, R.anim.white_disapper);
@@ -80,6 +88,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         });
 
         Pokemon = (ImageView) findViewById(R.id.pokemon_capture);
+        Pokemon.setBackgroundResource(C_PokeMon.getImageSourceId());
         Pokemon.setVisibility(View.GONE);
         roof = (ImageView) findViewById(R.id.roof);
         roof.setVisibility(View.GONE);

@@ -22,7 +22,7 @@
             />
         <ImageView
             android:id="@+id/pokemon_capture"
-            android:src="@drawable/squirtle2"
+            android:background="@drawable/squirtle2"
             app:layout_marginTopPercent="3%"
             app:layout_marginRightPercent="5%"
             app:layout_widthPercent="35%"

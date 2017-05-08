@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,7 +156,6 @@ public class Bag extends AppCompatActivity {
         layout_down = (PercentRelativeLayout) findViewById(R.id.bag_layout_down);
         layout_in = AnimationUtils.loadAnimation(Bag.this, R.anim.anim3);
         layout_down.startAnimation(layout_in);
-        
 
     }
     public class MyPagerAdapter extends android.support.v4.view.PagerAdapter{
@@ -193,5 +193,53 @@ public class Bag extends AppCompatActivity {
             container.addView(view);
             return view;
         }
+    }
+    class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
+
+        private List<OwnPet> myPetList;
+
+        public BagAdapter(List<OwnPet> myPetList) {
+            this.myPetList = myPetList;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.mypet_item, parent, false);
+            final ViewHolder holder = new ViewHolder(view);
+
+            holder.PetItemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            OwnPet pokeMon = myPetList.get(position);
+            holder.imageView.setImageResource(pokeMon.getPosition());
+            holder.PokeMonName.setText(pokeMon.getName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return myPetList.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView PokeMonName;
+            View PetItemView;
+            public ViewHolder(View view) {
+                super(view);
+                imageView = (ImageView) view.findViewById(R.id.pet_pic);
+                PokeMonName = (TextView) view.findViewById(R.id.pet_name);
+                PetItemView = view;
+            }
+
+        }
+
     }
 }

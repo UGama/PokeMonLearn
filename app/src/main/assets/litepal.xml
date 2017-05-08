@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="PokeMonDatabase" />
-    <version value="4" />
+    <version value="5" />
     <list>
         <mapping class="com.example.pokemonlearn.PokeMon" />
         <mapping class="com.example.pokemonlearn.OwnPet" />
+        <mapping class="com.example.pokemonlearn.PokeMonBall" />
     </list>
 </litepal>

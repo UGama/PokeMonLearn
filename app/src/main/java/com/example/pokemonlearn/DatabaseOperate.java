@@ -22,6 +22,7 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     Button DeleteAllDatabases;
     Button OwnPetAddDatabases;
     Button OwnPetQueryDatabases;
+    Button OwnPetDeleteDatabases;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -53,40 +54,13 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                 myPetQuery();
                 Log.i("DatabasesTest", "Query Successfully");
                 break;
+            case R.id.OwnDelete:
+                myPetDelete();
+                Log.i("DatabasesTest", "Delete Successfully");
+                break;
 
         }
     }
-
-    /*public void Delete() {
-        PokeMon school = new PokeMon();
-        school.setScene("情侣约会");
-        school.setEScene("date");
-        school.save();
-    }
-
-    public void Add() {
-        School school = new School();
-        school.setScene("公园");
-        school.setEScene("park");
-        school.save();
-    }
-
-    public void Query() {
-        List<School> Scene = DataSupport.findAll(School.class);
-        for (School school : Scene) {
-            Log.i("MainActivity", String.valueOf(school.getId()));
-            Log.i("MainActivity", school.getScene());
-            Log.i("MainActivity", school.getEScene());
-        }
-
-    }
-
-    public void Update() {
-        School school = new School();
-        school.setScene("图书馆");
-        school.update(1);
-        Log.i("MainActivity", "Update successfully");
-    }*/
     public void Delete() {
         DataSupport.deleteAll(PokeMon.class, "Number = ?", "99");
     }
@@ -163,6 +137,9 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                     + String.valueOf(pokeMon.getId()));
         }
     }
+    public void myPetDelete() {
+        DataSupport.deleteAll(OwnPet.class);
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +164,9 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
 
         OwnPetQueryDatabases = (Button) findViewById(R.id.OwnQuery);
         OwnPetQueryDatabases.setOnClickListener(this);
+
+        OwnPetDeleteDatabases = (Button) findViewById(R.id.OwnDelete);
+        OwnPetDeleteDatabases.setOnClickListener(this);
     }
 
 }

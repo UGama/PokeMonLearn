@@ -5,10 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
@@ -60,6 +63,54 @@ public class MyPet extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         OwnPetAdapter adapter = new OwnPetAdapter(list);
         recyclerView.setAdapter(adapter);
+    }
+    class OwnPetAdapter extends RecyclerView.Adapter<OwnPetAdapter.ViewHolder> {
+
+        private List<OwnPet> myPetList;
+
+        public OwnPetAdapter(List<OwnPet> myPetList) {
+            this.myPetList = myPetList;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.mypet_item, parent, false);
+            final ViewHolder holder = new ViewHolder(view);
+
+            holder.PetItemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            OwnPet pokeMon = myPetList.get(position);
+            holder.imageView.setImageResource(pokeMon.getPosition());
+            holder.PokeMonName.setText(pokeMon.getName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return myPetList.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView PokeMonName;
+            View PetItemView;
+            public ViewHolder(View view) {
+                super(view);
+                imageView = (ImageView) view.findViewById(R.id.pet_pic);
+                PokeMonName = (TextView) view.findViewById(R.id.pet_name);
+                PetItemView = view;
+            }
+
+        }
+
     }
 
 }
