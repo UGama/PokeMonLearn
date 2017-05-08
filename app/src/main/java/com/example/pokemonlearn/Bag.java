@@ -194,18 +194,18 @@ public class Bag extends AppCompatActivity {
             return view;
         }
     }
-    class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
+    class PokeMonBallAdapter extends RecyclerView.Adapter<PokeMonBallAdapter.ViewHolder> {
 
-        private List<OwnPet> myPetList;
+        private List<PokeMonBall> List;
 
-        public BagAdapter(List<OwnPet> myPetList) {
-            this.myPetList = myPetList;
+        public PokeMonBallAdapter(List<PokeMonBall> List) {
+            this.List= List;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.mypet_item, parent, false);
+                    .inflate(R.layout.bag_item, parent, false);
             final ViewHolder holder = new ViewHolder(view);
 
             holder.PetItemView.setOnClickListener(new View.OnClickListener(){
@@ -218,24 +218,24 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            OwnPet pokeMon = myPetList.get(position);
-            holder.imageView.setImageResource(pokeMon.getPosition());
-            holder.PokeMonName.setText(pokeMon.getName());
+            PokeMonBall pokeMonBall = List.get(position);
+            holder.Name.setText(pokeMonBall.getName());
+            holder.Number.setText(pokeMonBall.getNumber());
         }
 
         @Override
         public int getItemCount() {
-            return myPetList.size();
+            return List.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            ImageView imageView;
-            TextView PokeMonName;
+            TextView Name;
+            TextView Number;
             View PetItemView;
             public ViewHolder(View view) {
                 super(view);
-                imageView = (ImageView) view.findViewById(R.id.pet_pic);
-                PokeMonName = (TextView) view.findViewById(R.id.pet_name);
+                Name = (TextView) view.findViewById(R.id.name);
+                Number = (TextView) view.findViewById(R.id.number);
                 PetItemView = view;
             }
 
