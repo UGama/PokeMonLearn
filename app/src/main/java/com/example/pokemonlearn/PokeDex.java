@@ -19,6 +19,8 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
+import static org.litepal.crud.DataSupport.findAll;
+
 /**
  * Created by Gama on 8/4/17.
  */
@@ -160,7 +162,7 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
         PokeDex_name.startAnimation(Layout_fly_in);
 
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
-        List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
+        List<PokeMon> pokeMons = findAll(PokeMon.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         PokeDexAdapter adapter = new PokeDexAdapter(pokeMons);
@@ -206,18 +208,11 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
                     PokemonName = (TextView) v.findViewById(R.id.pokedex_name);
                     String Name = PokemonName.getText().toString();
                     Log.i("Name", Name);
-                    List<PokeMon> PokeMonList = DataSupport.findAll(PokeMon.class);
-                    PokeMon FPokeMon = new PokeMon();
-                    for (PokeMon pokeMon : PokeMonList) {
-                        if (pokeMon.getName().equals(Name)) {
-                            FPokeMon = pokeMon;
-                            break;
-                        }
-                    }
+                    List<PokeMon> PokeMonList = DataSupport.where("Name = ?", Name).find(PokeMon.class);
+                    PokeMon FPokeMon = PokeMonList.get(0);
                     anim4 = AnimationUtils.loadAnimation(PokeDex.this, R.anim.anim4);
                     PokeDex_init.setBackgroundResource(FPokeMon.getImageSourceId());
                     PokeDex_init.startAnimation(anim4);
-
                     PokeDex_name.setText(FPokeMon.getName());
                     times = 4;
                     flash2.startAnimation(Flash);

@@ -15,6 +15,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,8 @@ public class Bag extends AppCompatActivity {
     private Animation trans_out2;
 
     private RecyclerView recyclerView;
-
+    private ImageView Bag_Pic;
+    private Animation anim4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,6 +166,8 @@ public class Bag extends AppCompatActivity {
         layout_in = AnimationUtils.loadAnimation(Bag.this, R.anim.anim3);
         layout_down.startAnimation(layout_in);
 
+        Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
+        Bag_Pic.startAnimation(animation3);
 
 
 
@@ -200,9 +205,7 @@ public class Bag extends AppCompatActivity {
             TextView textView = (TextView) view.findViewById(R.id.item);
             textView.setText(List.get(position));
             recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
-            List<PokeMonBall> pokeMons = new ArrayList<>();
-            PokeMonBall pokeMonBall = new PokeMonBall("Abc", 3, 1, 1.0);
-            pokeMons.add(pokeMonBall);
+            List<PokeMonBall> pokeMons = DataSupport.findAll(PokeMonBall.class);
             LinearLayoutManager layoutManager = new LinearLayoutManager(Bag.this);
             recyclerView.setLayoutManager(layoutManager);
             PokeMonBallAdapter adapter = new PokeMonBallAdapter(pokeMons);
@@ -225,9 +228,16 @@ public class Bag extends AppCompatActivity {
                     .inflate(R.layout.bag_item_item, parent, false);
             final ViewHolder holder = new ViewHolder(view);
 
-            holder.PetItemView.setOnClickListener(new View.OnClickListener(){
+            holder.ItemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
+                    TextView Name = (TextView) v.findViewById(R.id.name);
+                    String name = Name.getText().toString();
+                    List<PokeMonBall> list = DataSupport.where("Name = ?", name).find(PokeMonBall.class);
+                    PokeMonBall pokeMonBall = list.get(0);
+                    Bag_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
+                    anim4 = AnimationUtils.loadAnimation(Bag.this, R.anim.anim4);
+                    Bag_Pic.startAnimation(anim4);
                 }
             });
             return holder;
@@ -236,8 +246,8 @@ public class Bag extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             PokeMonBall pokeMonBall = List.get(position);
-            //holder.Name.setText(pokeMonBall.getName());
-            //holder.Number.setText(pokeMonBall.getNumber());
+            holder.Name.setText(pokeMonBall.getName());
+            holder.Number.setText(String.valueOf(pokeMonBall.getNumber()));
         }
 
         @Override
@@ -248,12 +258,12 @@ public class Bag extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView Name;
             TextView Number;
-            View PetItemView;
+            View ItemView;
             public ViewHolder(View view) {
                 super(view);
                 Name = (TextView) view.findViewById(R.id.name);
                 Number = (TextView) view.findViewById(R.id.number);
-                PetItemView = view;
+                ItemView = view;
             }
 
         }

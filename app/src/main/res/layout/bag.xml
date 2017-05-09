@@ -20,13 +20,16 @@
 
         <TextView
             android:id="@+id/Item"
-            android:text="背包"
+            android:text="包"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_marginTopPercent="20%"
-            app:layout_marginLeftPercent="7%"
+            app:layout_marginTopPercent="19%"
+            app:layout_marginLeftPercent="2.5%"
+            app:layout_widthPercent="20%"
+            app:layout_heightPercent="7.5%"
+            android:gravity="center"
             />
 
         <android.support.v4.view.ViewPager
@@ -65,6 +68,16 @@
             app:layout_widthPercent="6%"
             app:layout_heightPercent="9%"
             android:background="@drawable/bag_leftarrow"
+            />
+        <ImageView
+            android:id="@+id/bag_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="21%"
+            app:layout_heightPercent="18%"
+            app:layout_marginLeftPercent="1.5%"
+            app:layout_marginTopPercent="55.5%"
+            android:background="@drawable/init_ball"
             />
 
     </android.support.percent.PercentRelativeLayout>
