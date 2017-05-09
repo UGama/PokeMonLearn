@@ -201,7 +201,7 @@ public class Bag extends AppCompatActivity {
             textView.setText(List.get(position));
             recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
             List<PokeMonBall> pokeMons = new ArrayList<>();
-            PokeMonBall pokeMonBall = new PokeMonBall("Abc", 3, 1, 1);
+            PokeMonBall pokeMonBall = new PokeMonBall("Abc", 3, 1, 1.0);
             pokeMons.add(pokeMonBall);
             LinearLayoutManager layoutManager = new LinearLayoutManager(Bag.this);
             recyclerView.setLayoutManager(layoutManager);

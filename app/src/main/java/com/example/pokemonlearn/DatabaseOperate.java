@@ -23,6 +23,9 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     Button OwnPetAddDatabases;
     Button OwnPetQueryDatabases;
     Button OwnPetDeleteDatabases;
+    Button AddPokeMonBallDatabases;
+    Button DeletePokeMonBallDatabases;
+    Button QueryPokeMonBallDatabases;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -58,7 +61,18 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                 myPetDelete();
                 Log.i("DatabasesTest", "Delete Successfully");
                 break;
-
+            case R.id.pokemonBallAdd:
+                PokeMonBallAdd();
+                Log.i("DatabasesTest", "Add Successfully");
+                break;
+            case R.id.pokemonBallDelete:
+                PokeMonBallDelete();
+                Log.i("DatabasesTest", "Delete Successfully");
+                break;
+            case R.id.pokemonBallQuery:
+                PokeMonBallQuery();
+                Log.i("DatabasesTest", "Query Successfully");
+                break;
         }
     }
     public void Delete() {
@@ -140,6 +154,48 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     public void myPetDelete() {
         DataSupport.deleteAll(OwnPet.class);
     }
+
+    public void PokeMonBallAdd(){
+        List<PokeMonBall> list = new ArrayList<>();
+        PokeMonBall p1 = new PokeMonBall("精灵球", R.drawable.pokeball, 1, 0.1);
+        PokeMonBall p2 = new PokeMonBall("超级球", R.drawable.great_ball, 2, 0.15);
+        PokeMonBall p3 = new PokeMonBall("高级球", R.drawable.ultra_ball, 3, 0.2);
+        PokeMonBall p4 = new PokeMonBall("大师球", R.drawable.master_ball, 4, 1.0);
+        PokeMonBall p5 = new PokeMonBall("狩猎球", R.drawable.safari_ball, 5, 0.15);
+        PokeMonBall p6 = new PokeMonBall("等级球", R.drawable.level_ball, 6, 0.1);
+        PokeMonBall p7 = new PokeMonBall("诱饵球", R.drawable.lure_ball, 7, 0.1);
+        PokeMonBall p8 = new PokeMonBall("月亮球", R.drawable.moon_ball, 8, 0.1);
+        PokeMonBall p9 = new PokeMonBall("友谊球", R.drawable.friend_ball, 9, 0.1);
+        PokeMonBall p10 = new PokeMonBall("甜蜜球", R.drawable.love_ball, 10, 0.1);
+        PokeMonBall p11 = new PokeMonBall("沉重球", R.drawable.heavy_ball, 11, 0.1);
+        PokeMonBall p12 = new PokeMonBall("速度球", R.drawable.fast_ball, 12, 0.1);
+        PokeMonBall p13 = new PokeMonBall("公园球", R.drawable.park_ball, 13, 0.15);
+        PokeMonBall p14 = new PokeMonBall("纪念球", R.drawable.premier_ball, 14, 0.1);
+        PokeMonBall p15 = new PokeMonBall("重复球", R.drawable.repeat_ball, 15, 0.1);
+        PokeMonBall p16 = new PokeMonBall("计时球", R.drawable.timer_ball, 16, 0.1);
+        PokeMonBall p17 = new PokeMonBall("巢穴球", R.drawable.nest_ball, 17, 0.1);
+        PokeMonBall p18 = new PokeMonBall("捕网球", R.drawable.net_ball, 18, 0.1);
+        PokeMonBall p19 = new PokeMonBall("潜水球", R.drawable.dive_ball, 19, 0.1);
+        PokeMonBall p20 = new PokeMonBall("先机球", R.drawable.quick_ball, 20, 0.1);
+        PokeMonBall p21 = new PokeMonBall("贵重球", R.drawable.cherish_ball, 21, 0.1);
+        PokeMonBall p22 = new PokeMonBall("竞赛球", R.drawable.sport_ball, 22, 0.15);
+        PokeMonBall p23 = new PokeMonBall("梦境球", R.drawable.dream_ball, 23, 0.1);
+        PokeMonBall p24 = new PokeMonBall("究极球", R.drawable.beast_ball, 24, 0.1);
+        list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);list.add(p6);list.add(p7);list.add(p8);
+        list.add(p9);list.add(p10);list.add(p11);list.add(p12);list.add(p13);list.add(p14);list.add(p15);list.add(p16);
+        list.add(p17);list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);list.add(p24);
+        DataSupport.saveAll(list);
+    }
+    public void PokeMonBallDelete(){
+        DataSupport.deleteAll(PokeMonBall.class);
+    }
+    public void PokeMonBallQuery(){
+        List<PokeMonBall> list = DataSupport.findAll(PokeMonBall.class);
+        for (PokeMonBall pokeMonBall : list) {
+            Log.i("PokeMonBall", String.valueOf(pokeMonBall.getNumber()) + "  " + pokeMonBall.getName());
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +223,15 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
 
         OwnPetDeleteDatabases = (Button) findViewById(R.id.OwnDelete);
         OwnPetDeleteDatabases.setOnClickListener(this);
+
+        AddPokeMonBallDatabases = (Button) findViewById(R.id.pokemonBallAdd);
+        AddPokeMonBallDatabases.setOnClickListener(this);
+
+        DeletePokeMonBallDatabases = (Button) findViewById(R.id.pokemonBallDelete);
+        DeletePokeMonBallDatabases.setOnClickListener(this);
+
+        QueryPokeMonBallDatabases = (Button) findViewById(R.id.pokemonBallQuery);
+        QueryPokeMonBallDatabases.setOnClickListener(this);
     }
 
 }

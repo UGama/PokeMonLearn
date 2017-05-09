@@ -58,4 +58,24 @@
         android:textSize="24sp"
         android:id="@+id/OwnDelete"
         />
+    <Button
+        android:id="@+id/pokemonBallAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Add PokeMonBall"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pokemonBallDelete"
+        android:text="Delete PokeMonBall"
+        android:textSize="24sp"
+        />
+    <Button
+        android:id="@+id/pokemonBallQuery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Query PokeMonBall"
+        android:textSize="24sp"/>
 </LinearLayout>
