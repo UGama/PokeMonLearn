@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -161,6 +160,11 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
         PokeDex_name.startAnimation(Layout_fly_in);
 
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        PokeDexAdapter adapter = new PokeDexAdapter(pokeMons);
+        recyclerView.setAdapter(adapter);
         Layout_fly_in2 = AnimationUtils.loadAnimation(PokeDex.this, R.anim.layout_fly_in2);
         recyclerView.startAnimation(Layout_fly_in2);
 
@@ -169,13 +173,6 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
         UP.startAnimation(Right);
         DOWN.startAnimation(Right);
 
-        List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        PokeDexAdapter adapter = new PokeDexAdapter(pokeMons);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -209,8 +206,7 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
                     PokemonName = (TextView) v.findViewById(R.id.pokedex_name);
                     String Name = PokemonName.getText().toString();
                     Log.i("Name", Name);
-                    List<PokeMon> PokeMonList = new ArrayList<PokeMon>();
-                    PokeMonList = DataSupport.findAll(PokeMon.class);
+                    List<PokeMon> PokeMonList = DataSupport.findAll(PokeMon.class);
                     PokeMon FPokeMon = new PokeMon();
                     for (PokeMon pokeMon : PokeMonList) {
                         if (pokeMon.getName().equals(Name)) {

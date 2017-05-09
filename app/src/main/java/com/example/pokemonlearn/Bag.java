@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,13 +44,18 @@ public class Bag extends AppCompatActivity {
     private Animation trans_out1;
     private Animation trans_out2;
 
+    private RecyclerView recyclerView;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bag);
 
         transfer1 = (ImageView) findViewById(R.id.transfer1);
+        transfer1.setVisibility(View.VISIBLE);
         transfer2 = (ImageView) findViewById(R.id.transfer2);
+        transfer2.setVisibility(View.VISIBLE);
         trans_out1 = AnimationUtils.loadAnimation(Bag.this, R.anim.trans_out_up);
         trans_out2 = AnimationUtils.loadAnimation(Bag.this, R.anim.trans_out_down);
         transfer1.startAnimation(trans_out1);
@@ -76,7 +82,7 @@ public class Bag extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(myPagerAdapter);
         indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
-        indicator.setLength(myPagerAdapter.list.size());
+        indicator.setLength(myPagerAdapter.List.size());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -157,16 +163,19 @@ public class Bag extends AppCompatActivity {
         layout_in = AnimationUtils.loadAnimation(Bag.this, R.anim.anim3);
         layout_down.startAnimation(layout_in);
 
+
+
+
     }
     public class MyPagerAdapter extends android.support.v4.view.PagerAdapter{
 
-        List<String> list = new ArrayList<>();
+        List<String> List = new ArrayList<>();
 
         public MyPagerAdapter(){
-            list.add("精灵球");
-            list.add("道具");
-            list.add("工具");
-            list.add("秘籍");
+            List.add("精灵球");
+            List.add("道具");
+            List.add("工具");
+            List.add("秘籍");
         }
 
         @Override
@@ -186,10 +195,18 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            position = position%list.size();
+            position = position%List.size();
             View view = LayoutInflater.from(Bag.this).inflate(R.layout.bag_item, null);
             TextView textView = (TextView) view.findViewById(R.id.item);
-            textView.setText(list.get(position));
+            textView.setText(List.get(position));
+            recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
+            List<PokeMonBall> pokeMons = new ArrayList<>();
+            PokeMonBall pokeMonBall = new PokeMonBall("Abc", 3, 1, 1);
+            pokeMons.add(pokeMonBall);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(Bag.this);
+            recyclerView.setLayoutManager(layoutManager);
+            PokeMonBallAdapter adapter = new PokeMonBallAdapter(pokeMons);
+            recyclerView.setAdapter(adapter);
             container.addView(view);
             return view;
         }
@@ -205,7 +222,7 @@ public class Bag extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.bag_item, parent, false);
+                    .inflate(R.layout.bag_item_item, parent, false);
             final ViewHolder holder = new ViewHolder(view);
 
             holder.PetItemView.setOnClickListener(new View.OnClickListener(){
@@ -219,8 +236,8 @@ public class Bag extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             PokeMonBall pokeMonBall = List.get(position);
-            holder.Name.setText(pokeMonBall.getName());
-            holder.Number.setText(pokeMonBall.getNumber());
+            //holder.Name.setText(pokeMonBall.getName());
+            //holder.Number.setText(pokeMonBall.getNumber());
         }
 
         @Override
@@ -243,3 +260,4 @@ public class Bag extends AppCompatActivity {
 
     }
 }
+
