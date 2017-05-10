@@ -13,7 +13,6 @@
         android:textColor="#000000"
         android:textSize="20sp"
         android:id="@+id/item"
-        android:background="@drawable/viewpage_shape"
         />
 
     <android.support.v7.widget.RecyclerView

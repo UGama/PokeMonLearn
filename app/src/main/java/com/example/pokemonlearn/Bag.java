@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class Bag extends AppCompatActivity {
     private MyPagerAdapter myPagerAdapter;
     private ViewPagerIndicator indicator;
 
-    private TextView Item;
+    private ImageView Item;
     private ImageView Background;
     private ImageView RightArrow;
     private ImageView LeftArrow;
@@ -49,6 +50,12 @@ public class Bag extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageView Bag_Pic;
     private Animation anim4;
+    private TextView Item_name;
+
+    private ViewPage v1;
+    private ViewPage v2;
+    private ViewPage v3;
+    private ViewPage v4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +88,11 @@ public class Bag extends AppCompatActivity {
             }
         });
 
+        v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball);
+        v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_bag2);
+        v3 = new ViewPage("工具", R.drawable.bag_decorate2, R.drawable.init_ball3);
+        v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4);
+
         myPagerAdapter = new MyPagerAdapter();
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(myPagerAdapter);
@@ -103,7 +115,7 @@ public class Bag extends AppCompatActivity {
             }
         });
 
-        Item = (TextView) findViewById(R.id.Item);
+        Item = (ImageView) findViewById(R.id.Item);
         Background = (ImageView) findViewById(R.id.background);
         animation3 = AnimationUtils.loadAnimation(Bag.this, R.anim.anim2);
         animation3.setAnimationListener(new Animation.AnimationListener() {
@@ -168,19 +180,57 @@ public class Bag extends AppCompatActivity {
 
         Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
         Bag_Pic.startAnimation(animation3);
+        Item_name = (TextView) findViewById(R.id.item_name);
+        Item_name.startAnimation(animation3);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                position = position % 4;
+                switch (position) {
+                    case 0:
+                        Item.setBackgroundResource(v1.SourceId1);
+                        Bag_Pic.setBackgroundResource(v1.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                    case 1:
+                        Item.setBackgroundResource(v2.SourceId1);
+                        Bag_Pic.setBackgroundResource(v2.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                    case 2:
+                        Item.setBackgroundResource(v3.SourceId1);
+                        Bag_Pic.setBackgroundResource(v3.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                    case 3:
+                        Item.setBackgroundResource(v4.SourceId1);
+                        Bag_Pic.setBackgroundResource(v4.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
     public class MyPagerAdapter extends android.support.v4.view.PagerAdapter{
 
-        List<String> List = new ArrayList<>();
+        List<ViewPage> List = new ArrayList<>();
 
         public MyPagerAdapter(){
-            List.add("精灵球");
-            List.add("道具");
-            List.add("工具");
-            List.add("秘籍");
+            List.add(v1);
+            List.add(v2);
+            List.add(v3);
+            List.add(v4);
         }
 
         @Override
@@ -200,10 +250,12 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            Log.i("Position1", String.valueOf(position));
             position = position%List.size();
+            Log.i("Position2", String.valueOf(position) + "  " + String.valueOf(List.size()));
             View view = LayoutInflater.from(Bag.this).inflate(R.layout.bag_item, null);
             TextView textView = (TextView) view.findViewById(R.id.item);
-            textView.setText(List.get(position));
+            textView.setText(List.get(position).Name);
             recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
             List<PokeMonBall> pokeMons = DataSupport.findAll(PokeMonBall.class);
             LinearLayoutManager layoutManager = new LinearLayoutManager(Bag.this);
@@ -238,6 +290,7 @@ public class Bag extends AppCompatActivity {
                     Bag_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
                     anim4 = AnimationUtils.loadAnimation(Bag.this, R.anim.anim4);
                     Bag_Pic.startAnimation(anim4);
+                    Item_name.setText(pokeMonBall.getName());
                 }
             });
             return holder;
@@ -268,6 +321,17 @@ public class Bag extends AppCompatActivity {
 
         }
 
+    }
+
+    class ViewPage {
+        private String Name;
+        private int SourceId1;
+        private int SourceId2;
+        public ViewPage(String name, int S1, int S2) {
+            this.Name = name;
+            this.SourceId1 = S1;
+            this.SourceId2 = S2;
+        }
     }
 }
 
