@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,16 +87,12 @@ public class Bag extends AppCompatActivity {
             }
         });
 
-        v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball);
-        v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_bag2);
-        v3 = new ViewPage("工具", R.drawable.bag_decorate2, R.drawable.init_ball3);
-        v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4);
-
         myPagerAdapter = new MyPagerAdapter();
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(myPagerAdapter);
         indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
         indicator.setLength(myPagerAdapter.List.size());
+        anim4 = AnimationUtils.loadAnimation(Bag.this, R.anim.anim4);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -107,6 +102,32 @@ public class Bag extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 indicator.setSelected(position);
+                position = position % 4;
+                Item.startAnimation(anim4);
+                Bag_Pic.startAnimation(anim4);
+                Item_name.startAnimation(anim4);
+                switch (position) {
+                    case 0:
+                        Item.setBackgroundResource(v1.SourceId1);
+                        Bag_Pic.setBackgroundResource(v1.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                    case 1:
+                        Item.setBackgroundResource(v2.SourceId1);
+                        Bag_Pic.setBackgroundResource(v2.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                    case 2:
+                        Item.setBackgroundResource(v3.SourceId1);
+                        Bag_Pic.setBackgroundResource(v3.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                    case 3:
+                        Item.setBackgroundResource(v4.SourceId1);
+                        Bag_Pic.setBackgroundResource(v4.SourceId2);
+                        Item_name.setText(" ? ? ? ");
+                        break;
+                }
             }
 
             @Override
@@ -183,50 +204,16 @@ public class Bag extends AppCompatActivity {
         Item_name = (TextView) findViewById(R.id.item_name);
         Item_name.startAnimation(animation3);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                position = position % 4;
-                switch (position) {
-                    case 0:
-                        Item.setBackgroundResource(v1.SourceId1);
-                        Bag_Pic.setBackgroundResource(v1.SourceId2);
-                        Item_name.setText(" ? ? ? ");
-                        break;
-                    case 1:
-                        Item.setBackgroundResource(v2.SourceId1);
-                        Bag_Pic.setBackgroundResource(v2.SourceId2);
-                        Item_name.setText(" ? ? ? ");
-                        break;
-                    case 2:
-                        Item.setBackgroundResource(v3.SourceId1);
-                        Bag_Pic.setBackgroundResource(v3.SourceId2);
-                        Item_name.setText(" ? ? ? ");
-                        break;
-                    case 3:
-                        Item.setBackgroundResource(v4.SourceId1);
-                        Bag_Pic.setBackgroundResource(v4.SourceId2);
-                        Item_name.setText(" ? ? ? ");
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
     public class MyPagerAdapter extends android.support.v4.view.PagerAdapter{
 
         List<ViewPage> List = new ArrayList<>();
 
         public MyPagerAdapter(){
+            v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball);
+            v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_ball2);
+            v3 = new ViewPage("工具", R.drawable.bag_decorate2, R.drawable.init_ball3);
+            v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4);
             List.add(v1);
             List.add(v2);
             List.add(v3);
@@ -250,9 +237,7 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            Log.i("Position1", String.valueOf(position));
             position = position%List.size();
-            Log.i("Position2", String.valueOf(position) + "  " + String.valueOf(List.size()));
             View view = LayoutInflater.from(Bag.this).inflate(R.layout.bag_item, null);
             TextView textView = (TextView) view.findViewById(R.id.item);
             textView.setText(List.get(position).Name);
@@ -288,7 +273,6 @@ public class Bag extends AppCompatActivity {
                     List<PokeMonBall> list = DataSupport.where("Name = ?", name).find(PokeMonBall.class);
                     PokeMonBall pokeMonBall = list.get(0);
                     Bag_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
-                    anim4 = AnimationUtils.loadAnimation(Bag.this, R.anim.anim4);
                     Bag_Pic.startAnimation(anim4);
                     Item_name.setText(pokeMonBall.getName());
                 }

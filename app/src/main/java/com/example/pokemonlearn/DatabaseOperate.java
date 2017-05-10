@@ -3,8 +3,12 @@ package com.example.pokemonlearn;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import org.litepal.crud.DataSupport;
@@ -13,21 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DatabaseOperate extends AppCompatActivity implements View.OnClickListener {
+public class DatabaseOperate extends AppCompatActivity {
 
-    Button AddDataDatabases;
-    Button QueryDatabases;
-    Button DeleteDatabases;
-    Button UpdateDatabases;
-    Button DeleteAllDatabases;
-    Button OwnPetAddDatabases;
-    Button OwnPetQueryDatabases;
-    Button OwnPetDeleteDatabases;
-    Button AddPokeMonBallDatabases;
-    Button DeletePokeMonBallDatabases;
-    Button QueryPokeMonBallDatabases;
-    @Override
-    public void onClick(View v) {
+
+    private RecyclerView recyclerView;
+
+
+    /*public void onClick(View v) {
         switch (v.getId()) {
             case R.id.AddDataDatabases:
                 Add();
@@ -36,14 +32,6 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
             case R.id.queryDatabases:
                 Query();
                 Log.i("DatabasesTest", "Query Successfully");
-                break;
-            case R.id.deleteDatabases:
-                Delete();
-                Log.i("DatabasesTest", "Delete Successfully");
-                break;
-            case R.id.updateDatabases:
-                Update();
-                Log.i("DatabasesTest", "Update Successfully");
                 break;
             case R.id.deleteAll:
                 DeleteAll();
@@ -74,15 +62,7 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                 Log.i("DatabasesTest", "Query Successfully");
                 break;
         }
-    }
-    public void Delete() {
-        DataSupport.deleteAll(PokeMon.class, "Number = ?", "99");
-    }
-    public void Update() {
-        PokeMon pokeMon = new PokeMon();
-        pokeMon.setImageSourceId(R.drawable.zapdos2);
-        pokeMon.updateAll("Number = ?", "15");
-    }
+    }*/
     public void Query() {
         List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
         for (PokeMon pokeMon : pokeMons) {
@@ -90,9 +70,11 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                     + "  " + String.valueOf(pokeMon.getWeight()));
         }
     }
+
     public void DeleteAll() {
         DataSupport.deleteAll(PokeMon.class);
     }
+
     public void Add() {
         /*PokeMon pokeMontest = new PokeMon();
         pokeMontest.setImageSourceId(34);
@@ -129,9 +111,31 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
         PokeMon p24 = new PokeMon(25, "Glaceon", R.drawable.glaceon2, 0, 0);
         PokeMon p25 = new PokeMon(26, "Sylveon", R.drawable.sylveon2, 0, 0);
 
-        list.add(p);list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);list.add(p6);list.add(p7);list.add(p8);
-        list.add(p9);list.add(p10);list.add(p11);list.add(p12);list.add(p13);list.add(p14);list.add(p15);list.add(p16);
-        list.add(p17);list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);list.add(p24);
+        list.add(p);
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+        list.add(p4);
+        list.add(p5);
+        list.add(p6);
+        list.add(p7);
+        list.add(p8);
+        list.add(p9);
+        list.add(p10);
+        list.add(p11);
+        list.add(p12);
+        list.add(p13);
+        list.add(p14);
+        list.add(p15);
+        list.add(p16);
+        list.add(p17);
+        list.add(p18);
+        list.add(p19);
+        list.add(p20);
+        list.add(p21);
+        list.add(p22);
+        list.add(p23);
+        list.add(p24);
         list.add(p25);
 
         DataSupport.saveAll(list);
@@ -144,6 +148,7 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
         Pikachu.setName("Pikachu");
         Pikachu.save();
     }
+
     public void myPetQuery() {
         List<OwnPet> pokeMons = DataSupport.findAll(OwnPet.class);
         for (OwnPet pokeMon : pokeMons) {
@@ -151,11 +156,12 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
                     + String.valueOf(pokeMon.getId()));
         }
     }
+
     public void myPetDelete() {
         DataSupport.deleteAll(OwnPet.class);
     }
 
-    public void PokeMonBallAdd(){
+    public void PokeMonBallAdd() {
         List<PokeMonBall> list = new ArrayList<>();
         PokeMonBall p1 = new PokeMonBall("精灵球", R.drawable.pokeball, 1, 0.1);
         PokeMonBall p2 = new PokeMonBall("超级球", R.drawable.great_ball, 2, 0.15);
@@ -181,15 +187,38 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
         PokeMonBall p22 = new PokeMonBall("竞赛球", R.drawable.sport_ball, 22, 0.15);
         PokeMonBall p23 = new PokeMonBall("梦境球", R.drawable.dream_ball, 23, 0.1);
         PokeMonBall p24 = new PokeMonBall("究极球", R.drawable.beast_ball, 24, 0.1);
-        list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);list.add(p6);list.add(p7);list.add(p8);
-        list.add(p9);list.add(p10);list.add(p11);list.add(p12);list.add(p13);list.add(p14);list.add(p15);list.add(p16);
-        list.add(p17);list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);list.add(p24);
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+        list.add(p4);
+        list.add(p5);
+        list.add(p6);
+        list.add(p7);
+        list.add(p8);
+        list.add(p9);
+        list.add(p10);
+        list.add(p11);
+        list.add(p12);
+        list.add(p13);
+        list.add(p14);
+        list.add(p15);
+        list.add(p16);
+        list.add(p17);
+        list.add(p18);
+        list.add(p19);
+        list.add(p20);
+        list.add(p21);
+        list.add(p22);
+        list.add(p23);
+        list.add(p24);
         DataSupport.saveAll(list);
     }
-    public void PokeMonBallDelete(){
+
+    public void PokeMonBallDelete() {
         DataSupport.deleteAll(PokeMonBall.class);
     }
-    public void PokeMonBallQuery(){
+
+    public void PokeMonBallQuery() {
         List<PokeMonBall> list = DataSupport.findAll(PokeMonBall.class);
         for (PokeMonBall pokeMonBall : list) {
             Log.i("PokeMonBall", String.valueOf(pokeMonBall.getNumber()) + "  " + pokeMonBall.getName());
@@ -200,38 +229,90 @@ public class DatabaseOperate extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database);
-        AddDataDatabases = (Button) findViewById(R.id.AddDataDatabases);
-        AddDataDatabases.setOnClickListener(this);
 
-        QueryDatabases = (Button) findViewById(R.id.queryDatabases);
-        QueryDatabases.setOnClickListener(this);
+        recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        List<DatabaseButton> list = new ArrayList<>();
+        DatabaseButton b1 = new DatabaseButton("ADD POKEMON", 1);
+        DatabaseButton b2 = new DatabaseButton("DELETE POKEMON", 2);
+        DatabaseButton b3 = new DatabaseButton("QUERY POKEMON", 3);
+        DatabaseButton b4 = new DatabaseButton("ADD OWN-POKEMON", 4);
+        DatabaseButton b5 = new DatabaseButton("DELETE OWN-POKEMON", 5);
+        DatabaseButton b6 = new DatabaseButton("QUERY POKEMON", 6);
+        DatabaseButton b7 = new DatabaseButton("ADD POKEMON-BALL", 7);
+        DatabaseButton b8 = new DatabaseButton("DELETE POKEMON-BALL", 8);
+        DatabaseButton b9 = new DatabaseButton("QUERY POKEMON-Ball", 9);
+        list.add(b1);
+        list.add(b2);
+        list.add(b3);
+        list.add(b4);
+        list.add(b5);
+        list.add(b6);
+        list.add(b7);
+        list.add(b8);
+        list.add(b9);
+        DatabaseOperateAdapter adapter = new DatabaseOperateAdapter(list);
+        recyclerView.setAdapter(adapter);
+        Log.i("Test1", String.valueOf(list.size()));
+    }
 
-        DeleteDatabases = (Button) findViewById(R.id.deleteDatabases);
-        DeleteDatabases.setOnClickListener(this);
+    class DatabaseOperateAdapter extends RecyclerView.Adapter<DatabaseOperateAdapter.ViewHolder> {
 
-        UpdateDatabases = (Button) findViewById(R.id.updateDatabases);
-        UpdateDatabases.setOnClickListener(this);
+        private List<DatabaseButton> List;
 
-        DeleteAllDatabases = (Button) findViewById(R.id.deleteAll);
-        DeleteAllDatabases.setOnClickListener(this);
+        public DatabaseOperateAdapter(List<DatabaseButton> List) {
+            this.List = List;
+        }
 
-        OwnPetAddDatabases = (Button) findViewById(R.id.OwnAdd);
-        OwnPetAddDatabases.setOnClickListener(this);
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.database_item, parent, false);
+            final ViewHolder holder = new ViewHolder(view);
 
-        OwnPetQueryDatabases = (Button) findViewById(R.id.OwnQuery);
-        OwnPetQueryDatabases.setOnClickListener(this);
+            return holder;
+        }
 
-        OwnPetDeleteDatabases = (Button) findViewById(R.id.OwnDelete);
-        OwnPetDeleteDatabases.setOnClickListener(this);
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            final DatabaseButton databaseButton = List.get(position);
+            holder.button.setText(databaseButton.text);
+            holder.ItemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
 
-        AddPokeMonBallDatabases = (Button) findViewById(R.id.pokemonBallAdd);
-        AddPokeMonBallDatabases.setOnClickListener(this);
+                }
+            });
+        }
 
-        DeletePokeMonBallDatabases = (Button) findViewById(R.id.pokemonBallDelete);
-        DeletePokeMonBallDatabases.setOnClickListener(this);
+        @Override
+        public int getItemCount() {
+            return List.size();
+        }
 
-        QueryPokeMonBallDatabases = (Button) findViewById(R.id.pokemonBallQuery);
-        QueryPokeMonBallDatabases.setOnClickListener(this);
+        class ViewHolder extends RecyclerView.ViewHolder {
+            Button button;
+            View ItemView;
+            public ViewHolder(View view) {
+                super(view);
+                button = (Button) view.findViewById(R.id.Button);
+                ItemView = view;
+            }
+        }
+
+        
+
+    }
+
+    class DatabaseButton {
+        private String text;
+        private int Number;
+
+        public DatabaseButton(String text, int number) {
+            this.text = text;
+            this.Number = number;
+        }
     }
 
 }

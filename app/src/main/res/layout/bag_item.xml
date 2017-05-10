@@ -10,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
+        android:textColor="#f9f8c8"
+        android:textSize="18sp"
         android:id="@+id/item"
+        android:background="@drawable/bag_shape2"
         />
 
     <android.support.v7.widget.RecyclerView
