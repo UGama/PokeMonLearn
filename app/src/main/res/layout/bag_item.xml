@@ -27,21 +27,30 @@
         app:layout_marginTopPercent="3%"
        />
     <ImageView
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_alignTop="@+id/RecyclerView"
-        android:background="#f8e08a"
+        android:background="#4389ca"
         />
     <ImageView
-        android:layout_width="2dp"
+        android:layout_width="4dp"
         android:layout_height="match_parent"
-        android:background="#f8e08a"
+        android:background="#4389ca"
+        android:layout_below="@+id/line"
         />
     <ImageView
-        android:layout_width="2dp"
+        android:layout_width="4dp"
         android:layout_height="match_parent"
-        android:background="#f8e08a"
+        android:background="#4389ca"
         android:layout_alignParentEnd="true"
+        android:layout_below="@+id/line"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignParentBottom="true"
+        android:background="#4389ca"
         />
 
 </android.support.percent.PercentRelativeLayout>

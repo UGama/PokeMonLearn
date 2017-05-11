@@ -206,7 +206,19 @@ public class DatabaseOperate extends AppCompatActivity {
     public void PokeMonStoneAdd() {
         List<PokeMonStone> list = new ArrayList<>();
         PokeMonStone p1 = new PokeMonStone("日之石", R.drawable.stone_sun, 1);
-        list.add(p1);
+        PokeMonStone p2 = new PokeMonStone("月之石", R.drawable.stone_moon, 2);
+        PokeMonStone p3 = new PokeMonStone("火之石", R.drawable.stone_fire, 3);
+        PokeMonStone p4 = new PokeMonStone("水之石", R.drawable.stone_water, 4);
+        PokeMonStone p5 = new PokeMonStone("暗之石", R.drawable.stone_dusk, 5);
+        PokeMonStone p6 = new PokeMonStone("光之石", R.drawable.stone_shiny, 6);
+        PokeMonStone p7 = new PokeMonStone("冰之石", R.drawable.stone_ice, 7);
+        PokeMonStone p8 = new PokeMonStone("叶之石", R.drawable.stone_leaf, 8);
+        PokeMonStone p9 = new PokeMonStone("雷之石", R.drawable.stone_thunder, 9);
+        PokeMonStone p10 = new PokeMonStone("晓之石", R.drawable.stone_dawn, 10);
+
+        list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);
+        list.add(p6);list.add(p7);list.add(p8);list.add(p9);list.add(p10);
+
         DataSupport.saveAll(list);
     }
 
@@ -223,8 +235,28 @@ public class DatabaseOperate extends AppCompatActivity {
 
     public void PokeMonBookAdd() {
         List<PokeMonBook> list = new ArrayList<>();
-        PokeMonBook p1 = new PokeMonBook("普通秘籍", R.drawable.normal_skill, 1);
-        list.add(p1);
+        PokeMonBook p1 = new PokeMonBook("普通秘籍", R.drawable.skill_normal, 1);
+        PokeMonBook p2 = new PokeMonBook("火之秘籍", R.drawable.skill_fire, 2);
+        PokeMonBook p3 = new PokeMonBook("水之秘籍", R.drawable.skill_water, 3);
+        PokeMonBook p4 = new PokeMonBook("电之秘籍", R.drawable.skill_electric, 4);
+        PokeMonBook p5 = new PokeMonBook("草之秘籍", R.drawable.skill_grass, 5);
+        PokeMonBook p6 = new PokeMonBook("冰之秘籍", R.drawable.skill_ice, 6);
+        PokeMonBook p7 = new PokeMonBook("格斗秘籍", R.drawable.skill_fight, 7);
+        PokeMonBook p8 = new PokeMonBook("毒之秘籍", R.drawable.skill_poison, 8);
+        PokeMonBook p9 = new PokeMonBook("地面秘籍", R.drawable.skill_ground, 9);
+        PokeMonBook p10 = new PokeMonBook("飞行秘籍", R.drawable.skill_fly, 10);
+        PokeMonBook p11 = new PokeMonBook("超能秘籍", R.drawable.skill_psych, 11);
+        PokeMonBook p12 = new PokeMonBook("虫之秘籍", R.drawable.skill_bug, 12);
+        PokeMonBook p13 = new PokeMonBook("岩石秘籍", R.drawable.skill_rock, 13);
+        PokeMonBook p14 = new PokeMonBook("幽灵秘籍", R.drawable.skill_ghost, 14);
+        PokeMonBook p15 = new PokeMonBook("龙之秘籍", R.drawable.skill_dark, 15);
+        PokeMonBook p16 = new PokeMonBook("恶之秘籍", R.drawable.skill_dark, 16);
+        PokeMonBook p17 = new PokeMonBook("钢之秘籍", R.drawable.skill_steel, 17);
+        
+        list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);list.add(p6);
+        list.add(p7);list.add(p8);list.add(p9);list.add(p10);list.add(p11);list.add(p12);
+        list.add(p13);list.add(p14);list.add(p15);list.add(p16);list.add(p17);
+
         DataSupport.saveAll(list);
     }
 

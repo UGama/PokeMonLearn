@@ -103,7 +103,6 @@ public class Bag extends AppCompatActivity {
             public void onPageSelected(int position) {
                 indicator.setSelected(position);
                 position = position % 4;
-                Item.startAnimation(anim4);
                 Bag_Pic.startAnimation(anim4);
                 Item_name.startAnimation(anim4);
                 switch (position) {
@@ -139,6 +138,9 @@ public class Bag extends AppCompatActivity {
         Item = (ImageView) findViewById(R.id.Item);
         Background = (ImageView) findViewById(R.id.background);
         animation3 = AnimationUtils.loadAnimation(Bag.this, R.anim.anim2);
+        Background.startAnimation(animation3);
+        Item.startAnimation(animation3);
+        viewPager.startAnimation(animation3);
         animation3.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -158,9 +160,6 @@ public class Bag extends AppCompatActivity {
 
             }
         });
-        Background.startAnimation(animation3);
-        Item.startAnimation(animation3);
-        viewPager.startAnimation(animation3);
 
         RightArrow = (ImageView) findViewById(R.id.right_arrow);
         RightArrow.setVisibility(View.GONE);
@@ -212,7 +211,7 @@ public class Bag extends AppCompatActivity {
         public MyPagerAdapter(){
             v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball, 1);
             v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_ball2, 2);
-            v3 = new ViewPage("工具", R.drawable.bag_decorate2, R.drawable.init_ball3, 3);
+            v3 = new ViewPage("进化石", R.drawable.bag_decorate2, R.drawable.init_ball3, 3);
             v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4, 4);
             List.add(v1);
             List.add(v2);

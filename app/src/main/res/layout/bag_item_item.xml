@@ -36,4 +36,5 @@
         android:textSize="16sp"
         android:layout_centerVertical="true"
         />
+
 </android.support.percent.PercentRelativeLayout>
