@@ -210,10 +210,10 @@ public class Bag extends AppCompatActivity {
         List<ViewPage> List = new ArrayList<>();
 
         public MyPagerAdapter(){
-            v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball);
-            v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_ball2);
-            v3 = new ViewPage("工具", R.drawable.bag_decorate2, R.drawable.init_ball3);
-            v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4);
+            v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball, 1);
+            v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_ball2, 2);
+            v3 = new ViewPage("工具", R.drawable.bag_decorate2, R.drawable.init_ball3, 3);
+            v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4, 4);
             List.add(v1);
             List.add(v2);
             List.add(v3);
@@ -242,20 +242,65 @@ public class Bag extends AppCompatActivity {
             TextView textView = (TextView) view.findViewById(R.id.item);
             textView.setText(List.get(position).Name);
             recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
-            List<PokeMonBall> pokeMons = DataSupport.findAll(PokeMonBall.class);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(Bag.this);
-            recyclerView.setLayoutManager(layoutManager);
-            PokeMonBallAdapter adapter = new PokeMonBallAdapter(pokeMons);
-            recyclerView.setAdapter(adapter);
+            switch (List.get(position).Number) {
+                case 1:
+                    List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
+                    LinearLayoutManager layoutManager1 = new LinearLayoutManager(Bag.this);
+                    recyclerView.setLayoutManager(layoutManager1);
+                    List<OwnItem> items1 = new ArrayList<>();
+                    for (PokeMonBall pokeMonBall : pokeMonBalls) {
+                        OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 1, pokeMonBall.getImageSourceId());
+                        items1.add(ownItem);
+                    }
+                    ItemAdapter adapter1 = new ItemAdapter(items1);
+                    recyclerView.setAdapter(adapter1);
+                    break;
+                case 2:
+                    List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
+                    LinearLayoutManager layoutManager2 = new LinearLayoutManager(Bag.this);
+                    recyclerView.setLayoutManager(layoutManager2);
+                    List<OwnItem> items2 = new ArrayList<>();
+                    for (PokeMonTool pokeMonTool : pokeMonTools) {
+                        OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId());
+                        items2.add(ownItem);
+                    }
+                    ItemAdapter adapter2 = new ItemAdapter(items2);
+                    recyclerView.setAdapter(adapter2);
+                    break;
+                case 3:
+                    List<PokeMonStone> pokeMonStones = DataSupport.findAll(PokeMonStone.class);
+                    LinearLayoutManager layoutManager3 = new LinearLayoutManager(Bag.this);
+                    recyclerView.setLayoutManager(layoutManager3);
+                    List<OwnItem> items3 = new ArrayList<>();
+                    for (PokeMonStone pokeMonStone : pokeMonStones) {
+                        OwnItem ownItem = new OwnItem(pokeMonStone.getName(), pokeMonStone.getNumber(), 3, pokeMonStone.getImageResourceId());
+                        items3.add(ownItem);
+                    }
+                    ItemAdapter adapter3 = new ItemAdapter(items3);
+                    recyclerView.setAdapter(adapter3);
+                    break;
+                case 4:
+                    List<PokeMonBook> pokeMonBooks = DataSupport.findAll(PokeMonBook.class);
+                    LinearLayoutManager layoutManager4 = new LinearLayoutManager(Bag.this);
+                    recyclerView.setLayoutManager(layoutManager4);
+                    List<OwnItem> items4 = new ArrayList<>();
+                    for (PokeMonBook pokeMonBook : pokeMonBooks) {
+                        OwnItem ownItem = new OwnItem(pokeMonBook.getName(), pokeMonBook.getNumber(), 4, pokeMonBook.getImageResourceId());
+                        items4.add(ownItem);
+                    }
+                    ItemAdapter adapter4 = new ItemAdapter(items4);
+                    recyclerView.setAdapter(adapter4);
+                    break;
+            }
             container.addView(view);
             return view;
         }
     }
-    class PokeMonBallAdapter extends RecyclerView.Adapter<PokeMonBallAdapter.ViewHolder> {
+    class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-        private List<PokeMonBall> List;
+        private List<OwnItem> List;
 
-        public PokeMonBallAdapter(List<PokeMonBall> List) {
+        public ItemAdapter(List<OwnItem> List) {
             this.List= List;
         }
 
@@ -270,11 +315,11 @@ public class Bag extends AppCompatActivity {
                 public void onClick(View v) {
                     TextView Name = (TextView) v.findViewById(R.id.name);
                     String name = Name.getText().toString();
-                    List<PokeMonBall> list = DataSupport.where("Name = ?", name).find(PokeMonBall.class);
-                    PokeMonBall pokeMonBall = list.get(0);
-                    Bag_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
+                    List<OwnItem> list = DataSupport.where("Name = ?", name).find(OwnItem.class);
+                    OwnItem ownItem = list.get(0);
+                    Item_name.setText(ownItem.getName());
+                    Bag_Pic.setBackgroundResource(ownItem.getImageResourceId());
                     Bag_Pic.startAnimation(anim4);
-                    Item_name.setText(pokeMonBall.getName());
                 }
             });
             return holder;
@@ -282,9 +327,9 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            PokeMonBall pokeMonBall = List.get(position);
-            holder.Name.setText(pokeMonBall.getName());
-            holder.Number.setText(String.valueOf(pokeMonBall.getNumber()));
+            OwnItem ownItem= List.get(position);
+            holder.Name.setText(ownItem.getName());
+            holder.Number.setText(String.valueOf(ownItem.getNumber()));
         }
 
         @Override
@@ -309,10 +354,12 @@ public class Bag extends AppCompatActivity {
         private String Name;
         private int SourceId1;
         private int SourceId2;
-        public ViewPage(String name, int S1, int S2) {
+        private int Number;
+        public ViewPage(String name, int S1, int S2,int number) {
             this.Name = name;
             this.SourceId1 = S1;
             this.SourceId2 = S2;
+            this.Number = number;
         }
     }
 }

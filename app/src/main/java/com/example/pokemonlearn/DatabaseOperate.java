@@ -239,6 +239,42 @@ public class DatabaseOperate extends AppCompatActivity {
         DataSupport.deleteAll(PokeMonBook.class);
     }
 
+    public void OwnItemAdd() {
+        List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
+        List<OwnItem> items = new ArrayList<>();
+        for (PokeMonBall pokeMonBall : pokeMonBalls) {
+            OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 1, pokeMonBall.getImageSourceId());
+            items.add(ownItem);
+        }
+        List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
+        for (PokeMonTool pokeMonTool : pokeMonTools) {
+            OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId());
+            items.add(ownItem);
+        }
+        List<PokeMonStone> pokeMonStones = DataSupport.findAll(PokeMonStone.class);
+        for (PokeMonStone pokeMonStone : pokeMonStones) {
+            OwnItem ownItem = new OwnItem(pokeMonStone.getName(), pokeMonStone.getNumber(), 3, pokeMonStone.getImageResourceId());
+            items.add(ownItem);
+        }
+        List<PokeMonBook> pokeMonBooks = DataSupport.findAll(PokeMonBook.class);
+        for (PokeMonBook pokeMonBook : pokeMonBooks) {
+            OwnItem ownItem = new OwnItem(pokeMonBook.getName(), pokeMonBook.getNumber(), 4, pokeMonBook.getImageResourceId());
+            items.add(ownItem);
+        }
+        DataSupport.saveAll(items);
+    }
+
+    public void OwnItemQuery() {
+        List<OwnItem> list = DataSupport.findAll(OwnItem.class);
+        for (OwnItem ownItem : list) {
+            Log.i("PokeMonBall", String.valueOf(ownItem.getNumber()) + "  " + ownItem.getName());
+        }
+    }
+
+    public void OwnItemDelete() {
+        DataSupport.deleteAll(OwnItem.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,6 +302,9 @@ public class DatabaseOperate extends AppCompatActivity {
         DatabaseButton b16 = new DatabaseButton("ADD POKEMON-BOOK", 16);
         DatabaseButton b17 = new DatabaseButton("QUERY POKEMON-BOOK", 17);
         DatabaseButton b18 = new DatabaseButton("DELETE POKEMON-BOOK", 18);
+        DatabaseButton b19 = new DatabaseButton("ADD OWN-ITEM", 19);
+        DatabaseButton b20 = new DatabaseButton("QUERY OWN-ITEM", 20);
+        DatabaseButton b21 = new DatabaseButton("DELETE OWN-ITEM", 21);
 
         list.add(b1);list.add(b2);list.add(b3);
         list.add(b4);list.add(b5);list.add(b6);
@@ -273,6 +312,7 @@ public class DatabaseOperate extends AppCompatActivity {
         list.add(b10);list.add(b11);list.add(b12);
         list.add(b13);list.add(b14);list.add(b15);
         list.add(b16);list.add(b17);list.add(b18);
+        list.add(b19);list.add(b20);list.add(b21);
 
         DatabaseOperateAdapter adapter = new DatabaseOperateAdapter(list);
         recyclerView.setAdapter(adapter);
@@ -378,6 +418,19 @@ public class DatabaseOperate extends AppCompatActivity {
                             PokeMonBookDelete();
                             Log.i("DatabasesTest", "Delete Successfully");
                             break;
+                        case 19:
+                            OwnItemAdd();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 20:
+                            OwnItemQuery();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 21:
+                            OwnItemDelete();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+
                     }
                 }
             });

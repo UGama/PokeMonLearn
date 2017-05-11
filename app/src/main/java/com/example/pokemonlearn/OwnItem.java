@@ -10,12 +10,15 @@ public class OwnItem extends DataSupport {
     private String Name;
     private int Number;
     private int Type;
+    private int ImageResourceId;
+
     public OwnItem(){}
 
-    public OwnItem(String name, int number, int type) {
+    public OwnItem(String name, int number, int type, int imageResourceId) {
         Name = name;
         Number = number;
         Type = type;
+        ImageResourceId = imageResourceId;
     }
 
     public void setName(String name) {
@@ -30,6 +33,10 @@ public class OwnItem extends DataSupport {
         Type = type;
     }
 
+    public void setImageResourceId(int imageResourceId) {
+        ImageResourceId = imageResourceId;
+    }
+
     public String getName() {
         return Name;
     }
@@ -40,5 +47,9 @@ public class OwnItem extends DataSupport {
 
     public int getType() {
         return Type;
+    }
+
+    public int getImageResourceId() {
+        return ImageResourceId;
     }
 }
