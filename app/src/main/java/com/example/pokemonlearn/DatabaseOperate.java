@@ -188,7 +188,9 @@ public class DatabaseOperate extends AppCompatActivity {
     public void PokeMonToolAdd(){
         List<PokeMonTool> list = new ArrayList<>();
         PokeMonTool p1 = new PokeMonTool("神奇糖果", R.drawable.rare_candy, 1);
-        list.add(p1);
+        PokeMonTool p2 = new PokeMonTool("复活草", R.drawable.revival_herb, 2);
+        PokeMonTool p3 = new PokeMonTool("诱饵", R.drawable.bait, 3);
+        list.add(p1);list.add(p2);list.add(p3);
         DataSupport.saveAll(list);
     }
 

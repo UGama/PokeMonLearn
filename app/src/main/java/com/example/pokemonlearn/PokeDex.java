@@ -52,6 +52,7 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private ImageView UP;
     private ImageView DOWN;
+    private ImageView Decorate;
 
     private ImageView transfer1;
     private ImageView transfer2;
@@ -60,12 +61,15 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
 
     private Animation anim4;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pokedex);
         transfer1 = (ImageView) findViewById(R.id.transfer1);
         transfer2 = (ImageView) findViewById(R.id.transfer2);
+        transfer1.setVisibility(View.VISIBLE);
+        transfer2.setVisibility(View.VISIBLE);
         trans_out1 = AnimationUtils.loadAnimation(PokeDex.this, R.anim.trans_out_up);
         trans_out2 = AnimationUtils.loadAnimation(PokeDex.this, R.anim.trans_out_down);
         transfer1.startAnimation(trans_out1);
@@ -174,6 +178,8 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
         DOWN = (ImageView) findViewById(R.id.gold_down);
         UP.startAnimation(Right);
         DOWN.startAnimation(Right);
+        Decorate = (ImageView) findViewById(R.id.pokeDex_decorate);
+        Decorate.startAnimation(Right);
 
     }
 

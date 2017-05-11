@@ -35,9 +35,12 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation show_up;
     private Animation show_up2;
 
-    private ImageView fightText;
+    private Button fightText;
     private Animation fightText_show;
     private TextView fightMessage;
+    private ImageView next_text;
+    private Animation animation1;
+    private Animation animation2;
 
     private Button Bag;
     private Button pokemonBall;
@@ -94,11 +97,13 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         roof.setVisibility(View.GONE);
         character = (ImageView) findViewById(R.id.character_capture);
         character.setVisibility(View.GONE);
-        fightText = (ImageView) findViewById(R.id.fight_text);
+        fightText = (Button) findViewById(R.id.fight_text);
+        fightText.setOnClickListener(this);
         fightText.setVisibility(View.GONE);
         fightMessage = (TextView) findViewById(R.id.fight_message);
         fightMessage.setVisibility(View.GONE);
-        fightText_show = AnimationUtils.loadAnimation(Capture.this, R.anim.anim4);
+        next_text = (ImageView) findViewById(R.id.next_text);
+        next_text.setVisibility(View.GONE);
 
         Bag = (Button) findViewById(R.id.bag);
         Bag.setVisibility(View.GONE);
@@ -130,6 +135,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 fightText.startAnimation(fightText_show);
                 fightMessage.setVisibility(View.VISIBLE);
                 fightMessage.startAnimation(fightText_show);
+                next_text.setVisibility(View.VISIBLE);
+                next_text.startAnimation(fightText_show);
                 Bag.setVisibility(View.VISIBLE);
                 pokemonBall.setVisibility(View.VISIBLE);
                 run.setVisibility(View.VISIBLE);
@@ -173,14 +180,70 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         trans2_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_down);
         transfer21 = (ImageView) findViewById(R.id.transfer21);
         transfer22 = (ImageView) findViewById(R.id.transfer22);
+
+        fightText_show = AnimationUtils.loadAnimation(Capture.this, R.anim.anim4);
+        fightText_show.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                animation1 = AnimationUtils.loadAnimation(Capture.this, R.anim.up2);
+                animation1.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        next_text.startAnimation(animation2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                animation2 = AnimationUtils.loadAnimation(Capture.this, R.anim.down2);
+                animation2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        next_text.startAnimation(animation1);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                next_text.startAnimation(animation1);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bag:
+                Intent intent1 = new Intent(Capture.this, CPokeMonTool.class);
+                startActivityForResult(intent1, 1);
                 break;
             case R.id.pokemonBall:
+                Intent intent2 = new Intent(Capture.this, CPokeMonBall.class);
+                startActivityForResult(intent2, 2);
                 break;
             case R.id.run:
                 trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);
@@ -224,6 +287,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                     }
                 });
+                break;
+            case R.id.fight_text:
                 break;
         }
     }

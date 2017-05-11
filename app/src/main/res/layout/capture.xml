@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/menu"
-        app:layout_heightPercent="70%">
+        app:layout_heightPercent="70%"
+        android:layout_below="@+id/transfer1"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/roof"
@@ -38,14 +40,24 @@
             app:layout_marginLeftPercent="5%"
             app:layout_marginBottomPercent="25%"
             />
-        <ImageView
+        <Button
             android:background="@drawable/shape_bag_explain"
             android:id="@+id/fight_text"
             android:layout_alignParentBottom="true"
             app:layout_widthPercent="100%"
-            app:layout_heightPercent="20%"
+            app:layout_heightPercent="22%"
             android:layout_alignParentEnd="true"
             app:layout_marginBottomPercent="2%"
+            />
+        <ImageView
+            android:id="@+id/next_text"
+            android:background="@drawable/next_text"
+            app:layout_widthPercent="7%"
+            app:layout_heightPercent="7%"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="4%"
+            app:layout_marginRightPercent="5%"
             />
         <TextView
             android:layout_width="wrap_content"

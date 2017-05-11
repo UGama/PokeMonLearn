@@ -104,7 +104,6 @@ public class Bag extends AppCompatActivity {
                 indicator.setSelected(position);
                 position = position % 4;
                 Bag_Pic.startAnimation(anim4);
-                Item_name.startAnimation(anim4);
                 switch (position) {
                     case 0:
                         Item.setBackgroundResource(v1.SourceId1);

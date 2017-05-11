@@ -85,6 +85,16 @@
             android:layout_below="@+id/RecyclerView"
             />
         <ImageView
+            android:id="@+id/pokeDex_decorate"
+            android:background="@drawable/pokedex_decorate"
+            android:layout_alignParentBottom="true"
+            app:layout_widthPercent="18%"
+            app:layout_heightPercent="16%"
+            android:layout_alignParentRight="true"
+            app:layout_marginRightPercent="16%"
+            app:layout_marginBottomPercent="3%"
+            />
+        <ImageView
             android:id="@+id/computer"
             android:src="@drawable/computer"
             android:layout_width="wrap_content"
@@ -160,12 +170,14 @@
         android:background="@drawable/transfer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         />
     <ImageView
         android:id="@+id/transfer2"
         android:background="@drawable/transfer2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         />
 
 </android.support.percent.PercentRelativeLayout>
