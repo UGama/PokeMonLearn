@@ -302,9 +302,7 @@ public class Bag extends AppCompatActivity {
                 Number = (TextView) view.findViewById(R.id.number);
                 ItemView = view;
             }
-
         }
-
     }
 
     class ViewPage {

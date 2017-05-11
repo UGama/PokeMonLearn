@@ -18,12 +18,30 @@
         android:background="@drawable/bag_shape2"
         />
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
         android:layout_below="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_marginTopPercent="1%"
+        app:layout_marginTopPercent="3%"
        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignTop="@+id/RecyclerView"
+        android:background="#f8e08a"
+        />
+    <ImageView
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#f8e08a"
+        />
+    <ImageView
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#f8e08a"
+        android:layout_alignParentEnd="true"
+        />
 
 </android.support.percent.PercentRelativeLayout>

@@ -185,6 +185,59 @@ public class DatabaseOperate extends AppCompatActivity {
         DataSupport.deleteAll(PokeMonBall.class);
     }
 
+    public void PokeMonToolAdd(){
+        List<PokeMonTool> list = new ArrayList<>();
+        PokeMonTool p1 = new PokeMonTool("神奇糖果", R.drawable.rare_candy, 1);
+        list.add(p1);
+        DataSupport.saveAll(list);
+    }
+
+    public void PokeMonToolQuery() {
+        List<PokeMonTool> pokeMons = DataSupport.findAll(PokeMonTool.class);
+        for (PokeMonTool pokeMon : pokeMons) {
+            Log.i("Query", pokeMon.getName() + "  " + String.valueOf(pokeMon.getNumber()));
+        }
+    }
+
+    public void PokeMonToolDelete() {
+        DataSupport.deleteAll(PokeMonTool.class);
+    }
+
+    public void PokeMonStoneAdd() {
+        List<PokeMonStone> list = new ArrayList<>();
+        PokeMonStone p1 = new PokeMonStone("日之石", R.drawable.stone_sun, 1);
+        list.add(p1);
+        DataSupport.saveAll(list);
+    }
+
+    public void PokeMonStoneQuery() {
+        List<PokeMonStone> list = DataSupport.findAll(PokeMonStone.class);
+        for (PokeMonStone pokeMonBall : list) {
+            Log.i("PokeMonBall", String.valueOf(pokeMonBall.getNumber()) + "  " + pokeMonBall.getName());
+        }
+    }
+
+    public void PokeMonStoneDelete() {
+        DataSupport.deleteAll(PokeMonStone.class);
+    }
+
+    public void PokeMonBookAdd() {
+        List<PokeMonBook> list = new ArrayList<>();
+        PokeMonBook p1 = new PokeMonBook("普通秘籍", R.drawable.normal_skill, 1);
+        list.add(p1);
+        DataSupport.saveAll(list);
+    }
+
+    public void PokeMonBookQuery() {
+        List<PokeMonBook> list = DataSupport.findAll(PokeMonBook.class);
+        for (PokeMonBook pokeMonBall : list) {
+            Log.i("PokeMonBall", String.valueOf(pokeMonBall.getNumber()) + "  " + pokeMonBall.getName());
+        }
+    }
+
+    public void PokeMonBookDelete() {
+        DataSupport.deleteAll(PokeMonBook.class);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -204,9 +257,23 @@ public class DatabaseOperate extends AppCompatActivity {
         DatabaseButton b7 = new DatabaseButton("ADD POKEMON-BALL", 7);
         DatabaseButton b8 = new DatabaseButton("QUERY POKEMON-BALL", 8);
         DatabaseButton b9 = new DatabaseButton("DELETE POKEMON-Ball", 9);
+        DatabaseButton b10 = new DatabaseButton("ADD POKEMON-TOOL", 10);
+        DatabaseButton b11 = new DatabaseButton("QUERY POKEMON-TOOL", 11);
+        DatabaseButton b12 = new DatabaseButton("DELETE POKEMON-TOOL", 12);
+        DatabaseButton b13 = new DatabaseButton("ADD POKEMON-STONE", 13);
+        DatabaseButton b14 = new DatabaseButton("QUERY POKEMON-STONE", 14);
+        DatabaseButton b15 = new DatabaseButton("DELTE POKEMON-STONE", 15);
+        DatabaseButton b16 = new DatabaseButton("ADD POKEMON-BOOK", 16);
+        DatabaseButton b17 = new DatabaseButton("QUERY POKEMON-BOOK", 17);
+        DatabaseButton b18 = new DatabaseButton("DELETE POKEMON-BOOK", 18);
+
         list.add(b1);list.add(b2);list.add(b3);
         list.add(b4);list.add(b5);list.add(b6);
         list.add(b7);list.add(b8);list.add(b9);
+        list.add(b10);list.add(b11);list.add(b12);
+        list.add(b13);list.add(b14);list.add(b15);
+        list.add(b16);list.add(b17);list.add(b18);
+
         DatabaseOperateAdapter adapter = new DatabaseOperateAdapter(list);
         recyclerView.setAdapter(adapter);
     }
@@ -273,6 +340,42 @@ public class DatabaseOperate extends AppCompatActivity {
                             break;
                         case 9:
                             PokeMonBallDelete();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+                        case 10:
+                            PokeMonToolAdd();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 11:
+                            PokeMonToolQuery();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 12:
+                            PokeMonToolDelete();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+                        case 13:
+                            PokeMonStoneAdd();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 14:
+                            PokeMonStoneQuery();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 15:
+                            PokeMonStoneDelete();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+                        case 16:
+                            PokeMonBookAdd();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 17:
+                            PokeMonBookQuery();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 18:
+                            PokeMonBookDelete();
                             Log.i("DatabasesTest", "Delete Successfully");
                             break;
                     }
