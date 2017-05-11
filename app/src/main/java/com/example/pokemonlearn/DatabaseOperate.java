@@ -7,9 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
@@ -21,59 +22,6 @@ public class DatabaseOperate extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
-
-
-    /*public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.AddDataDatabases:
-                Add();
-                Log.i("DatabasesTest", "Add Successfully");
-                break;
-            case R.id.queryDatabases:
-                Query();
-                Log.i("DatabasesTest", "Query Successfully");
-                break;
-            case R.id.deleteAll:
-                DeleteAll();
-                Log.i("DatabasesTest", "DeleteAll Successfully");
-                break;
-            case R.id.OwnAdd:
-                myPetAdd();
-                Log.i("DatabasesTest", "Add Successfully");
-                break;
-            case R.id.OwnQuery:
-                myPetQuery();
-                Log.i("DatabasesTest", "Query Successfully");
-                break;
-            case R.id.OwnDelete:
-                myPetDelete();
-                Log.i("DatabasesTest", "Delete Successfully");
-                break;
-            case R.id.pokemonBallAdd:
-                PokeMonBallAdd();
-                Log.i("DatabasesTest", "Add Successfully");
-                break;
-            case R.id.pokemonBallDelete:
-                PokeMonBallDelete();
-                Log.i("DatabasesTest", "Delete Successfully");
-                break;
-            case R.id.pokemonBallQuery:
-                PokeMonBallQuery();
-                Log.i("DatabasesTest", "Query Successfully");
-                break;
-        }
-    }*/
-    public void Query() {
-        List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
-        for (PokeMon pokeMon : pokeMons) {
-            Log.i("Query", pokeMon.getName() + "  " + String.valueOf(pokeMon.getNumber())
-                    + "  " + String.valueOf(pokeMon.getWeight()));
-        }
-    }
-
-    public void DeleteAll() {
-        DataSupport.deleteAll(PokeMon.class);
-    }
 
     public void Add() {
         /*PokeMon pokeMontest = new PokeMon();
@@ -139,6 +87,18 @@ public class DatabaseOperate extends AppCompatActivity {
         list.add(p25);
 
         DataSupport.saveAll(list);
+    }
+
+    public void Query() {
+        List<PokeMon> pokeMons = DataSupport.findAll(PokeMon.class);
+        for (PokeMon pokeMon : pokeMons) {
+            Log.i("Query", pokeMon.getName() + "  " + String.valueOf(pokeMon.getNumber())
+                    + "  " + String.valueOf(pokeMon.getWeight()));
+        }
+    }
+
+    public void DeleteAll() {
+        DataSupport.deleteAll(PokeMon.class);
     }
 
     public void myPetAdd() {
@@ -214,16 +174,17 @@ public class DatabaseOperate extends AppCompatActivity {
         DataSupport.saveAll(list);
     }
 
-    public void PokeMonBallDelete() {
-        DataSupport.deleteAll(PokeMonBall.class);
-    }
-
     public void PokeMonBallQuery() {
         List<PokeMonBall> list = DataSupport.findAll(PokeMonBall.class);
         for (PokeMonBall pokeMonBall : list) {
             Log.i("PokeMonBall", String.valueOf(pokeMonBall.getNumber()) + "  " + pokeMonBall.getName());
         }
     }
+
+    public void PokeMonBallDelete() {
+        DataSupport.deleteAll(PokeMonBall.class);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -235,26 +196,19 @@ public class DatabaseOperate extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         List<DatabaseButton> list = new ArrayList<>();
         DatabaseButton b1 = new DatabaseButton("ADD POKEMON", 1);
-        DatabaseButton b2 = new DatabaseButton("DELETE POKEMON", 2);
-        DatabaseButton b3 = new DatabaseButton("QUERY POKEMON", 3);
+        DatabaseButton b2 = new DatabaseButton("QUERY POKEMON", 2);
+        DatabaseButton b3 = new DatabaseButton("DELETE POKEMON", 3);
         DatabaseButton b4 = new DatabaseButton("ADD OWN-POKEMON", 4);
-        DatabaseButton b5 = new DatabaseButton("DELETE OWN-POKEMON", 5);
-        DatabaseButton b6 = new DatabaseButton("QUERY POKEMON", 6);
+        DatabaseButton b5 = new DatabaseButton("QUERY OWN-POKEMON", 5);
+        DatabaseButton b6 = new DatabaseButton("DELETE POKEMON", 6);
         DatabaseButton b7 = new DatabaseButton("ADD POKEMON-BALL", 7);
-        DatabaseButton b8 = new DatabaseButton("DELETE POKEMON-BALL", 8);
-        DatabaseButton b9 = new DatabaseButton("QUERY POKEMON-Ball", 9);
-        list.add(b1);
-        list.add(b2);
-        list.add(b3);
-        list.add(b4);
-        list.add(b5);
-        list.add(b6);
-        list.add(b7);
-        list.add(b8);
-        list.add(b9);
+        DatabaseButton b8 = new DatabaseButton("QUERY POKEMON-BALL", 8);
+        DatabaseButton b9 = new DatabaseButton("DELETE POKEMON-Ball", 9);
+        list.add(b1);list.add(b2);list.add(b3);
+        list.add(b4);list.add(b5);list.add(b6);
+        list.add(b7);list.add(b8);list.add(b9);
         DatabaseOperateAdapter adapter = new DatabaseOperateAdapter(list);
         recyclerView.setAdapter(adapter);
-        Log.i("Test1", String.valueOf(list.size()));
     }
 
     class DatabaseOperateAdapter extends RecyclerView.Adapter<DatabaseOperateAdapter.ViewHolder> {
@@ -278,10 +232,61 @@ public class DatabaseOperate extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             final DatabaseButton databaseButton = List.get(position);
             holder.button.setText(databaseButton.text);
+            holder.textView.setText(String.valueOf(databaseButton.Number));
             holder.ItemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-
+                    TextView numberText = (TextView) v.findViewById(R.id.TextView);
+                    int number = Integer.valueOf(numberText.getText().toString());
+                    switch (number) {
+                        case 1:
+                            Add();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 2:
+                            Query();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 3:
+                            DeleteAll();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+                        case 4:
+                            myPetAdd();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 5:
+                            myPetQuery();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 6:
+                            myPetDelete();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+                        case 7:
+                            PokeMonBallAdd();
+                            Log.i("DatabasesTest", "Add Successfully");
+                            break;
+                        case 8:
+                            PokeMonBallQuery();
+                            Log.i("DatabasesTest", "Query Successfully");
+                            break;
+                        case 9:
+                            PokeMonBallDelete();
+                            Log.i("DatabasesTest", "Delete Successfully");
+                            break;
+                    }
+                }
+            });
+            holder.ItemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        v.getBackground().setAlpha(255);
+                    } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        v.getBackground().setAlpha(125);
+                    }
+                    return false;
                 }
             });
         }
@@ -292,16 +297,18 @@ public class DatabaseOperate extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            Button button;
+            TextView button;
+            TextView textView;
             View ItemView;
             public ViewHolder(View view) {
                 super(view);
-                button = (Button) view.findViewById(R.id.Button);
+                button = (TextView) view.findViewById(R.id.TextView2);
+                textView = (TextView) view.findViewById(R.id.TextView);
                 ItemView = view;
             }
         }
 
-        
+
 
     }
 

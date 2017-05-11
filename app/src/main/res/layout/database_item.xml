@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <Button
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/shape_bag_explain">
+
+    <TextView
+        android:id="@+id/TextView"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="test"
-        android:id="@+id/Button"
         android:textSize="24sp"
+        android:layout_weight="9"
+        android:textColor="#000"/>
+    <TextView
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TextView2"
+        android:textSize="24sp"
+        android:layout_weight="1"
+        android:textColor="#000"
         />
    <!-- <Button
         android:layout_width="match_parent"

@@ -7,12 +7,14 @@
     <TextView
         android:text="test"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#f9f8c8"
         android:textSize="18sp"
         android:id="@+id/item"
+        app:layout_heightPercent="14%"
+        app:layout_marginTopPercent="2%"
         android:background="@drawable/bag_shape2"
         />
 
