@@ -20,26 +20,36 @@
             app:layout_marginTopPercent="5%"
             app:layout_marginLeftPercent="3%"
             >
+
+
+
             <ImageView
-                android:id="@+id/wood"
+                android:background="@drawable/pokedex_shape2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_widthPercent="72%"
-                app:layout_heightPercent="22%"
-                android:background="@drawable/wood"
-                app:layout_marginTopPercent="68%"
+                app:layout_widthPercent="84%"
+                app:layout_heightPercent="90%"
+                app:layout_marginTopPercent="5%"
                 android:layout_centerHorizontal="true"
                 />
             <TextView
                 android:id="@+id/wood_name"
                 android:text=" ??? "
-                android:textColor="#ffffff"
-                android:textSize="16sp"
+                android:textColor="#4c3a27"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                app:layout_marginTopPercent="78%"
+                app:layout_marginTopPercent="68%"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                />
+            <ImageView
+                android:background="@drawable/pokedexinit"
+                android:id="@+id/pokeDex_Pic"
+                app:layout_widthPercent="70%"
+                app:layout_heightPercent="45%"
+                app:layout_marginTopPercent="20%"
+                android:layout_centerHorizontal="true"
                 />
         </android.support.percent.PercentRelativeLayout>
 
@@ -58,10 +68,10 @@
             android:layout_height="wrap_content"
             app:layout_widthPercent="44%"
             app:layout_heightPercent="83%"
-            android:layout_alignParentRight="true"
             app:layout_marginRightPercent="3%"
             app:layout_marginTopPercent="6%"
-            />
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp" />
         <ImageView
             android:id="@+id/gold_up"
             android:src="#f8e08a"
@@ -131,14 +141,7 @@
             app:layout_marginTopPercent="30%"
             app:layout_marginLeftPercent="43%"
             />
-        <ImageView
-            android:background="@drawable/pokedexinit"
-            android:id="@+id/pokeDex_Pic"
-            app:layout_widthPercent="33%"
-            app:layout_heightPercent="30%"
-            app:layout_marginTopPercent="12%"
-            app:layout_marginLeftPercent="6.5%"
-            />
+
 
 
 

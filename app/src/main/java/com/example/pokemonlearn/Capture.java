@@ -239,11 +239,13 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.bag:
                 Intent intent1 = new Intent(Capture.this, CPokeMonTool.class);
-                startActivityForResult(intent1, 1);
+                startActivity(intent1);
+                //startActivityForResult(intent1, 1);
                 break;
             case R.id.pokemonBall:
                 Intent intent2 = new Intent(Capture.this, CPokeMonBall.class);
-                startActivityForResult(intent2, 2);
+                startActivity(intent2);
+                //startActivityForResult(intent2, 2);
                 break;
             case R.id.run:
                 trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);

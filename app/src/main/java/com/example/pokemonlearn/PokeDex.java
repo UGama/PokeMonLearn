@@ -159,8 +159,7 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
         PokeDex_init = (ImageView) findViewById(R.id.pokeDex_Pic);
         PokeDex_init.startAnimation(Layout_fly_in);
 
-        wood = (ImageView) findViewById(R.id.wood);
-        wood.startAnimation(Layout_fly_in);
+
 
         PokeDex_name = (TextView) findViewById(R.id.wood_name);
         PokeDex_name.startAnimation(Layout_fly_in);
