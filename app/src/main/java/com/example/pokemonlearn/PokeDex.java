@@ -30,16 +30,16 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
     private Animation Flash;
     private Animation Left;
     private Animation Right;
-    private Animation connectanim;
+    private Animation ConnectAnim;
     private Animation Layout_fly_in;
     private Animation Layout_fly_in2;
 
     private ImageView Computer;
     private ImageView flash2;
     private PercentRelativeLayout Left_shape;
+    private ImageView Wanted;
     private ImageView Right_shape;
     private ImageView Connect;
-    private ImageView wood;
     private ImageView PokeDex_init;
     private TextView PokeDex_name;
 
@@ -60,7 +60,6 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
     private Animation trans_out2;
 
     private Animation anim4;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -146,20 +145,21 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
         Right_shape.startAnimation(Right);
 
         Connect = (ImageView) findViewById(R.id.connect1);
-        connectanim = AnimationUtils.loadAnimation(PokeDex.this, R.anim.anim3);
-        Connect.startAnimation(connectanim);
+        ConnectAnim = AnimationUtils.loadAnimation(PokeDex.this, R.anim.anim3);
+        Connect.startAnimation(ConnectAnim);
 
         Connect = (ImageView) findViewById(R.id.connect2);
-        Connect.startAnimation(connectanim);
+        Connect.startAnimation(ConnectAnim);
 
         PokeDex_down = (PercentRelativeLayout) findViewById(R.id.pokeDex_Layout_down);
         Layout_fly_in = AnimationUtils.loadAnimation(PokeDex.this, R.anim.layout_fly_in);
         PokeDex_down.startAnimation(Layout_fly_in);
 
+        Wanted = (ImageView) findViewById(R.id.wanted);
+        Wanted.startAnimation(Layout_fly_in);
+
         PokeDex_init = (ImageView) findViewById(R.id.pokeDex_Pic);
         PokeDex_init.startAnimation(Layout_fly_in);
-
-
 
         PokeDex_name = (TextView) findViewById(R.id.wood_name);
         PokeDex_name.startAnimation(Layout_fly_in);
@@ -195,11 +195,11 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
     }
 
     class PokeDexAdapter extends RecyclerView.Adapter<PokeDexAdapter.ViewHolder> {
-        private List<PokeMon> PokedexList;
+        private List<PokeMon> PokeDexList;
         TextView PokemonName;
 
         public PokeDexAdapter(List<PokeMon> myPetList) {
-            this.PokedexList = myPetList;
+            this.PokeDexList = myPetList;
         }
 
         @Override
@@ -228,13 +228,13 @@ public class PokeDex extends AppCompatActivity implements View.OnClickListener {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            PokeMon pokeMon = PokedexList.get(position);
+            PokeMon pokeMon = PokeDexList.get(position);
             holder.PokeMonName.setText(pokeMon.getName());
         }
 
         @Override
         public int getItemCount() {
-            return PokedexList.size();
+            return PokeDexList.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

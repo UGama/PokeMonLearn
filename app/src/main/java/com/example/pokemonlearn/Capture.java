@@ -239,13 +239,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.bag:
                 Intent intent1 = new Intent(Capture.this, CPokeMonTool.class);
-                startActivity(intent1);
-                //startActivityForResult(intent1, 1);
+                startActivityForResult(intent1, 1);
                 break;
             case R.id.pokemonBall:
                 Intent intent2 = new Intent(Capture.this, CPokeMonBall.class);
-                startActivity(intent2);
-                //startActivityForResult(intent2, 2);
+                startActivityForResult(intent2, 2);
                 break;
             case R.id.run:
                 trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);
@@ -321,5 +319,24 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 break;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    String PMTool = data.getStringExtra("PMTool");
+                    Log.i("PMTool", PMTool);
+                }
+                break;
+            case 2:
+                if (requestCode == RESULT_OK) {
+                    String PMBall = data.getStringExtra("PMBall");
+                    Log.i("PMBall", PMBall);
+                }
+                break;
+        }
     }
 }

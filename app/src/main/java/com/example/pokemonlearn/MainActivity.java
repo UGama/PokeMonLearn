@@ -181,8 +181,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
         initOverlay();
 
-        anim0 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim0);
-        anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim1);
+        anim0 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch2);
+        anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch1);
 
         littleMap = (Button) findViewById(R.id.littlemap);
         littleMap.setOnClickListener(this);
@@ -1132,11 +1132,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 break;
             case R.id.satellite:
                 if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
-
                     v.startAnimation(anim1);
                 } else {
                     if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
-
                         v.startAnimation(anim0);
                     }
                 }
