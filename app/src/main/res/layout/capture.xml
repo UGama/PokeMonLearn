@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,16 +19,25 @@
             android:layout_alignParentEnd="true"
             app:layout_widthPercent="48%"
             app:layout_heightPercent="18%"
-            app:layout_marginTopPercent="19%"
+            app:layout_marginTopPercent="23%"
             />
         <ImageView
             android:id="@+id/pokemon_capture"
             android:background="@drawable/squirtle2"
-            app:layout_marginTopPercent="3%"
+            app:layout_marginTopPercent="7%"
             app:layout_marginRightPercent="5%"
             app:layout_widthPercent="35%"
             app:layout_heightPercent="28%"
             android:layout_alignParentEnd="true"
+            />
+        <ImageView
+            android:id="@+id/PMBall"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="35%"
+            app:layout_marginLeftPercent="18%"
+            app:layout_widthPercent="11%"
+            app:layout_heightPercent="10%"
+            android:visibility="gone"
             />
         <ImageView
             android:id="@+id/character_capture"
@@ -40,14 +48,33 @@
             app:layout_marginLeftPercent="5%"
             app:layout_marginBottomPercent="25%"
             />
-        <Button
+        <ImageView
             android:background="@drawable/shape_bag_explain"
             android:id="@+id/fight_text"
             android:layout_alignParentBottom="true"
-            app:layout_widthPercent="100%"
+            android:layout_width="match_parent"
             app:layout_heightPercent="22%"
             android:layout_alignParentEnd="true"
             app:layout_marginBottomPercent="2%"
+            />
+        <TextView
+            android:id="@+id/fight_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:layout_marginLeftPercent="7%"
+            app:layout_marginBottomPercent="14%"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            />
+        <ImageView
+            android:id="@+id/screen"
+            android:background="@drawable/shape_screen"
+            android:layout_alignBottom="@+id/fight_text"
+            app:layout_heightPercent="20%"
+            app:layout_widthPercent="98%"
+            app:layout_marginLeftPercent="1%"
+            app:layout_marginBottomPercent="1%"
             />
         <ImageView
             android:id="@+id/next_text"
@@ -58,17 +85,6 @@
             android:layout_alignParentBottom="true"
             app:layout_marginBottomPercent="4%"
             app:layout_marginRightPercent="5%"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fight_message"
-            android:layout_alignParentBottom="true"
-            app:layout_marginLeftPercent="7%"
-            app:layout_marginBottomPercent="12%"
-            android:text="testtesttest"
-            android:textSize="20sp"
-            android:textColor="#000000"
             />
     </android.support.percent.PercentRelativeLayout>
 

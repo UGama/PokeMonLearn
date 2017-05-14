@@ -1,6 +1,12 @@
 package com.example.pokemonlearn;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,12 +42,15 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation show_up;
     private Animation show_up2;
 
-    private Button fightText;
+    private ImageView fightText;
     private Animation fightText_show;
     private TextView fightMessage;
     private ImageView next_text;
+    private ImageView Text_Screen;
     private Animation animation1;
     private Animation animation2;
+    private int MessageCount;
+    private View.OnClickListener messageClick;
 
     private Button Bag;
     private Button pokemonBall;
@@ -56,6 +66,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation transit;
 
     private PokeMon C_PokeMon;
+
+    private ImageView PMBall;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,13 +110,16 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         roof.setVisibility(View.GONE);
         character = (ImageView) findViewById(R.id.character_capture);
         character.setVisibility(View.GONE);
-        fightText = (Button) findViewById(R.id.fight_text);
+        fightText = (ImageView) findViewById(R.id.fight_text);
         fightText.setOnClickListener(this);
         fightText.setVisibility(View.GONE);
         fightMessage = (TextView) findViewById(R.id.fight_message);
         fightMessage.setVisibility(View.GONE);
+        Text_Screen = (ImageView) findViewById(R.id.screen);
+        Text_Screen.setVisibility(View.GONE);
         next_text = (ImageView) findViewById(R.id.next_text);
         next_text.setVisibility(View.GONE);
+        MessageCount = 0;
 
         Bag = (Button) findViewById(R.id.bag);
         Bag.setVisibility(View.GONE);
@@ -137,12 +153,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 fightMessage.startAnimation(fightText_show);
                 next_text.setVisibility(View.VISIBLE);
                 next_text.startAnimation(fightText_show);
-                Bag.setVisibility(View.VISIBLE);
-                pokemonBall.setVisibility(View.VISIBLE);
-                run.setVisibility(View.VISIBLE);
-                Bag.startAnimation(float2);
-                pokemonBall.startAnimation(float1);
-                run.startAnimation(float3);
             }
 
             @Override
@@ -225,6 +235,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                     }
                 });
                 next_text.startAnimation(animation1);
+                Text_Screen.setVisibility(View.VISIBLE);
+                fightMessage.setText("野生的 " + C_PokeMon.getName() + " 出现了！");
+                MessageCount++;
+                ScreenRun(Text_Screen);
+
             }
 
             @Override
@@ -232,6 +247,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             }
         });
+
+        PMBall = (ImageView) findViewById(R.id.PMBall);
+
     }
 
     @Override
@@ -332,11 +350,380 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 }
                 break;
             case 2:
-                if (requestCode == RESULT_OK) {
-                    String PMBall = data.getStringExtra("PMBall");
-                    Log.i("PMBall", PMBall);
+                if (resultCode == RESULT_OK) {
+                    String pmBall = data.getStringExtra("PMBall");
+                    Log.i("PMBall", pmBall);
+                    List<PokeMonBall> list = DataSupport.where("Name = ?", pmBall).find(PokeMonBall.class);
+                    PMBall.setBackgroundResource(list.get(0).getImageSourceId());
+                    PMBall.setVisibility(View.VISIBLE);
+                    ProfileMotion(PMBall);
                 }
                 break;
         }
+    }
+
+    public void ScreenRun(View view) {
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
+                1.0f, 0.0f);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
+                0, 450);
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.setDuration(2000);
+        animSet.setInterpolator(new LinearInterpolator());
+        animSet.playTogether(anim1, anim2);
+        animSet.start();
+
+        messageClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (MessageCount) {
+                    case 1:
+                        ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+                                1.0f, 0.0f);
+                        ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+                                0, 450);
+                        AnimatorSet animSet = new AnimatorSet();
+                        animSet.setDuration(2500);
+                        animSet.setInterpolator(new LinearInterpolator());
+                        animSet.playTogether(anim1, anim2);
+                        animSet.start();
+                        fightMessage.setText("你要做什么？");
+                        animation1.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                next_text.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                next_text.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        animation2.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                next_text.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                next_text.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        MessageCount++;
+                        Bag.setVisibility(View.VISIBLE);
+                        pokemonBall.setVisibility(View.VISIBLE);
+                        run.setVisibility(View.VISIBLE);
+                        Bag.startAnimation(float2);
+                        pokemonBall.startAnimation(float1);
+                        run.startAnimation(float3);
+                        break;
+                }
+            }
+        };
+        fightText.setOnClickListener(messageClick);
+    }
+
+    public void ProfileMotion(final View V) {
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(2000);
+        valueAnimator.setObjectValues(new PointF(70, 475));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            // fraction = t / duration
+            @Override
+            public PointF evaluate(float fraction, PointF startValue,
+                                   PointF endValue) {
+
+                PointF point = new PointF();
+                point.x = 70 + 350 * fraction * 2;
+                point.y = 0.5f * 450 * ((1 - fraction) * 2) * ((1 - fraction) * 2);
+                return point;
+            }
+        });
+
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                V.setX(point.x);
+                V.setY(point.y);
+            }
+        });
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation",
+                0.0f, 360f);
+        objectAnimator.setDuration(200);
+        objectAnimator.setRepeatCount(9);
+        objectAnimator.start();
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                PMInto();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    public void PMInto() {
+        ObjectAnimator anim0 = ObjectAnimator.ofFloat(Pokemon, "rotation", 0, 0);
+        anim0.setDuration(200);
+        anim0.start();
+        anim0.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ObjectAnimator anim1 = ObjectAnimator.ofFloat(Pokemon, "scaleX",
+                        1.0f, 0.0f);
+                ObjectAnimator anim2 = ObjectAnimator.ofFloat(Pokemon, "scaleY",
+                        1.0f, 0.0f);
+                ObjectAnimator anim3 = ObjectAnimator.ofFloat(Pokemon, "rotation",
+                        0.0f, 360f);
+                ObjectAnimator anim4 = ObjectAnimator.ofFloat(Pokemon, "translationY",
+                        0, -200);
+                AnimatorSet animSet = new AnimatorSet();
+                animSet.setDuration(1000);
+                animSet.setInterpolator(new LinearInterpolator());
+                animSet.play(anim1).with(anim2).with(anim3).with(anim4);
+                animSet.start();
+                animSet.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        HitGround();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    public void HitGround() {
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(1600);
+        valueAnimator.setObjectValues(new PointF(770, 0));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            // fraction = t / duration
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                if (fraction < 0.4) {
+                    point.x = 770;
+                    point.y = 117 * (fraction * 4) * (fraction * 4);
+                } else if (fraction < 0.7) {
+                    fraction = 0.7f - fraction;
+                    point.x = 770;
+                    point.y = 300 - 108 + 75 * (fraction * 4) * (fraction * 4);
+                } else {
+                    fraction -= 0.7;
+                    point.x = 770;
+                    point.y = 192 + 75 * (fraction * 4) * (fraction * 4);
+                }
+                return point;
+            }
+        });
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                PMBall.setX(point.x);
+                PMBall.setY(point.y);
+            }
+        });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                Struggle();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    public void Struggle() {
+        final ObjectAnimator anim0 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+        anim0.setDuration(200);
+        anim0.start();
+        anim0.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 45);
+                ValueAnimator valueAnimator = new ValueAnimator();
+                valueAnimator.setObjectValues(new PointF(70, 475));
+                valueAnimator.setInterpolator(new LinearInterpolator());
+                valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+                    // fraction = t / duration
+                    @Override
+                    public PointF evaluate(float fraction, PointF startValue,
+                                           PointF endValue) {
+                        PointF point = new PointF();
+                        point.x = 770 + fraction * 30;
+                        point.y = 300;
+                        return point;
+                    }
+                });
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        PointF point = (PointF) animation.getAnimatedValue();
+                        PMBall.setX(point.x);
+                        PMBall.setY(point.y);
+                    }
+                });
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.setDuration(300);
+                animatorSet.play(objectAnimator).with(valueAnimator);
+                animatorSet.start();
+                animatorSet.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 45, 0);
+                        ValueAnimator valueAnimator = new ValueAnimator();
+                        valueAnimator.setObjectValues(new PointF(70, 475));
+                        valueAnimator.setInterpolator(new LinearInterpolator());
+                        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+                            // fraction = t / duration
+                            @Override
+                            public PointF evaluate(float fraction, PointF startValue,
+                                                   PointF endValue) {
+                                PointF point = new PointF();
+                                point.x = 800 - fraction * 30;
+                                point.y = 300;
+                                return point;
+                            }
+                        });
+                        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                PointF point = (PointF) animation.getAnimatedValue();
+                                PMBall.setX(point.x);
+                                PMBall.setY(point.y);
+                            }
+                        });
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.setDuration(300);
+                        animatorSet.play(objectAnimator).with(valueAnimator);
+                        animatorSet.start();
+                        animatorSet.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 }
