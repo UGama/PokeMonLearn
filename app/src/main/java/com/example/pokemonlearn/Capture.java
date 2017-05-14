@@ -51,6 +51,10 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation animation2;
     private int MessageCount;
     private View.OnClickListener messageClick;
+    private PokeMon C_PokeMon;
+    private ImageView PMBall;
+    private PokeMonBall C_PokeMonBall;
+    private boolean Judgement;
 
     private Button Bag;
     private Button pokemonBall;
@@ -65,9 +69,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private ImageView transfer22;
     private Animation transit;
 
-    private PokeMon C_PokeMon;
 
-    private ImageView PMBall;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -250,6 +252,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
         PMBall = (ImageView) findViewById(R.id.PMBall);
 
+        Judgement = false;
     }
 
     @Override
@@ -354,7 +357,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                     String pmBall = data.getStringExtra("PMBall");
                     Log.i("PMBall", pmBall);
                     List<PokeMonBall> list = DataSupport.where("Name = ?", pmBall).find(PokeMonBall.class);
-                    PMBall.setBackgroundResource(list.get(0).getImageSourceId());
+                    C_PokeMonBall = list.get(0);
+                    PMBall.setBackgroundResource(C_PokeMonBall.getImageSourceId());
                     PMBall.setVisibility(View.VISIBLE);
                     ProfileMotion(PMBall);
                 }
@@ -591,7 +595,30 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                Struggle();
+                ObjectAnimator anim0 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+                anim0.setDuration(200);
+                anim0.start();
+                anim0.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        Struggle();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
             }
 
             @Override
@@ -607,10 +634,34 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     }
 
     public void Struggle() {
-        final ObjectAnimator anim0 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
-        anim0.setDuration(200);
-        anim0.start();
-        anim0.addListener(new Animator.AnimatorListener() {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 45);
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setObjectValues(new PointF(70, 475));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            // fraction = t / duration
+            @Override
+            public PointF evaluate(float fraction, PointF startValue,
+                                   PointF endValue) {
+                PointF point = new PointF();
+                point.x = 770 + fraction * 30;
+                point.y = 300;
+                return point;
+            }
+        });
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                PMBall.setX(point.x);
+                PMBall.setY(point.y);
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(300);
+        animatorSet.play(objectAnimator).with(valueAnimator);
+        animatorSet.start();
+        animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -618,7 +669,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 45);
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 45, 0);
                 ValueAnimator valueAnimator = new ValueAnimator();
                 valueAnimator.setObjectValues(new PointF(70, 475));
                 valueAnimator.setInterpolator(new LinearInterpolator());
@@ -628,7 +679,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                     public PointF evaluate(float fraction, PointF startValue,
                                            PointF endValue) {
                         PointF point = new PointF();
-                        point.x = 770 + fraction * 30;
+                        point.x = 800 - fraction * 30;
                         point.y = 300;
                         return point;
                     }
@@ -653,7 +704,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 45, 0);
+                        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, -45);
+                        ObjectAnimator anim0 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
                         ValueAnimator valueAnimator = new ValueAnimator();
                         valueAnimator.setObjectValues(new PointF(70, 475));
                         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -663,7 +715,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                             public PointF evaluate(float fraction, PointF startValue,
                                                    PointF endValue) {
                                 PointF point = new PointF();
-                                point.x = 800 - fraction * 30;
+                                point.x = 770 - fraction * 30;
                                 point.y = 300;
                                 return point;
                             }
@@ -678,7 +730,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         });
                         AnimatorSet animatorSet = new AnimatorSet();
                         animatorSet.setDuration(300);
-                        animatorSet.play(objectAnimator).with(valueAnimator);
+                        animatorSet.play(objectAnimator).with(valueAnimator).after(anim0);
                         animatorSet.start();
                         animatorSet.addListener(new Animator.AnimatorListener() {
                             @Override
@@ -688,7 +740,54 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
-                                
+                                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", -45, 0);
+                                ValueAnimator valueAnimator = new ValueAnimator();
+                                valueAnimator.setObjectValues(new PointF(70, 475));
+                                valueAnimator.setInterpolator(new LinearInterpolator());
+                                valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+                                    // fraction = t / duration
+                                    @Override
+                                    public PointF evaluate(float fraction, PointF startValue,
+                                                           PointF endValue) {
+                                        PointF point = new PointF();
+                                        point.x = 740 + fraction * 30;
+                                        point.y = 300;
+                                        return point;
+                                    }
+                                });
+                                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                    @Override
+                                    public void onAnimationUpdate(ValueAnimator animation) {
+                                        PointF point = (PointF) animation.getAnimatedValue();
+                                        PMBall.setX(point.x);
+                                        PMBall.setY(point.y);
+                                    }
+                                });
+                                AnimatorSet animatorSet = new AnimatorSet();
+                                animatorSet.setDuration(300);
+                                animatorSet.play(objectAnimator).with(valueAnimator);
+                                animatorSet.start();
+                                animatorSet.addListener(new Animator.AnimatorListener() {
+                                    @Override
+                                    public void onAnimationStart(Animator animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        Judge();
+                                    }
+
+                                    @Override
+                                    public void onAnimationCancel(Animator animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationRepeat(Animator animation) {
+
+                                    }
+                                });
                             }
 
                             @Override
@@ -725,5 +824,26 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             }
         });
+    }
+
+    public void Judge() {
+        if (PMJudge()) {
+
+        } else {
+
+        }
+    }
+
+    public boolean PMJudge() {
+        Double a = Math.random();
+        Log.i("Random", String.valueOf(a));
+        Double b = C_PokeMonBall.getRate();
+        if (a <= b) {
+            Judgement = true;
+        } else {
+            Judgement = false;
+        }
+        Log.i("Judgement", String.valueOf(Judgement));
+        return Judgement;
     }
 }

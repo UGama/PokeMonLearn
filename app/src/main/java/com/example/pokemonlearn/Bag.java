@@ -1,5 +1,8 @@
 package com.example.pokemonlearn;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
@@ -24,7 +27,8 @@ import java.util.List;
  * Created by Gama on 7/4/17.
  */
 
-public class Bag extends AppCompatActivity {
+public class Bag extends AppCompatActivity implements View.OnClickListener {
+    private PercentRelativeLayout Layout_Up;
     private ViewPager viewPager;
     private MyPagerAdapter myPagerAdapter;
     private ViewPagerIndicator indicator;
@@ -33,9 +37,9 @@ public class Bag extends AppCompatActivity {
     private ImageView Background;
     private ImageView RightArrow;
     private ImageView LeftArrow;
+    private AnimatorSet Right;
+    private AnimatorSet Left;
 
-    private Animation animation1;
-    private Animation animation2;
     private Animation animation3;
     private Animation layout_in;
 
@@ -56,10 +60,17 @@ public class Bag extends AppCompatActivity {
     private ViewPage v3;
     private ViewPage v4;
 
+    private int PagesCount;
+
     @Override
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bag);
+
+        Layout_Up = (PercentRelativeLayout) findViewById(R.id.Layout_up);
+        Layout_Up.setOnClickListener(this);
+        PagesCount = 1;
 
         transfer1 = (ImageView) findViewById(R.id.transfer1);
         transfer1.setVisibility(View.VISIBLE);
@@ -109,21 +120,25 @@ public class Bag extends AppCompatActivity {
                         Item.setBackgroundResource(v1.SourceId1);
                         Bag_Pic.setBackgroundResource(v1.SourceId2);
                         Item_name.setText(" ? ? ? ");
+                        PagesCount = 1;
                         break;
                     case 1:
                         Item.setBackgroundResource(v2.SourceId1);
                         Bag_Pic.setBackgroundResource(v2.SourceId2);
                         Item_name.setText(" ? ? ? ");
+                        PagesCount = 2;
                         break;
                     case 2:
                         Item.setBackgroundResource(v3.SourceId1);
                         Bag_Pic.setBackgroundResource(v3.SourceId2);
                         Item_name.setText(" ? ? ? ");
+                        PagesCount = 3;
                         break;
                     case 3:
                         Item.setBackgroundResource(v4.SourceId1);
                         Bag_Pic.setBackgroundResource(v4.SourceId2);
                         Item_name.setText(" ? ? ? ");
+                        PagesCount = 4;
                         break;
                 }
             }
@@ -140,6 +155,7 @@ public class Bag extends AppCompatActivity {
         Background.startAnimation(animation3);
         Item.startAnimation(animation3);
         viewPager.startAnimation(animation3);
+        indicator.startAnimation(animation3);
         animation3.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -150,8 +166,6 @@ public class Bag extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 RightArrow.setVisibility(View.VISIBLE);
                 LeftArrow.setVisibility(View.VISIBLE);
-                RightArrow.startAnimation(animation1);
-                LeftArrow.startAnimation(animation1);
             }
 
             @Override
@@ -164,32 +178,58 @@ public class Bag extends AppCompatActivity {
         RightArrow.setVisibility(View.GONE);
         LeftArrow = (ImageView) findViewById(R.id.left_arrow);
         LeftArrow.setVisibility(View.GONE);
-        animation1 = AnimationUtils.loadAnimation(Bag.this, R.anim.up);
-        animation2 = AnimationUtils.loadAnimation(Bag.this, R.anim.down);
-        animation1.setAnimationListener(new Animation.AnimationListener() {
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(RightArrow, "translationX", 0, 50);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(RightArrow, "translationX", 50, 0);
+        Right = new AnimatorSet();
+        Right.setDuration(400);
+        Right.play(objectAnimator2).after(objectAnimator1);
+        Right.start();
+        Right.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(Animator animation) {
+
             }
+
             @Override
-            public void onAnimationEnd(Animation animation) {
-                RightArrow.startAnimation(animation2);
-                LeftArrow.startAnimation(animation2);
+            public void onAnimationEnd(Animator animation) {
+                Right.start();
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
             }
         });
-        animation2.setAnimationListener(new Animation.AnimationListener() {
+        Left = new AnimatorSet();
+        ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(LeftArrow, "translationX", 0, -50);
+        ObjectAnimator objectAnimator4 = ObjectAnimator.ofFloat(LeftArrow, "translationX", -50, 0);
+        Left.setDuration(400);
+        Left.play(objectAnimator4).after(objectAnimator3);
+        Left.start();
+        Left.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(Animator animation) {
+
             }
+
             @Override
-            public void onAnimationEnd(Animation animation) {
-                RightArrow.startAnimation(animation1);
-                LeftArrow.startAnimation(animation1);
+            public void onAnimationEnd(Animator animation) {
+                Left.start();
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
             }
         });
 
@@ -203,11 +243,35 @@ public class Bag extends AppCompatActivity {
         Item_name.startAnimation(animation3);
 
     }
-    public class MyPagerAdapter extends android.support.v4.view.PagerAdapter{
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.Layout_up:
+                Item_name.setText(" ? ? ? ");
+                switch (PagesCount) {
+                    case 1:
+                        Bag_Pic.setBackgroundResource(v1.SourceId2);
+                        break;
+                    case 2:
+                        Bag_Pic.setBackgroundResource(v2.SourceId2);
+                        break;
+                    case 3:
+                        Bag_Pic.setBackgroundResource(v3.SourceId2);
+                        break;
+                    case 4:
+                        Bag_Pic.setBackgroundResource(v4.SourceId2);
+                        break;
+                }
+                break;
+        }
+    }
+
+    public class MyPagerAdapter extends android.support.v4.view.PagerAdapter {
 
         List<ViewPage> List = new ArrayList<>();
 
-        public MyPagerAdapter(){
+        public MyPagerAdapter() {
             v1 = new ViewPage("精灵球", R.drawable.bag_decorate, R.drawable.init_ball, 1);
             v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_ball2, 2);
             v3 = new ViewPage("进化石", R.drawable.bag_decorate2, R.drawable.init_ball3, 3);
@@ -230,12 +294,12 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View)object);
+            container.removeView((View) object);
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            position = position%List.size();
+            position = position % List.size();
             View view = LayoutInflater.from(Bag.this).inflate(R.layout.bag_item, null);
             TextView textView = (TextView) view.findViewById(R.id.item);
             textView.setText(List.get(position).Name);
@@ -294,12 +358,13 @@ public class Bag extends AppCompatActivity {
             return view;
         }
     }
+
     class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         private List<OwnItem> List;
 
         public ItemAdapter(List<OwnItem> List) {
-            this.List= List;
+            this.List = List;
         }
 
         @Override
@@ -308,7 +373,7 @@ public class Bag extends AppCompatActivity {
                     .inflate(R.layout.bag_item_item, parent, false);
             final ViewHolder holder = new ViewHolder(view);
 
-            holder.ItemView.setOnClickListener(new View.OnClickListener(){
+            holder.ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TextView Name = (TextView) v.findViewById(R.id.name);
@@ -325,7 +390,7 @@ public class Bag extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            OwnItem ownItem= List.get(position);
+            OwnItem ownItem = List.get(position);
             holder.Name.setText(ownItem.getName());
             holder.Number.setText(String.valueOf(ownItem.getNumber()));
         }
@@ -339,6 +404,7 @@ public class Bag extends AppCompatActivity {
             TextView Name;
             TextView Number;
             View ItemView;
+
             public ViewHolder(View view) {
                 super(view);
                 Name = (TextView) view.findViewById(R.id.name);
@@ -353,7 +419,8 @@ public class Bag extends AppCompatActivity {
         private int SourceId1;
         private int SourceId2;
         private int Number;
-        public ViewPage(String name, int S1, int S2,int number) {
+
+        public ViewPage(String name, int S1, int S2, int number) {
             this.Name = name;
             this.SourceId1 = S1;
             this.SourceId2 = S2;
