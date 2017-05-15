@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            app:layout_marginRightPercent="20%"
+            app:layout_marginRightPercent="21%"
             app:layout_marginBottomPercent="1%"
             android:id="@+id/indicator"/>
         <ImageView

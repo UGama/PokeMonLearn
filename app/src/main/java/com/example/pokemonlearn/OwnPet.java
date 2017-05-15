@@ -7,33 +7,39 @@ import org.litepal.crud.DataSupport;
  */
 
 public class OwnPet extends DataSupport {
-    private int Id;
+    private int Number;
     private String Name;
-    private int Position;
+    private int ImageResourceId;
 
     public OwnPet() {}
+
+    public OwnPet(String name, int imageResourceId, int number) {
+        Name = name;
+        ImageResourceId = imageResourceId;
+        Number = number;
+    }
 
     public void setName(String name) {
         Name = name;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public void setNumber(int number) {
+        Number = number;
     }
 
-    public void setPosition(int position) {
-        Position = position;
+    public void setImageResourceId(int imageResourceId) {
+        ImageResourceId = imageResourceId;
     }
 
     public String getName() {
         return Name;
     }
 
-    public int getId() {
-        return Id;
+    public int getNumber() {
+        return Number;
     }
 
-    public int getPosition() {
-        return Position;
+    public int getImageResourceId() {
+        return ImageResourceId;
     }
 }

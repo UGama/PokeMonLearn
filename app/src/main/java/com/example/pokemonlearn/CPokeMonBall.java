@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,15 +68,10 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
 
         anim4 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.anim4);
 
-        List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
+        List<OwnItem> ownItems = DataSupport.where("Type = ?", "1").find(OwnItem.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CPokeMonBall.this);
         recyclerView.setLayoutManager(layoutManager);
-        List<OwnItem> items2 = new ArrayList<>();
-        for (PokeMonBall pokeMonBall : pokeMonBalls) {
-            OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 2, pokeMonBall.getImageSourceId());
-            items2.add(ownItem);
-        }
-        ItemAdapter adapter2 = new ItemAdapter(items2);
+        ItemAdapter adapter2 = new ItemAdapter(ownItems);
         recyclerView.setAdapter(adapter2);
 
         Item = (ImageView) findViewById(R.id.Item);

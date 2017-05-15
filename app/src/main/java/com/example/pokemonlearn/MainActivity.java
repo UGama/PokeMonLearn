@@ -1225,7 +1225,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
             int b = (int) (Math.random() * 13610);
             int d = 0;
             for(int j=0;j<i;j++) {
-                if (Math.abs(result[j][0] - a) < 10 && Math.abs(result[j][1] - b) < 20) {
+                if (Math.abs(result[j][0] - a) < 100 && Math.abs(result[j][1] - b) < 200) {
                     d = 1;
                 }
             }
@@ -1392,6 +1392,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     }*/
     protected void onPause() {
         mMapView.onPause();
+        overridePendingTransition(0,0);
         super.onPause();
     }
 
@@ -1410,6 +1411,15 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         }
         mMapView.onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onRestart() {
+        transfer1.setVisibility(View.VISIBLE);
+        transfer2.setVisibility(View.VISIBLE);
+        transfer1.startAnimation(trans_out1);
+        transfer2.startAnimation(trans_out2);
+        super.onRestart();
     }
 }
 

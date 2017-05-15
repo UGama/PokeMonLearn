@@ -24,8 +24,6 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-import static com.example.pokemonlearn.R.id.transfer1;
-
 /**
  * Created by Gama on 7/4/17.
  */
@@ -37,6 +35,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation shrink;
 
     private ImageView Pokemon;
+    private ImageView Pokemon2;
     private ImageView roof;
     private ImageView character;
     private Animation show_up;
@@ -50,7 +49,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation animation1;
     private Animation animation2;
     private int MessageCount;
-    private View.OnClickListener messageClick;
     private PokeMon C_PokeMon;
     private ImageView PMBall;
     private PokeMonBall C_PokeMonBall;
@@ -69,8 +67,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private ImageView transfer22;
     private Animation transit;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +80,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         List = DataSupport.where("Name = ?", name).find(PokeMon.class);
         C_PokeMon = List.get(0);
 
-        white = (ImageView) findViewById(transfer1);
+        white = (ImageView) findViewById(R.id.transfer1);
         white.setVisibility(View.VISIBLE);
         shrink_white = AnimationUtils.loadAnimation(Capture.this, R.anim.white_disapper);
         white.startAnimation(shrink_white);
@@ -108,6 +104,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         Pokemon = (ImageView) findViewById(R.id.pokemon_capture);
         Pokemon.setBackgroundResource(C_PokeMon.getImageSourceId());
         Pokemon.setVisibility(View.GONE);
+        Pokemon2 = (ImageView) findViewById(R.id.pokemon_capture2);
+        Pokemon2.setBackgroundResource(C_PokeMon.getImageSourceId());
+        Pokemon2.setVisibility(View.GONE);
         roof = (ImageView) findViewById(R.id.roof);
         roof.setVisibility(View.GONE);
         character = (ImageView) findViewById(R.id.character_capture);
@@ -253,6 +252,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         PMBall = (ImageView) findViewById(R.id.PMBall);
 
         Judgement = false;
+
+        fightText.setOnClickListener(this);
+
+        trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);
+        trans2_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_down);
     }
 
     @Override
@@ -261,14 +265,14 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             case R.id.bag:
                 Intent intent1 = new Intent(Capture.this, CPokeMonTool.class);
                 startActivityForResult(intent1, 1);
+                overridePendingTransition(0, 0);
                 break;
             case R.id.pokemonBall:
                 Intent intent2 = new Intent(Capture.this, CPokeMonBall.class);
                 startActivityForResult(intent2, 2);
+                overridePendingTransition(0, 0);
                 break;
             case R.id.run:
-                trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);
-                trans2_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_down);
                 transfer21.setVisibility(View.VISIBLE);
                 transfer21.startAnimation(trans1_in);
                 transfer22.setVisibility(View.VISIBLE);
@@ -310,76 +314,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 });
                 break;
             case R.id.fight_text:
-                break;
-        }
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (v.getId()) {
-            case R.id.bag:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Bag.getBackground().setAlpha(120);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Bag.getBackground().setAlpha(255);
-                }
-                break;
-            case R.id.pokemonBall:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    pokemonBall.getBackground().setAlpha(120);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    pokemonBall.getBackground().setAlpha(255);
-                }
-                break;
-            case R.id.run:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    run.getBackground().setAlpha(120);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    run.getBackground().setAlpha(255);
-                }
-                break;
-        }
-        return false;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    String PMTool = data.getStringExtra("PMTool");
-                    Log.i("PMTool", PMTool);
-                }
-                break;
-            case 2:
-                if (resultCode == RESULT_OK) {
-                    String pmBall = data.getStringExtra("PMBall");
-                    Log.i("PMBall", pmBall);
-                    List<PokeMonBall> list = DataSupport.where("Name = ?", pmBall).find(PokeMonBall.class);
-                    C_PokeMonBall = list.get(0);
-                    PMBall.setBackgroundResource(C_PokeMonBall.getImageSourceId());
-                    PMBall.setVisibility(View.VISIBLE);
-                    ProfileMotion(PMBall);
-                }
-                break;
-        }
-    }
-
-    public void ScreenRun(View view) {
-        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
-                1.0f, 0.0f);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
-                0, 450);
-        AnimatorSet animSet = new AnimatorSet();
-        animSet.setDuration(2000);
-        animSet.setInterpolator(new LinearInterpolator());
-        animSet.playTogether(anim1, anim2);
-        animSet.start();
-
-        messageClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 switch (MessageCount) {
                     case 1:
                         ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
@@ -432,13 +366,128 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         pokemonBall.startAnimation(float1);
                         run.startAnimation(float3);
                         break;
+                    case 3:
+                        MessageCount++;
+                        transfer21.setVisibility(View.VISIBLE);
+                        transfer21.startAnimation(trans1_in);
+                        transfer22.setVisibility(View.VISIBLE);
+                        transfer22.startAnimation(trans2_in);
+                        trans1_in.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                finish();
+                                transit = AnimationUtils.loadAnimation(Capture.this, R.anim.transit);
+                                transfer21.startAnimation(transit);
+                                transit.setAnimationListener(new Animation.AnimationListener() {
+                                    @Override
+                                    public void onAnimationStart(Animation animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationEnd(Animation animation) {
+                                        transfer21.setVisibility(View.GONE);
+                                        transfer22.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onAnimationRepeat(Animation animation) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        break;
                 }
-            }
-        };
-        fightText.setOnClickListener(messageClick);
+                break;
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.bag:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Bag.getBackground().setAlpha(120);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Bag.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.pokemonBall:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    pokemonBall.getBackground().setAlpha(120);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    pokemonBall.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.run:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    run.getBackground().setAlpha(120);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    run.getBackground().setAlpha(255);
+                }
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    String PMTool = data.getStringExtra("PMTool");
+                    Log.i("PMTool", PMTool);
+                }
+                break;
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    String pmBall = data.getStringExtra("PMBall");
+                    Log.i("PMBall", pmBall);
+                    List<PokeMonBall> list = DataSupport.where("Name = ?", pmBall).find(PokeMonBall.class);
+                    C_PokeMonBall = list.get(0);
+                    int a = C_PokeMonBall.getNumber() - 1;
+                    if (a == 0) {
+                        DataSupport.deleteAll(OwnItem.class, "Name = ?", C_PokeMonBall.getName());
+                    } else {
+                        OwnItem ownItem = new OwnItem();
+                        ownItem.setNumber(a);
+                        ownItem.updateAll("Name = ?", pmBall);
+                    }
+                    PMBall.setBackgroundResource(C_PokeMonBall.getImageSourceId());
+                    PMBall.setVisibility(View.VISIBLE);
+                    ProfileMotion(PMBall);
+                }
+                break;
+        }
+    }
+
+    public void ScreenRun(View view) {
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
+                1.0f, 0.0f);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
+                0, 450);
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.setDuration(2000);
+        animSet.setInterpolator(new LinearInterpolator());
+        animSet.playTogether(anim1, anim2);
+        animSet.start();
+
     }
 
     public void ProfileMotion(final View V) {
+        fightMessage.setVisibility(View.GONE);
         ValueAnimator valueAnimator = new ValueAnimator();
         valueAnimator.setDuration(2000);
         valueAnimator.setObjectValues(new PointF(70, 475));
@@ -555,7 +604,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
     public void HitGround() {
         ValueAnimator valueAnimator = new ValueAnimator();
-        valueAnimator.setDuration(1600);
+        valueAnimator.setDuration(2400);
         valueAnimator.setObjectValues(new PointF(770, 0));
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
@@ -563,17 +612,25 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             @Override
             public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
                 PointF point = new PointF();
-                if (fraction < 0.4) {
+                if (fraction < 0.3) {
                     point.x = 770;
-                    point.y = 117 * (fraction * 4) * (fraction * 4);
+                    point.y = 0.5f * 1157.4f * (fraction * 2.4f) * (fraction * 2.4f);
+                } else if (fraction < 0.5) {
+                    fraction = 0.5f - fraction;
+                    point.x = 770;
+                    point.y = 300 - 133.3f + 0.5f * 1157.4f * (fraction * 2.4f) * (fraction * 2.4f);
                 } else if (fraction < 0.7) {
-                    fraction = 0.7f - fraction;
+                    fraction -= 0.5f;
                     point.x = 770;
-                    point.y = 300 - 108 + 75 * (fraction * 4) * (fraction * 4);
+                    point.y = 300 - 133.3f + 0.5f * 1157.4f * (fraction * 2.4f) * (fraction * 2.4f);
+                } else if (fraction < 0.85) {
+                    fraction = 0.85f - fraction;
+                    point.x = 770;
+                    point.y = 300 - 75 + 0.5f * 1157.4f * (fraction * 2.4f) * (fraction * 2.4f);
                 } else {
-                    fraction -= 0.7;
+                    fraction -= 0.85f;
                     point.x = 770;
-                    point.y = 192 + 75 * (fraction * 4) * (fraction * 4);
+                    point.y = 300 - 75 + 0.5f * 1157.4f * (fraction * 2.4f) * (fraction * 2.4f);
                 }
                 return point;
             }
@@ -828,10 +885,108 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
     public void Judge() {
         if (PMJudge()) {
+            OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2);
+            ownPet.save();
+            fightMessage.setVisibility(View.VISIBLE);
+            fightMessage.setText("恭喜！捕获成功！");
+            next_text.setVisibility(View.VISIBLE);
+            animation1 = AnimationUtils.loadAnimation(Capture.this, R.anim.up2);
+            animation1.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    next_text.startAnimation(animation2);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            animation2 = AnimationUtils.loadAnimation(Capture.this, R.anim.down2);
+            animation2.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    next_text.startAnimation(animation1);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            next_text.startAnimation(animation1);
+            ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+                    1.0f, 0.0f);
+            ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+                    0, 450);
+            AnimatorSet animSet = new AnimatorSet();
+            animSet.setDuration(2000);
+            animSet.setInterpolator(new LinearInterpolator());
+            animSet.playTogether(anim1, anim2);
+            animSet.start();
+            MessageCount++;
         } else {
+            fightMessage.setVisibility(View.VISIBLE);
+            fightMessage.setText("抱歉！捕获失败！");
+            next_text.setVisibility(View.VISIBLE);
+            animation1 = AnimationUtils.loadAnimation(Capture.this, R.anim.up2);
+            animation1.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    next_text.startAnimation(animation2);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            animation2 = AnimationUtils.loadAnimation(Capture.this, R.anim.down2);
+            animation2.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    next_text.startAnimation(animation1);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            next_text.startAnimation(animation1);
+            ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+                    1.0f, 0.0f);
+            ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+                    0, 450);
+            AnimatorSet animSet = new AnimatorSet();
+            animSet.setDuration(2000);
+            animSet.setInterpolator(new LinearInterpolator());
+            animSet.playTogether(anim1, anim2);
+            animSet.start();
+            PMEscape();
+            MessageCount++;
         }
+
     }
 
     public boolean PMJudge() {
@@ -845,5 +1000,22 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         }
         Log.i("Judgement", String.valueOf(Judgement));
         return Judgement;
+    }
+
+    public void PMEscape() {
+        PMBall.setVisibility(View.GONE);
+        Pokemon2.setVisibility(View.VISIBLE);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Pokemon2, "scaleX", 0.0f, 1.0f);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(Pokemon2, "scaleY", 0.0f, 1.0f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(500);
+        animatorSet.playTogether(objectAnimator1, objectAnimator2);
+        animatorSet.start();
+    }
+
+    @Override
+    protected void onPause() {
+        overridePendingTransition(0,0);
+        super.onPause();
     }
 }

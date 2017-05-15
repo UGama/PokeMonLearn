@@ -89,7 +89,7 @@ public class MyPet extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             OwnPet pokeMon = myPetList.get(position);
-            holder.imageView.setImageResource(pokeMon.getPosition());
+            holder.imageView.setImageResource(pokeMon.getImageResourceId());
             holder.PokeMonName.setText(pokeMon.getName());
         }
 
