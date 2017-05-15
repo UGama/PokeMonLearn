@@ -53,6 +53,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private ImageView PMBall;
     private PokeMonBall C_PokeMonBall;
     private boolean Judgement;
+    private int StruggleCount;
 
     private Button Bag;
     private Button pokemonBall;
@@ -251,6 +252,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
         PMBall = (ImageView) findViewById(R.id.PMBall);
 
+        StruggleCount = 0;
         Judgement = false;
 
         fightText.setOnClickListener(this);
@@ -368,6 +370,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         break;
                     case 3:
                         MessageCount++;
+                        fightMessage.setText(C_PokeMon.getName() + " 逃跑了。");
+                        ScreenRun(Text_Screen);
+                        break;
+                    case 4:
+                        MessageCount++;
                         transfer21.setVisibility(View.VISIBLE);
                         transfer21.startAnimation(trans1_in);
                         transfer22.setVisibility(View.VISIBLE);
@@ -453,19 +460,24 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 break;
             case 2:
                 if (resultCode == RESULT_OK) {
+                    Bag.setVisibility(View.GONE);
+                    pokemonBall.setVisibility(View.GONE);
+                    run.setVisibility(View.GONE);
                     String pmBall = data.getStringExtra("PMBall");
                     Log.i("PMBall", pmBall);
-                    List<PokeMonBall> list = DataSupport.where("Name = ?", pmBall).find(PokeMonBall.class);
-                    C_PokeMonBall = list.get(0);
-                    int a = C_PokeMonBall.getNumber() - 1;
+                    List<PokeMonBall> list0 = DataSupport.where("Name = ?", pmBall).find(PokeMonBall.class);
+                    C_PokeMonBall = list0.get(0);
+                    List<OwnItem> list = DataSupport.where("Name = ?", pmBall).find(OwnItem.class);
+                    OwnItem ownItem0 = list.get(0);
+                    int a = ownItem0.getNumber() - 1;
                     if (a == 0) {
-                        DataSupport.deleteAll(OwnItem.class, "Name = ?", C_PokeMonBall.getName());
+                        DataSupport.deleteAll(OwnItem.class, "Name = ?", ownItem0.getName());
                     } else {
                         OwnItem ownItem = new OwnItem();
                         ownItem.setNumber(a);
                         ownItem.updateAll("Name = ?", pmBall);
                     }
-                    PMBall.setBackgroundResource(C_PokeMonBall.getImageSourceId());
+                    PMBall.setBackgroundResource(ownItem0.getImageResourceId());
                     PMBall.setVisibility(View.VISIBLE);
                     ProfileMotion(PMBall);
                 }
@@ -692,6 +704,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
     public void Struggle() {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 45);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
         ValueAnimator valueAnimator = new ValueAnimator();
         valueAnimator.setObjectValues(new PointF(70, 475));
         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -716,7 +729,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         });
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(300);
-        animatorSet.play(objectAnimator).with(valueAnimator);
+        animatorSet.play(objectAnimator).with(valueAnimator).after(objectAnimator1);
         animatorSet.start();
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
@@ -832,7 +845,13 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
-                                        Judge();
+                                        StruggleCount++;
+                                        if (StruggleCount < 2) {
+                                            Struggle();
+                                        } else {
+                                            StruggleCount = 0;
+                                            Judge();
+                                        }
                                     }
 
                                     @Override
@@ -934,57 +953,80 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             animSet.setInterpolator(new LinearInterpolator());
             animSet.playTogether(anim1, anim2);
             animSet.start();
-            MessageCount++;
+            MessageCount += 2;
         } else {
-            fightMessage.setVisibility(View.VISIBLE);
-            fightMessage.setText("抱歉！捕获失败！");
-            next_text.setVisibility(View.VISIBLE);
-            animation1 = AnimationUtils.loadAnimation(Capture.this, R.anim.up2);
-            animation1.setAnimationListener(new Animation.AnimationListener() {
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+            objectAnimator.setDuration(300);
+            objectAnimator.start();
+            objectAnimator.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
+                public void onAnimationStart(Animator animation) {
 
                 }
 
                 @Override
-                public void onAnimationEnd(Animation animation) {
-                    next_text.startAnimation(animation2);
-                }
+                public void onAnimationEnd(Animator animation) {
+                    fightMessage.setVisibility(View.VISIBLE);
+                    fightMessage.setText("抱歉！捕获失败！");
+                    next_text.setVisibility(View.VISIBLE);
+                    animation1 = AnimationUtils.loadAnimation(Capture.this, R.anim.up2);
+                    animation1.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+                        }
 
-                }
-            });
-            animation2 = AnimationUtils.loadAnimation(Capture.this, R.anim.down2);
-            animation2.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            next_text.startAnimation(animation2);
+                        }
 
-                }
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
+                        }
+                    });
+                    animation2 = AnimationUtils.loadAnimation(Capture.this, R.anim.down2);
+                    animation2.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            next_text.startAnimation(animation1);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
                     next_text.startAnimation(animation1);
+                    ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+                            1.0f, 0.0f);
+                    ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+                            0, 450);
+                    AnimatorSet animSet = new AnimatorSet();
+                    animSet.setDuration(2000);
+                    animSet.setInterpolator(new LinearInterpolator());
+                    animSet.playTogether(anim1, anim2);
+                    animSet.start();
+                    PMEscape();
+                    MessageCount++;
                 }
 
                 @Override
-                public void onAnimationRepeat(Animation animation) {
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
 
                 }
             });
-            next_text.startAnimation(animation1);
-            ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
-                    1.0f, 0.0f);
-            ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
-                    0, 450);
-            AnimatorSet animSet = new AnimatorSet();
-            animSet.setDuration(2000);
-            animSet.setInterpolator(new LinearInterpolator());
-            animSet.playTogether(anim1, anim2);
-            animSet.start();
-            PMEscape();
-            MessageCount++;
         }
 
     }

@@ -49,7 +49,7 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.c_series);
 
-        animation2 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.anim2);
+        animation2 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.c_series_show);
         Left_Shape = (ImageView) findViewById(R.id.left_shape);
         Right_Shape1 = (PercentRelativeLayout) findViewById(R.id.right_shape1);
         Right_Shape2 = (PercentRelativeLayout) findViewById(R.id.right_shape2);

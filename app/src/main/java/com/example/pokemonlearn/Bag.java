@@ -306,51 +306,31 @@ public class Bag extends AppCompatActivity implements View.OnClickListener {
             recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
             switch (List.get(position).Number) {
                 case 1:
-                    List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
+                    List<OwnItem> ownItems1 = DataSupport.where("Type = ?", "1").find(OwnItem.class);
                     LinearLayoutManager layoutManager1 = new LinearLayoutManager(Bag.this);
                     recyclerView.setLayoutManager(layoutManager1);
-                    List<OwnItem> items1 = new ArrayList<>();
-                    for (PokeMonBall pokeMonBall : pokeMonBalls) {
-                        OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 1, pokeMonBall.getImageSourceId());
-                        items1.add(ownItem);
-                    }
-                    ItemAdapter adapter1 = new ItemAdapter(items1);
+                    ItemAdapter adapter1 = new ItemAdapter(ownItems1);
                     recyclerView.setAdapter(adapter1);
                     break;
                 case 2:
-                    List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
+                    List<OwnItem> ownItems2 = DataSupport.where("Type = ?", "2").find(OwnItem.class);
                     LinearLayoutManager layoutManager2 = new LinearLayoutManager(Bag.this);
                     recyclerView.setLayoutManager(layoutManager2);
-                    List<OwnItem> items2 = new ArrayList<>();
-                    for (PokeMonTool pokeMonTool : pokeMonTools) {
-                        OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId());
-                        items2.add(ownItem);
-                    }
-                    ItemAdapter adapter2 = new ItemAdapter(items2);
+                    ItemAdapter adapter2 = new ItemAdapter(ownItems2);
                     recyclerView.setAdapter(adapter2);
                     break;
                 case 3:
-                    List<PokeMonStone> pokeMonStones = DataSupport.findAll(PokeMonStone.class);
+                    List<OwnItem> ownItems3 = DataSupport.where("Type = ?", "3").find(OwnItem.class);
                     LinearLayoutManager layoutManager3 = new LinearLayoutManager(Bag.this);
                     recyclerView.setLayoutManager(layoutManager3);
-                    List<OwnItem> items3 = new ArrayList<>();
-                    for (PokeMonStone pokeMonStone : pokeMonStones) {
-                        OwnItem ownItem = new OwnItem(pokeMonStone.getName(), pokeMonStone.getNumber(), 3, pokeMonStone.getImageResourceId());
-                        items3.add(ownItem);
-                    }
-                    ItemAdapter adapter3 = new ItemAdapter(items3);
+                    ItemAdapter adapter3 = new ItemAdapter(ownItems3);
                     recyclerView.setAdapter(adapter3);
                     break;
                 case 4:
-                    List<PokeMonBook> pokeMonBooks = DataSupport.findAll(PokeMonBook.class);
+                    List<OwnItem> ownItems4 = DataSupport.where("Type = ?", "4").find(OwnItem.class);
                     LinearLayoutManager layoutManager4 = new LinearLayoutManager(Bag.this);
                     recyclerView.setLayoutManager(layoutManager4);
-                    List<OwnItem> items4 = new ArrayList<>();
-                    for (PokeMonBook pokeMonBook : pokeMonBooks) {
-                        OwnItem ownItem = new OwnItem(pokeMonBook.getName(), pokeMonBook.getNumber(), 4, pokeMonBook.getImageResourceId());
-                        items4.add(ownItem);
-                    }
-                    ItemAdapter adapter4 = new ItemAdapter(items4);
+                    ItemAdapter adapter4 = new ItemAdapter(ownItems4);
                     recyclerView.setAdapter(adapter4);
                     break;
             }

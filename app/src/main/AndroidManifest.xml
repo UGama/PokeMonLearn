@@ -39,7 +39,7 @@
         <activity android:name=".Capture" />
         <activity android:name=".Bag" />
         <activity android:name=".PokeDex" />
-        <activity android:name=".MyPet" />
+        <activity android:name=".Pet" />
         <activity android:name=".DatabaseOperate"/>
         <activity android:name=".CPokeMonTool" />
         <activity android:name=".CPokeMonBall" />

@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Gama on 9/4/17.
  */
 
-public class MyPet extends AppCompatActivity {
+public class Pet extends AppCompatActivity {
     private List<OwnPet> list;
     private ImageView transfer1;
     private ImageView transfer2;
@@ -34,8 +34,8 @@ public class MyPet extends AppCompatActivity {
 
         transfer1 = (ImageView) findViewById(R.id.transfer1);
         transfer2 = (ImageView) findViewById(R.id.transfer2);
-        trans_out1 = AnimationUtils.loadAnimation(MyPet.this, R.anim.trans_out_up);
-        trans_out2 = AnimationUtils.loadAnimation(MyPet.this, R.anim.trans_out_down);
+        trans_out1 = AnimationUtils.loadAnimation(Pet.this, R.anim.trans_out_up);
+        trans_out2 = AnimationUtils.loadAnimation(Pet.this, R.anim.trans_out_down);
         transfer1.startAnimation(trans_out1);
         transfer2.startAnimation(trans_out2);
         trans_out2.setAnimationListener(new Animation.AnimationListener() {
@@ -68,7 +68,7 @@ public class MyPet extends AppCompatActivity {
 
         private List<OwnPet> myPetList;
 
-        public OwnPetAdapter(List<OwnPet> myPetList) {
+        private OwnPetAdapter(List<OwnPet> myPetList) {
             this.myPetList = myPetList;
         }
 
