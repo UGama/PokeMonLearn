@@ -106,6 +106,7 @@ public class DatabaseOperate extends AppCompatActivity {
         Pikachu.setImageResourceId(R.drawable.pikachu2);
         Pikachu.setNumber(1);
         Pikachu.setName("Pikachu");
+        Pikachu.setBallImageResourceId(R.drawable.pokeball);
         Pikachu.save();
     }
 

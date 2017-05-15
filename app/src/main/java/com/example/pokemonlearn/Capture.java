@@ -8,7 +8,6 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -69,7 +68,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private Animation transit;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.capture);
 
@@ -103,10 +102,10 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         });
 
         Pokemon = (ImageView) findViewById(R.id.pokemon_capture);
-        Pokemon.setBackgroundResource(C_PokeMon.getImageSourceId());
+        Pokemon.setImageResource(C_PokeMon.getImageSourceId());
         Pokemon.setVisibility(View.GONE);
         Pokemon2 = (ImageView) findViewById(R.id.pokemon_capture2);
-        Pokemon2.setBackgroundResource(C_PokeMon.getImageSourceId());
+        Pokemon2.setImageResource(C_PokeMon.getImageSourceId());
         Pokemon2.setVisibility(View.GONE);
         roof = (ImageView) findViewById(R.id.roof);
         roof.setVisibility(View.GONE);
@@ -904,7 +903,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
     public void Judge() {
         if (PMJudge()) {
-            OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2);
+            OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2, C_PokeMonBall.getImageSourceId());
             ownPet.save();
             fightMessage.setVisibility(View.VISIBLE);
             fightMessage.setText("恭喜！捕获成功！");
@@ -1060,4 +1059,5 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         overridePendingTransition(0,0);
         super.onPause();
     }
+
 }

@@ -46,6 +46,7 @@ import java.util.List;
  * Noted by Gama on 21/3/17 (Happy Birthday, MCX!).
  * Created by Gama on 7/4/17 (Second Version).
  * Noted by Gama on 11/5/17 (Love Seat With Me).
+ * Noted by Gama on 15/5/17 (Ashamed Of Myself).
  */
 
 public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarkerClickListener, View.OnClickListener, View.OnTouchListener, BaiduMap.OnMapClickListener {

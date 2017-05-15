@@ -10,13 +10,15 @@ public class OwnPet extends DataSupport {
     private int Number;
     private String Name;
     private int ImageResourceId;
+    private int BallImageResourceId;
 
     public OwnPet() {}
 
-    public OwnPet(String name, int imageResourceId, int number) {
+    public OwnPet(String name, int imageResourceId, int number, int ballImageResourceId) {
         Name = name;
         ImageResourceId = imageResourceId;
         Number = number;
+        BallImageResourceId = ballImageResourceId;
     }
 
     public void setName(String name) {
@@ -41,5 +43,13 @@ public class OwnPet extends DataSupport {
 
     public int getImageResourceId() {
         return ImageResourceId;
+    }
+
+    public void setBallImageResourceId(int ballImageResourceId) {
+        BallImageResourceId = ballImageResourceId;
+    }
+
+    public int getBallImageResourceId() {
+        return BallImageResourceId;
     }
 }
