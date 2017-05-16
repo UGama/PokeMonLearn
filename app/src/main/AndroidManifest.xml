@@ -43,6 +43,7 @@
         <activity android:name=".DatabaseOperate"/>
         <activity android:name=".CPokeMonTool" />
         <activity android:name=".CPokeMonBall" />
+        <activity android:name=".Shop" />
     </application>
 
 </manifest>

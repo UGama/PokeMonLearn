@@ -1047,6 +1047,11 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                         .setMyLocationConfigeration(new MyLocationConfiguration(
                                 MyLocationConfiguration.LocationMode.FOLLOWING, true, null));
                 break;
+            case R.id.shop:
+                Intent intent3 = new Intent(MainActivity.this, Shop.class);
+                startActivity(intent3);
+                overridePendingTransition(0, 0);
+                break;
         }
     }
 

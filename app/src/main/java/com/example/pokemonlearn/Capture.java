@@ -152,8 +152,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 fightText.startAnimation(fightText_show);
                 fightMessage.setVisibility(View.VISIBLE);
                 fightMessage.startAnimation(fightText_show);
-                next_text.setVisibility(View.VISIBLE);
-                next_text.startAnimation(fightText_show);
             }
 
             @Override
@@ -201,6 +199,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                next_text.setVisibility(View.VISIBLE);
                 animation1 = AnimationUtils.loadAnimation(Capture.this, R.anim.up2);
                 animation1.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -490,7 +489,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
                 0, 450);
         AnimatorSet animSet = new AnimatorSet();
-        animSet.setDuration(2000);
+        animSet.setDuration(1500);
         animSet.setInterpolator(new LinearInterpolator());
         animSet.playTogether(anim1, anim2);
         animSet.start();
