@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -54,6 +55,14 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
     private Animation animation1;
     private Animation animation2;
     private int MessageCount;
+
+    private ImageView Waitress;
+    private Animation waitress;
+
+    private TextView Shop_Wood;
+    private ImageView Cast;
+    private Animation Up;
+    private Animation Down;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,8 +189,36 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
             }
         });
 
+        Waitress = (ImageView) findViewById(R.id.waitress);
+        Waitress.setVisibility(View.GONE);
+        waitress = AnimationUtils.loadAnimation(Shop.this, R.anim.waitress);
+        waitress.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Shop_Wood.setVisibility(View.VISIBLE);
+                Cast.setVisibility(View.VISIBLE);
+                ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Shop_Wood, "Alpha", 0, 1);
+                objectAnimator1.setDuration(400);
+                objectAnimator1.start();
+                ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(Cast, "Alpha", 0, 1);
+                objectAnimator2.setDuration(400);
+                objectAnimator2.start();
+                Cast();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         ObjectAnimator cd = ObjectAnimator.ofFloat(Coin, "rotation", 0, 0);
-        cd.setDuration(2000);
+        cd.setDuration(3000);
         cd.start();
         cd.addListener(new Animator.AnimatorListener() {
             @Override
@@ -195,6 +232,8 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
                 ShopText.startAnimation(ShopText_show);
                 ShopMessage.setVisibility(View.VISIBLE);
                 ShopMessage.startAnimation(ShopText_show);
+                Waitress.setVisibility(View.VISIBLE);
+                Waitress.startAnimation(waitress);
             }
 
             @Override
@@ -207,6 +246,11 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
 
             }
         });
+
+        Shop_Wood = (TextView) findViewById(R.id.shop_wood);
+        Shop_Wood.setVisibility(View.GONE);
+        Cast = (ImageView) findViewById(R.id.cast);
+        Cast.setVisibility(View.GONE);
 
     }
     public void CoinShow() {
@@ -256,6 +300,51 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
                 Coin.setY(point.y);
             }
         });
+    }
+
+    public void Cast() {
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Shop_Wood, "translationY", 0, 40);
+        objectAnimator1.setDuration(400);
+        objectAnimator1.setInterpolator(new AccelerateDecelerateInterpolator());
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(Shop_Wood, "translationY", 40, 0);
+        objectAnimator2.setDuration(400);
+        objectAnimator2.setInterpolator(new AccelerateDecelerateInterpolator());
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.play(objectAnimator1).before(objectAnimator2);
+        animatorSet1.start();
+
+        ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(Cast, "translationY", 0, 40);
+        objectAnimator3.setDuration(400);
+        objectAnimator3.setInterpolator(new AccelerateDecelerateInterpolator());
+        ObjectAnimator objectAnimator4 = ObjectAnimator.ofFloat(Cast, "translationY", 40, 0);
+        objectAnimator4.setDuration(400);
+        objectAnimator4.setInterpolator(new AccelerateDecelerateInterpolator());
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        animatorSet2.play(objectAnimator3).before(objectAnimator4);
+        animatorSet2.start();
+        animatorSet2.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                Cast();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+
     }
 
     @Override
