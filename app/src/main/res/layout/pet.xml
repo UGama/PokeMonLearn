@@ -23,6 +23,7 @@
                 android:layout_centerInParent="true"
                 app:layout_widthPercent="90%"
                 app:layout_heightPercent="90%"
+                android:src="@drawable/pet_init1"
                 />
 
         </android.support.percent.PercentRelativeLayout>
@@ -30,48 +31,41 @@
             android:background="@drawable/pet_shape"
             android:id="@+id/Layout_Left2"
             app:layout_widthPercent="26%"
-            app:layout_heightPercent="33%"
+            app:layout_heightPercent="30%"
             android:layout_alignParentBottom="true"
             app:layout_marginBottomPercent="6%"
             >
             <Button
                 android:id="@+id/free"
-                android:background="@drawable/c_button"
-                android:text="放生"
+                android:background="@drawable/free"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
-                app:layout_widthPercent="90%"
-                app:layout_heightPercent="25%"
+                app:layout_widthPercent="92%"
+                app:layout_heightPercent="32%"
+                app:layout_marginTopPercent="3%"
                 />
             <Button
                 android:id="@+id/evolve"
-                android:background="@drawable/c_button"
-                android:text="进化"
+                android:background="@drawable/evolve"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
-                app:layout_widthPercent="90%"
-                app:layout_heightPercent="25%"
+                app:layout_widthPercent="92%"
+                app:layout_heightPercent="32%"
                 android:layout_below="@+id/free"
                 />
             <Button
                 android:id="@+id/learn"
-                android:background="@drawable/c_button"
-                android:text="学习"
+                android:background="@drawable/learn"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
-                app:layout_widthPercent="90%"
-                app:layout_heightPercent="25%"
+                app:layout_widthPercent="92%"
+                app:layout_heightPercent="31%"
                 android:layout_below="@id/evolve"
                 />
-            <Button
-                android:id="@+id/Return"
-                android:background="@drawable/c_button"
-                android:text="返回"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                app:layout_widthPercent="90%"
-                app:layout_heightPercent="25%"
-                android:layout_below="@+id/learn"
+            <ImageView
+                android:background="@drawable/pet_shape1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 />
 
         </android.support.percent.PercentRelativeLayout>
@@ -104,13 +98,45 @@
             >
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/RecyclerView"
-                app:layout_heightPercent="93%"
-                android:layout_centerInParent="true"
+                app:layout_heightPercent="94%"
+                android:layout_centerHorizontal="true"
+                app:layout_marginTopPercent="3%"
                 app:layout_widthPercent="90%"
                 />
-
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/pokedex_shape1"
+                />
+            <ImageView
+                android:id="@+id/ball1"
+                android:background="@drawable/decorte_ball2"
+                app:layout_widthPercent="14%"
+                app:layout_heightPercent="10%"
+                />
+            <ImageView
+                android:id="@+id/ball2"
+                android:background="@drawable/decorte_ball2"
+                app:layout_widthPercent="14%"
+                app:layout_heightPercent="10%"
+                android:layout_alignParentRight="true"
+                />
+            <ImageView
+                android:id="@+id/ball3"
+                android:background="@drawable/decorte_ball2"
+                app:layout_widthPercent="14%"
+                app:layout_heightPercent="10%"
+                android:layout_alignParentBottom="true"
+                />
+            <ImageView
+                android:id="@+id/ball4"
+                android:background="@drawable/decorte_ball2"
+                app:layout_widthPercent="14%"
+                app:layout_heightPercent="10%"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                />
         </android.support.percent.PercentRelativeLayout>
-
 
     </android.support.percent.PercentRelativeLayout>
 

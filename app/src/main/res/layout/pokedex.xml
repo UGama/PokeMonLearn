@@ -23,7 +23,7 @@
 
             <ImageView
                 android:id="@+id/wanted"
-                android:background="@drawable/pokedex_shape2"
+                android:background="@drawable/pokedex_shape1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_widthPercent="84%"

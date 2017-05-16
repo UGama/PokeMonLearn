@@ -2,15 +2,18 @@ package com.example.pokemonlearn;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,14 +25,28 @@ import java.util.List;
  * Created by Gama on 15/5/17.
  */
 
-public class Pet extends AppCompatActivity implements View.OnClickListener {
+public class Pet extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
     private List<OwnPet> list;
     private ImageView transfer1;
     private ImageView transfer2;
     private Animation trans_out1;
     private Animation trans_out2;
 
+    private PercentRelativeLayout Layout_Left1;
+    private PercentRelativeLayout Layout_Left2;
+    private PercentRelativeLayout Layout_Right;
+    private Button Free;
+    private Button Evolve;
+    private Button Learn;
+    private ImageView Connect1;
+    private ImageView Connect2;
     private ImageView Pet_Init;
+    private RecyclerView recyclerView;
+    private Animation animation2;
+    private Animation animation3;
+    private boolean FirstTouch;
+    private Animation Right;
+    private Animation Left;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,15 +80,63 @@ public class Pet extends AppCompatActivity implements View.OnClickListener {
 
         list = DataSupport.findAll(OwnPet.class);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         OwnPetAdapter adapter = new OwnPetAdapter(list);
         recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.GONE);
 
         Pet_Init = (ImageView) findViewById(R.id.pet_init);
+        Pet_Init.setVisibility(View.GONE);
         Pet_Init.setOnClickListener(this);
-        DecorateInit();
+
+        Right = AnimationUtils.loadAnimation(Pet.this, R.anim.dex_shape_right);
+        Left = AnimationUtils.loadAnimation(Pet.this, R.anim.dex_shape_left);
+
+        animation2 = AnimationUtils.loadAnimation(Pet.this, R.anim.anim2);
+        animation3 = AnimationUtils.loadAnimation(Pet.this, R.anim.anim3);
+        Layout_Left1 = (PercentRelativeLayout) findViewById(R.id.Layout_Left1);
+        Layout_Right = (PercentRelativeLayout) findViewById(R.id.Layout_Right);
+        Layout_Left1.startAnimation(animation2);
+        Layout_Right.startAnimation(animation2);
+        Connect1 = (ImageView) findViewById(R.id.connect1);
+        Connect1.startAnimation(animation3);
+        animation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.startAnimation(Right);
+                Pet_Init.setVisibility(View.VISIBLE);
+                Pet_Init.startAnimation(Left);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        Layout_Left2 = (PercentRelativeLayout) findViewById(R.id.Layout_Left2);
+        Layout_Left2.setVisibility(View.GONE);
+        Connect2 = (ImageView) findViewById(R.id.connect2);
+        Connect2.setVisibility(View.GONE);
+        FirstTouch = true;
+
+        Free = (Button) findViewById(R.id.free);
+        Evolve = (Button) findViewById(R.id.evolve);
+        Learn = (Button) findViewById(R.id.learn);
+        Free.setOnClickListener(this);
+        Evolve.setOnClickListener(this);
+        Learn.setOnClickListener(this);
+        Free.setOnTouchListener(this);
+        Evolve.setOnTouchListener(this);
+        Learn.setOnTouchListener(this);
     }
 
     @Override
@@ -81,6 +146,34 @@ public class Pet extends AppCompatActivity implements View.OnClickListener {
                 DecorateInit();
                 break;
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.free:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Free.getBackground().setAlpha(125);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Free.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.evolve:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Evolve.getBackground().setAlpha(125);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Evolve.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.learn:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Learn.getBackground().setAlpha(125);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Learn.getBackground().setAlpha(255);
+                }
+                break;
+        }
+        return false;
     }
 
     class OwnPetAdapter extends RecyclerView.Adapter<OwnPetAdapter.ViewHolder> {
@@ -100,6 +193,11 @@ public class Pet extends AppCompatActivity implements View.OnClickListener {
             holder.PetItemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
+                    if (FirstTouch) {
+                        Layout_Left2.setVisibility(View.VISIBLE);
+                        Connect2.setVisibility(View.VISIBLE);
+                        FirstTouch = false;
+                    }
                 }
             });
             return holder;
