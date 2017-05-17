@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +28,7 @@ import java.util.List;
  */
 
 public class CPokeMonTool extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
+    private PercentRelativeLayout Layout_Up;
     private Animation animation2;
     private ImageView Left_Shape;
     private PercentRelativeLayout Right_Shape1;
@@ -48,9 +48,11 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.c_series);
+        setContentView(R.layout.pc_series);
 
-        animation2 = AnimationUtils.loadAnimation(CPokeMonTool.this, R.anim.c_series_show);
+        Layout_Up = (PercentRelativeLayout) findViewById(R.id.Layout_up);
+        Layout_Up.setOnClickListener(this);
+        animation2 = AnimationUtils.loadAnimation(CPokeMonTool.this, R.anim.pc_series_show);
         Left_Shape = (ImageView) findViewById(R.id.left_shape);
         Right_Shape1 = (PercentRelativeLayout) findViewById(R.id.right_shape1);
         Right_Shape2 = (PercentRelativeLayout) findViewById(R.id.right_shape2);
@@ -66,18 +68,14 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
 
         Item_name = (TextView) findViewById(R.id.item_name);
         Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
+        Bag_Pic.setBackgroundResource(R.drawable.init_ball2);
 
         anim4 = AnimationUtils.loadAnimation(CPokeMonTool.this, R.anim.anim4);
 
-        List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
+        List<OwnItem> ownItems = DataSupport.where("Type = ?", "2").find(OwnItem.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CPokeMonTool.this);
         recyclerView.setLayoutManager(layoutManager);
-        List<OwnItem> items2 = new ArrayList<>();
-        for (PokeMonTool pokeMonTool : pokeMonTools) {
-            OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId());
-            items2.add(ownItem);
-        }
-        ItemAdapter adapter2 = new ItemAdapter(items2);
+        ItemAdapter adapter2 = new ItemAdapter(ownItems);
         recyclerView.setAdapter(adapter2);
 
         Item = (ImageView) findViewById(R.id.Item);
@@ -95,6 +93,13 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.Layout_up:
+                Item_name.setText(" ? ? ? ");
+                Bag_Pic.setBackgroundResource(R.drawable.init_ball2);
+                Item.setVisibility(View.VISIBLE);
+                Use.setVisibility(View.GONE);
+                Give_Up.setVisibility(View.GONE);
+                break;
             case R.id.use:
                 String PMTool = Item_name.getText().toString();
                 Intent intent1 = new Intent();

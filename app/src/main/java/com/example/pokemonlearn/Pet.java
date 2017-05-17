@@ -3,6 +3,7 @@ package com.example.pokemonlearn;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
@@ -32,6 +33,7 @@ import static org.litepal.crud.DataSupport.findAll;
 
 public class Pet extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
     private List<OwnPet> list;
+    private String Name;
     private ImageView transfer1;
     private ImageView transfer2;
     private Animation trans_out1;
@@ -43,6 +45,9 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
     private Button Free;
     private Button Evolve;
     private Button Learn;
+    private Animation float1;
+    private Animation float2;
+    private Animation float3;
     private ImageView Connect1;
     private ImageView Connect2;
     private ImageView Pet_Init;
@@ -56,6 +61,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
     private View TempView;
     private boolean Gone;
+    private AnimatorSet animatorSet;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,16 +144,23 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
         FirstTouch = true;
 
         Free = (Button) findViewById(R.id.free);
-        Evolve = (Button) findViewById(R.id.evolve);
-        Learn = (Button) findViewById(R.id.learn);
         Free.setOnClickListener(this);
-        Evolve.setOnClickListener(this);
-        Learn.setOnClickListener(this);
         Free.setOnTouchListener(this);
+        Free.setVisibility(View.GONE);
+        Evolve = (Button) findViewById(R.id.evolve);
+        Evolve.setOnClickListener(this);
         Evolve.setOnTouchListener(this);
+        Evolve.setVisibility(View.GONE);
+        Learn = (Button) findViewById(R.id.learn);
+        Learn.setOnClickListener(this);
         Learn.setOnTouchListener(this);
+        Learn.setVisibility(View.GONE);
+        float1 = AnimationUtils.loadAnimation(Pet.this, R.anim.cap_float1);
+        float2 = AnimationUtils.loadAnimation(Pet.this, R.anim.cap_float2);
+        float3 = AnimationUtils.loadAnimation(Pet.this, R.anim.cap_float3);
 
         Pet_Pic = (ImageView) findViewById(R.id.Pet_Pic);
+
     }
 
     @Override
@@ -155,6 +168,18 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
         switch (v.getId()) {
             case R.id.pet_init:
                 //DecorateInit();
+                break;
+            case R.id.learn:
+                Intent intent1 = new Intent(Pet.this, PPokeMonBook.class);
+                intent1.putExtra("PokeMon", Name);
+                startActivity(intent1);
+                overridePendingTransition(0, 0);
+                break;
+            case R.id.evolve:
+                Intent intent2 = new Intent(Pet.this, PPokeMonStone.class);
+                intent2.putExtra("PokeMon", Name);
+                startActivity(intent2);
+                overridePendingTransition(0, 0);
                 break;
         }
     }
@@ -205,6 +230,12 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                 @Override
                 public void onClick(View v) {
                     if (FirstTouch) {
+                        Free.setVisibility(View.VISIBLE);
+                        Evolve.setVisibility(View.VISIBLE);
+                        Learn.setVisibility(View.VISIBLE);
+                        Free.startAnimation(float3);
+                        Evolve.startAnimation(float1);
+                        Learn.startAnimation(float2);
                         Layout_Left2.setVisibility(View.VISIBLE);
                         Connect2.setVisibility(View.VISIBLE);
                         TempView = v;
@@ -216,6 +247,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                     } else {
                         if (TempView != v) {
                             Gone = true;
+                            animatorSet.end();
                             ImageView new_arrow = (ImageView) v.findViewById(R.id.arrow);
                             new_arrow.setVisibility(View.VISIBLE);
                             ImageView old_arrow = (ImageView) TempView.findViewById(R.id.arrow);
@@ -225,7 +257,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                         }
                     }
                     TextView name = (TextView) v.findViewById(R.id.pet_name);
-                    String Name = name.getText().toString();
+                    Name = name.getText().toString();
                     List<OwnPet> list = DataSupport.where("Name = ?", Name).find(OwnPet.class);
                     OwnPet ownPet = list.get(0);
                     Pet_Pic.setImageResource(ownPet.getImageResourceId());
@@ -275,7 +307,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
         objectAnimator2.setDuration(400);
         objectAnimator2.setInterpolator(new AccelerateDecelerateInterpolator());
 
-        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet = new AnimatorSet();
         animatorSet.play(objectAnimator1).before(objectAnimator2);
         animatorSet.start();
         animatorSet.addListener(new Animator.AnimatorListener() {

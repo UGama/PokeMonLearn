@@ -8,6 +8,7 @@ import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,10 +25,13 @@ import org.litepal.crud.DataSupport;
 import java.util.List;
 
 /**
- * Created by Gama on 11/5/17.
+ * Created by Gama on 17/5/17.
  */
 
-public class CPokeMonBall extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
+public class PPokeMonStone extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
+
+    private OwnPet P_OwnPet;
+
     private PercentRelativeLayout Layout_Up;
     private Animation animation2;
     private ImageView Left_Shape;
@@ -50,9 +54,15 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pc_series);
 
+        Intent intent = getIntent();
+        String Name = intent.getStringExtra("PokeMon");
+        List<OwnPet> list = DataSupport.where("Name = ?", Name).find(OwnPet.class);
+        P_OwnPet = list.get(0);
+        Log.i("OwnPet", Name);
+
         Layout_Up = (PercentRelativeLayout) findViewById(R.id.Layout_up);
         Layout_Up.setOnClickListener(this);
-        animation2 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.pc_series_show);
+        animation2 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.pc_series_show);
         Left_Shape = (ImageView) findViewById(R.id.left_shape);
         Right_Shape1 = (PercentRelativeLayout) findViewById(R.id.right_shape1);
         Right_Shape2 = (PercentRelativeLayout) findViewById(R.id.right_shape2);
@@ -68,18 +78,18 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
 
         Item_name = (TextView) findViewById(R.id.item_name);
         Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
-        Bag_Pic.setBackgroundResource(R.drawable.init_ball);
+        Bag_Pic.setBackgroundResource(R.drawable.init_ball3);
 
-        anim4 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.anim4);
+        anim4 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.anim4);
 
-        List<OwnItem> ownItems = DataSupport.where("Type = ?", "1").find(OwnItem.class);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(CPokeMonBall.this);
+        List<OwnItem> ownItems = DataSupport.where("Type = ?", "3").find(OwnItem.class);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(PPokeMonStone.this);
         recyclerView.setLayoutManager(layoutManager);
         ItemAdapter adapter2 = new ItemAdapter(ownItems);
         recyclerView.setAdapter(adapter2);
 
         Item = (ImageView) findViewById(R.id.Item);
-        Item.setBackgroundResource(R.drawable.bag_decorate);
+        Item.setBackgroundResource(P_OwnPet.getImageResourceId());
 
         Use = (Button) findViewById(R.id.use);
         Use.setOnClickListener(this);
@@ -87,6 +97,7 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
         Give_Up = (Button) findViewById(R.id.give_up);
         Give_Up.setOnClickListener(this);
         Give_Up.setOnTouchListener(this);
+
     }
 
     @Override
@@ -94,15 +105,15 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.Layout_up:
                 Item_name.setText(" ? ? ? ");
-                Bag_Pic.setBackgroundResource(R.drawable.init_ball);
+                Bag_Pic.setBackgroundResource(R.drawable.init_ball3);
                 Item.setVisibility(View.VISIBLE);
                 Use.setVisibility(View.GONE);
                 Give_Up.setVisibility(View.GONE);
                 break;
             case R.id.use:
-                String PMBall = Item_name.getText().toString();
+                String PMStone = Item_name.getText().toString();
                 Intent intent1 = new Intent();
-                intent1.putExtra("PMBall", PMBall);
+                intent1.putExtra("PMStone", PMStone);
                 setResult(RESULT_OK, intent1);
                 finish();
                 break;
@@ -118,20 +129,18 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()) {
             case R.id.use:
-                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     ValueAnimator animator = ValueAnimator.ofFloat(0, 20);
                     animator.setTarget(Use);
                     animator.setDuration(100).start();
                     animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-                    {
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
-                        public void onAnimationUpdate(ValueAnimator animation)
-                        {
+                        public void onAnimationUpdate(ValueAnimator animation) {
                             Use.setTranslationY((Float) animation.getAnimatedValue());
                         }
                     });
-                } else if (event.getAction() == MotionEvent.ACTION_UP ) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     ValueAnimator animator = ValueAnimator.ofFloat(20, 0);
                     animator.setTarget(Use);
                     animator.setDuration(100).start();
@@ -145,20 +154,18 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.give_up:
-                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     ValueAnimator animator = ValueAnimator.ofFloat(0, 20);
                     animator.setTarget(Give_Up);
                     animator.setDuration(100).start();
                     animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-                    {
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
-                        public void onAnimationUpdate(ValueAnimator animation)
-                        {
+                        public void onAnimationUpdate(ValueAnimator animation) {
                             Give_Up.setTranslationY((Float) animation.getAnimatedValue());
                         }
                     });
-                } else if (event.getAction() == MotionEvent.ACTION_UP ) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     ValueAnimator animator = ValueAnimator.ofFloat(20, 0);
                     animator.setTarget(Give_Up);
                     animator.setDuration(100).start();
@@ -179,7 +186,7 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
         private List<OwnItem> List;
 
         public ItemAdapter(List<OwnItem> List) {
-            this.List= List;
+            this.List = List;
         }
 
         @Override
@@ -188,7 +195,7 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
                     .inflate(R.layout.bag_item_item, parent, false);
             final ViewHolder holder = new ViewHolder(view);
 
-            holder.ItemView.setOnClickListener(new View.OnClickListener(){
+            holder.ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TextView Name = (TextView) v.findViewById(R.id.name);
@@ -209,7 +216,7 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            OwnItem ownItem= List.get(position);
+            OwnItem ownItem = List.get(position);
             holder.Name.setText(ownItem.getName());
             holder.Number.setText(String.valueOf(ownItem.getNumber()));
         }
@@ -223,6 +230,7 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
             TextView Name;
             TextView Number;
             View ItemView;
+
             public ViewHolder(View view) {
                 super(view);
                 Name = (TextView) view.findViewById(R.id.name);

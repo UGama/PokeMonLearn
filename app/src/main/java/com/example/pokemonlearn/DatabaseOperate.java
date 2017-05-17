@@ -102,12 +102,13 @@ public class DatabaseOperate extends AppCompatActivity {
     }
 
     public void myPetAdd() {
-        OwnPet Pikachu = new OwnPet();
-        Pikachu.setImageResourceId(R.drawable.pikachu2);
-        Pikachu.setNumber(1);
-        Pikachu.setName("Pikachu");
-        Pikachu.setBallImageResourceId(R.drawable.pokeball);
-        Pikachu.save();
+        List<PokeMon> pokeMonList = DataSupport.findAll(PokeMon.class);
+        List<OwnPet> list = new ArrayList<>();
+        for (PokeMon pokeMon : pokeMonList) {
+            OwnPet ownPet = new OwnPet(pokeMon.Name, pokeMon.getImageSourceId(), pokeMon.Number, R.drawable.master_ball);
+            list.add(ownPet);
+        }
+        DataSupport.saveAll(list);
     }
 
     public void myPetQuery() {

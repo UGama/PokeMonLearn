@@ -112,7 +112,6 @@
                 app:layout_widthPercent="86%"
                 app:layout_heightPercent="58%"
                 app:layout_marginTopPercent="1%"
-                android:background="@drawable/init_ball"
                 android:layout_centerHorizontal="true"
                 />
             <TextView
