@@ -1,16 +1,19 @@
 package com.example.pokemonlearn;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -20,6 +23,8 @@ import android.widget.TextView;
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
+
+import static org.litepal.crud.DataSupport.findAll;
 
 /**
  * Created by Gama on 15/5/17.
@@ -47,6 +52,10 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
     private boolean FirstTouch;
     private Animation Right;
     private Animation Left;
+    private ImageView Pet_Pic;
+
+    private View TempView;
+    private boolean Gone;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +87,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
             }
         });
 
-        list = DataSupport.findAll(OwnPet.class);
+        list = findAll(OwnPet.class);
 
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -137,13 +146,15 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
         Free.setOnTouchListener(this);
         Evolve.setOnTouchListener(this);
         Learn.setOnTouchListener(this);
+
+        Pet_Pic = (ImageView) findViewById(R.id.Pet_Pic);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.pet_init:
-                DecorateInit();
+                //DecorateInit();
                 break;
         }
     }
@@ -196,8 +207,28 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                     if (FirstTouch) {
                         Layout_Left2.setVisibility(View.VISIBLE);
                         Connect2.setVisibility(View.VISIBLE);
+                        TempView = v;
+                        ImageView arrow = (ImageView) v.findViewById(R.id.arrow);
+                        arrow.setVisibility(View.VISIBLE);
+                        Up_Down(arrow);
                         FirstTouch = false;
+                        Gone = false;
+                    } else {
+                        if (TempView != v) {
+                            Gone = true;
+                            ImageView new_arrow = (ImageView) v.findViewById(R.id.arrow);
+                            new_arrow.setVisibility(View.VISIBLE);
+                            ImageView old_arrow = (ImageView) TempView.findViewById(R.id.arrow);
+                            old_arrow.setVisibility(View.GONE);
+                            TempView = v;
+                            Up_Down(new_arrow);
+                        }
                     }
+                    TextView name = (TextView) v.findViewById(R.id.pet_name);
+                    String Name = name.getText().toString();
+                    List<OwnPet> list = DataSupport.where("Name = ?", Name).find(OwnPet.class);
+                    OwnPet ownPet = list.get(0);
+                    Pet_Pic.setImageResource(ownPet.getImageResourceId());
                 }
             });
             return holder;
@@ -233,26 +264,45 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
     }
 
-    public void DecorateInit() {
-        int[] init = new int[15];
-        init[0] = R.drawable.pet_init1;
-        init[1] = R.drawable.pet_init2;
-        init[2] = R.drawable.pet_init3;
-        init[3] = R.drawable.pet_init4;
-        init[4] = R.drawable.pet_init5;
-        init[5] = R.drawable.pet_init6;
-        init[6] = R.drawable.pet_init7;
-        init[7] = R.drawable.pet_init8;
-        init[8] = R.drawable.pet_init9;
-        init[9] = R.drawable.pet_init10;
-        init[10] = R.drawable.pet_init11;
-        init[11] = R.drawable.pet_init12;
-        init[12] = R.drawable.pet_init13;
-        init[13] = R.drawable.pet_init14;
-        init[14] = R.drawable.pet_init15;
-        int random = (int) (Math.random() * 15);
-        Log.i("Random", String.valueOf(random));
-        Pet_Init.setImageResource(init[random]);
+    public void Up_Down(View v) {
+        final View view = v;
+
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(v, "translationY", -20, 20);
+        objectAnimator1.setDuration(400);
+        objectAnimator1.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(v, "translationY", 20, -20);
+        objectAnimator2.setDuration(400);
+        objectAnimator2.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(objectAnimator1).before(objectAnimator2);
+        animatorSet.start();
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (Gone) {
+                    Gone = false;
+                } else {
+                    Up_Down(view);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
 }
