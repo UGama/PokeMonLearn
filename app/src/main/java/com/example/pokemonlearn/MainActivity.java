@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         mLocClient.setLocOption(option);
         mLocClient.start();
 
-        initOverlay();
+        //initOverlay();
 
         anim0 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch2);
         anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch1);

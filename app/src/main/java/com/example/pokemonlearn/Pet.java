@@ -57,8 +57,6 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
     private Animation animation2;
     private Animation animation3;
     private boolean FirstTouch;
-    private Animation Right;
-    private Animation Left;
     private ImageView Pet_Pic;
 
     private View TempView;
@@ -111,9 +109,6 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
         Pet_Init.setVisibility(View.GONE);
         Pet_Init.setOnClickListener(this);
 
-        Right = AnimationUtils.loadAnimation(Pet.this, R.anim.dex_shape_right);
-        Left = AnimationUtils.loadAnimation(Pet.this, R.anim.dex_shape_left);
-
         animation2 = AnimationUtils.loadAnimation(Pet.this, R.anim.anim2);
         animation3 = AnimationUtils.loadAnimation(Pet.this, R.anim.anim3);
         Layout_Left1 = (PercentRelativeLayout) findViewById(R.id.Layout_Left1);
@@ -131,9 +126,15 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
             @Override
             public void onAnimationEnd(Animation animation) {
                 recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.startAnimation(Right);
+                ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(recyclerView, "translationX", 800, 0);
+                objectAnimator1.setDuration(600);
+                objectAnimator1.setInterpolator(new LinearInterpolator());
+                objectAnimator1.start();
                 Pet_Init.setVisibility(View.VISIBLE);
-                Pet_Init.startAnimation(Left);
+                ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(Pet_Init, "translationX", -800, 0);
+                objectAnimator2.setDuration(600);
+                objectAnimator2.setInterpolator(new LinearInterpolator());
+                objectAnimator2.start();
             }
 
             @Override
