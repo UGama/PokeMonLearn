@@ -10,6 +10,7 @@ import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,6 +64,10 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
     private View TempView;
     private boolean Gone;
     private AnimatorSet animatorSet;
+
+    private ImageView Pet_Text;
+    private TextView Pet_Message;
+    private ImageView Screen;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +167,10 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
         Pet_Pic = (ImageView) findViewById(R.id.Pet_Pic);
 
+        Pet_Text = (ImageView) findViewById(R.id.pet_text);
+        Pet_Message = (TextView) findViewById(R.id.pet_message);
+        Screen = (ImageView) findViewById(R.id.screen);
+
     }
 
     @Override
@@ -172,14 +182,23 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
             case R.id.learn:
                 Intent intent1 = new Intent(Pet.this, PPokeMonBook.class);
                 intent1.putExtra("PokeMon", Name);
-                startActivity(intent1);
+                startActivityForResult(intent1, 3);
                 overridePendingTransition(0, 0);
                 break;
             case R.id.evolve:
-                Intent intent2 = new Intent(Pet.this, PPokeMonStone.class);
-                intent2.putExtra("PokeMon", Name);
-                startActivity(intent2);
-                overridePendingTransition(0, 0);
+                List<PokeMon> pokeMons = DataSupport.where("Name = ?", Name).find(PokeMon.class);
+                PokeMon pokeMon = pokeMons.get(0);
+                if (pokeMon.Senior == null) {
+                    String tip = Name + " 已是最高级形态。";
+                    Pet_Message.setText(tip);
+                    ScreenRun(Screen);
+                } else {
+                    Log.i("PokeMon", pokeMon.getName() + " " + pokeMon.Senior);
+                    Intent intent2 = new Intent(Pet.this, PPokeMonStone.class);
+                    intent2.putExtra("PokeMon", Name);
+                    startActivityForResult(intent2, 4);
+                    overridePendingTransition(0, 0);
+                }
                 break;
         }
     }
@@ -335,6 +354,19 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
             }
         });
+    }
+
+    public void ScreenRun(View view) {
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
+                1.0f, 0.0f);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
+                0, 450);
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.setDuration(1500);
+        animSet.setInterpolator(new LinearInterpolator());
+        animSet.playTogether(anim1, anim2);
+        animSet.start();
+
     }
 
 }

@@ -81,27 +81,27 @@
                 />
             <ImageView
                 android:id="@+id/ball1"
-                android:background="@drawable/decorte_ball2"
-                app:layout_widthPercent="12%"
+                android:src="@drawable/decorte_ball2"
+                app:layout_widthPercent="11.5%"
                 app:layout_heightPercent="10%"
                 />
             <ImageView
                 android:id="@+id/ball2"
-                android:background="@drawable/decorte_ball2"
+                android:src="@drawable/decorte_ball2"
                 app:layout_widthPercent="12%"
                 app:layout_heightPercent="10%"
                 android:layout_alignParentRight="true"
                 />
             <ImageView
                 android:id="@+id/ball3"
-                android:background="@drawable/decorte_ball2"
+                android:src="@drawable/decorte_ball2"
                 app:layout_widthPercent="12%"
                 app:layout_heightPercent="10%"
                 android:layout_alignParentBottom="true"
                 />
             <ImageView
                 android:id="@+id/ball4"
-                android:background="@drawable/decorte_ball2"
+                android:src="@drawable/decorte_ball2"
                 app:layout_widthPercent="12%"
                 app:layout_heightPercent="10%"
                 android:layout_alignParentBottom="true"
@@ -111,7 +111,7 @@
 
         <ImageView
             android:background="@drawable/shape_bag_explain"
-            android:id="@+id/shop_text"
+            android:id="@+id/pet_text"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             app:layout_heightPercent="22%"
@@ -119,7 +119,7 @@
             app:layout_marginBottomPercent="2%"
             />
         <TextView
-            android:id="@+id/shop_message"
+            android:id="@+id/pet_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -131,7 +131,7 @@
         <ImageView
             android:id="@+id/screen"
             android:background="@drawable/shape_screen"
-            android:layout_alignBottom="@+id/shop_text"
+            android:layout_alignBottom="@+id/pet_text"
             app:layout_heightPercent="20%"
             app:layout_widthPercent="98%"
             app:layout_marginLeftPercent="1%"

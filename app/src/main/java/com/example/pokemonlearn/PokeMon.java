@@ -12,17 +12,18 @@ public class PokeMon extends DataSupport{
     int ImageSourceId;
     int Weight;
     int MapId;
+    String Senior;
 
     public PokeMon() {}
 
-    public PokeMon(int Number, String Name, int imageSourceId, int Weight, int MapId) {
+    public PokeMon(int Number, String Name, int imageSourceId, int Weight, int MapId, String senior) {
         this.Number = Number;
         this.Name = Name;
         this.ImageSourceId = imageSourceId;
         this.Weight = Weight;
         this.MapId = MapId;
+        this.Senior = senior;
     }
-
 
     public int getNumber() {
         return Number;
@@ -64,4 +65,11 @@ public class PokeMon extends DataSupport{
         return MapId;
     }
 
+    public String getSenior() {
+        return Senior;
+    }
+
+    public void setSenior(String senior) {
+        Senior = senior;
+    }
 }

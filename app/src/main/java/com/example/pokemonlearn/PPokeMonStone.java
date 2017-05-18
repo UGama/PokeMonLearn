@@ -112,9 +112,9 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.use:
                 String PMStone = Item_name.getText().toString();
-                Intent intent1 = new Intent();
+                Intent intent1 = new Intent(PPokeMonStone.this, Evolve.class);
                 intent1.putExtra("PMStone", PMStone);
-                setResult(RESULT_OK, intent1);
+                startActivity(intent1);
                 finish();
                 break;
             case R.id.give_up:

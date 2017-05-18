@@ -47,6 +47,7 @@ import java.util.List;
  * Created by Gama on 7/4/17 (Second Version).
  * Noted by Gama on 11/5/17 (Love Seat With Me).
  * Noted by Gama on 15/5/17 (Ashamed Of Myself).
+ * Noted by Gama on 18/5/17 (Result: 1:C-Bag 2:C-PokeMonBall 3:P-Learn 4:P-Evolve)
  */
 
 public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarkerClickListener, View.OnClickListener, View.OnTouchListener, BaiduMap.OnMapClickListener {
@@ -974,7 +975,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
                                     Intent intent3 = new Intent(MainActivity.this, Capture.class);
-                                    intent3.putExtra("Name", "Sylveon");
+                                    intent3.putExtra("Name", "仙子伊布");
                                     startActivity(intent3);
                                     overridePendingTransition(0, 0);
                                     transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);

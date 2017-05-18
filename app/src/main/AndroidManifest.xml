@@ -46,6 +46,7 @@
         <activity android:name=".Shop" />
         <activity android:name=".PPokeMonStone" />
         <activity android:name=".PPokeMonBook" />
+        <activity android:name=".Evolve" />
     </application>
 
 </manifest>
