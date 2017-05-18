@@ -65,7 +65,6 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
     private boolean Gone;
     private AnimatorSet animatorSet;
 
-    private ImageView Pet_Text;
     private TextView Pet_Message;
     private ImageView Screen;
     @Override
@@ -167,7 +166,6 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
         Pet_Pic = (ImageView) findViewById(R.id.Pet_Pic);
 
-        Pet_Text = (ImageView) findViewById(R.id.pet_text);
         Pet_Message = (TextView) findViewById(R.id.pet_message);
         Screen = (ImageView) findViewById(R.id.screen);
 

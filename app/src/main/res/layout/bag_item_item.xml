@@ -25,7 +25,7 @@
         android:layout_centerVertical="true"
         android:text="test"
         android:layout_alignParentRight="true"
-        app:layout_marginRightPercent="10%"
+        app:layout_marginRightPercent="24%"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -35,6 +35,16 @@
         android:layout_toLeftOf="@+id/number"
         android:textSize="16sp"
         android:layout_centerVertical="true"
+        />
+    <ImageView
+        android:id="@+id/able"
+        android:background="@drawable/able"
+        android:layout_alignParentRight="true"
+        app:layout_marginRightPercent="10%"
+        app:layout_widthPercent="13%"
+        app:layout_heightPercent="35%"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
         />
 
 </android.support.percent.PercentRelativeLayout>

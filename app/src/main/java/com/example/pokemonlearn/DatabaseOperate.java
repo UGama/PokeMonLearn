@@ -48,7 +48,7 @@ public class DatabaseOperate extends AppCompatActivity {
         PokeMon p14 = new PokeMon(15, "火焰鸟", R.drawable.zapdos2, 1, R.drawable.zapdos, null);
         PokeMon p15 = new PokeMon(16, "喵喵", R.drawable.meowth2, 17, R.drawable.meowth, null);
         PokeMon p16 = new PokeMon(17, "果然翁", R.drawable.wobbuffet2, 4, R.drawable.wobbuffet, null);
-        PokeMon p17 = new PokeMon(18, "伊布", R.drawable.eevee2, 4, R.drawable.eevee, "+4/19");
+        PokeMon p17 = new PokeMon(18, "伊布", R.drawable.eevee2, 4, R.drawable.eevee, "+4/19+9/20+3/21+2/22+1/23+8/24+7/25");
         PokeMon p18 = new PokeMon(19, "水伊布", R.drawable.vaporeon2, 0, 0, null);
         PokeMon p19 = new PokeMon(20, "雷伊布", R.drawable.jolteon2, 0, 0, null);
         PokeMon p20 = new PokeMon(21, "火伊布", R.drawable.flareon2, 0, 0, null);
@@ -278,22 +278,22 @@ public class DatabaseOperate extends AppCompatActivity {
         List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
         List<OwnItem> items = new ArrayList<>();
         for (PokeMonBall pokeMonBall : pokeMonBalls) {
-            OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 1, pokeMonBall.getImageSourceId());
+            OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 1, pokeMonBall.getImageSourceId(), pokeMonBall.getNumber());
             items.add(ownItem);
         }
         List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
         for (PokeMonTool pokeMonTool : pokeMonTools) {
-            OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId());
+            OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId(), pokeMonTool.getNumber());
             items.add(ownItem);
         }
         List<PokeMonStone> pokeMonStones = DataSupport.findAll(PokeMonStone.class);
         for (PokeMonStone pokeMonStone : pokeMonStones) {
-            OwnItem ownItem = new OwnItem(pokeMonStone.getName(), pokeMonStone.getNumber(), 3, pokeMonStone.getImageResourceId());
+            OwnItem ownItem = new OwnItem(pokeMonStone.getName(), pokeMonStone.getNumber(), 3, pokeMonStone.getImageResourceId(), pokeMonStone.getNumber());
             items.add(ownItem);
         }
         List<PokeMonBook> pokeMonBooks = DataSupport.findAll(PokeMonBook.class);
         for (PokeMonBook pokeMonBook : pokeMonBooks) {
-            OwnItem ownItem = new OwnItem(pokeMonBook.getName(), pokeMonBook.getNumber(), 4, pokeMonBook.getImageResourceId());
+            OwnItem ownItem = new OwnItem(pokeMonBook.getName(), pokeMonBook.getNumber(), 4, pokeMonBook.getImageResourceId(), pokeMonBook.getNumber());
             items.add(ownItem);
         }
         DataSupport.saveAll(items);

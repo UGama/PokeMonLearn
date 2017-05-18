@@ -11,14 +11,16 @@ public class OwnItem extends DataSupport {
     private int Number;
     private int Type;
     private int ImageResourceId;
+    private int NumberInDex;
 
     public OwnItem(){}
 
-    public OwnItem(String name, int number, int type, int imageResourceId) {
+    public OwnItem(String name, int number, int type, int imageResourceId, int numberInDex) {
         Name = name;
         Number = number;
         Type = type;
         ImageResourceId = imageResourceId;
+        NumberInDex = numberInDex;
     }
 
     public void setName(String name) {
@@ -51,5 +53,13 @@ public class OwnItem extends DataSupport {
 
     public int getImageResourceId() {
         return ImageResourceId;
+    }
+
+    public int getNumberInDex() {
+        return NumberInDex;
+    }
+
+    public void setNumberInDex(int numberInDex) {
+        NumberInDex = numberInDex;
     }
 }

@@ -31,6 +31,8 @@ import java.util.List;
 public class PPokeMonStone extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private OwnPet P_OwnPet;
+    private PokeMon P_PokeMon;
+    private int[][] Evolve;
 
     private PercentRelativeLayout Layout_Up;
     private Animation animation2;
@@ -56,9 +58,12 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
 
         Intent intent = getIntent();
         String Name = intent.getStringExtra("PokeMon");
-        List<OwnPet> list = DataSupport.where("Name = ?", Name).find(OwnPet.class);
-        P_OwnPet = list.get(0);
+        List<OwnPet> list1 = DataSupport.where("Name = ?", Name).find(OwnPet.class);
+        P_OwnPet = list1.get(0);
+        List<PokeMon> list2 = DataSupport.where("Name = ?", Name).find(PokeMon.class);
+        P_PokeMon = list2.get(0);
         Log.i("OwnPet", Name);
+        ResolveSeniorString();
 
         Layout_Up = (PercentRelativeLayout) findViewById(R.id.Layout_up);
         Layout_Up.setOnClickListener(this);
@@ -219,6 +224,16 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
             OwnItem ownItem = List.get(position);
             holder.Name.setText(ownItem.getName());
             holder.Number.setText(String.valueOf(ownItem.getNumber()));
+            boolean isUsed = false;
+            for (int i=0;i<Evolve.length;i++) {
+                if (Evolve[i][0] == ownItem.getNumberInDex()) {
+                    isUsed = true;
+                    break;
+                }
+            }
+            if (isUsed) {
+                holder.Able.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -230,13 +245,42 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
             TextView Name;
             TextView Number;
             View ItemView;
+            ImageView Able;
 
             public ViewHolder(View view) {
                 super(view);
                 Name = (TextView) view.findViewById(R.id.name);
                 Number = (TextView) view.findViewById(R.id.number);
                 ItemView = view;
+                Able = (ImageView) view.findViewById(R.id.able);
             }
+        }
+    }
+
+    public void ResolveSeniorString() {
+        String SeniorString = P_PokeMon.getSenior();
+        char[] SeniorChar = SeniorString.toCharArray();
+        int j = -1;
+        int l = 0;
+        int a = 0;
+        for (int i=0;i<SeniorChar.length;i++) {
+            if (SeniorChar[i] == '+') {
+                a++;
+            }
+        }
+        Evolve = new int[a][2];
+        for (int i=0;i<SeniorChar.length;i++) {
+            if (SeniorChar[i] == '+') {
+                j++;
+                l = 0;
+            } else if (SeniorChar[i] <= '9' && SeniorChar[i] >= '0') {
+                Evolve[j][l] = Evolve[j][l] * 10 + Integer.parseInt(String.valueOf(SeniorChar[i]));
+            } else if (SeniorChar[i] == '/') {
+                l++;
+            }
+        }
+        for (int i=0;i<Evolve.length;i++) {
+            Log.i("EvolveString", String.valueOf(Evolve[i][0]) + " " + String.valueOf(Evolve[i][1]));
         }
     }
 }
