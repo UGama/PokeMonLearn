@@ -1,6 +1,5 @@
 package com.example.pokemonlearn;
 
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +41,7 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
 
     private ImageView Item;
     private Button Use;
-    private Button Give_Up;
+    private Button Cancel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,9 +82,9 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
         Use = (Button) findViewById(R.id.use);
         Use.setOnClickListener(this);
         Use.setOnTouchListener(this);
-        Give_Up = (Button) findViewById(R.id.give_up);
-        Give_Up.setOnClickListener(this);
-        Give_Up.setOnTouchListener(this);
+        Cancel = (Button) findViewById(R.id.cancel);
+        Cancel.setOnClickListener(this);
+        Cancel.setOnTouchListener(this);
 
     }
 
@@ -98,7 +96,7 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
                 Bag_Pic.setBackgroundResource(R.drawable.init_ball2);
                 Item.setVisibility(View.VISIBLE);
                 Use.setVisibility(View.GONE);
-                Give_Up.setVisibility(View.GONE);
+                Cancel.setVisibility(View.GONE);
                 break;
             case R.id.use:
                 String PMTool = Item_name.getText().toString();
@@ -107,7 +105,7 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
                 setResult(RESULT_OK, intent1);
                 finish();
                 break;
-            case R.id.give_up:
+            case R.id.cancel:
                 Intent intent2 = new Intent();
                 setResult(RESULT_CANCELED, intent2);
                 finish();
@@ -120,57 +118,18 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.use:
                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(0, 20);
-                    animator.setTarget(Use);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-                    {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation)
-                        {
-                            Use.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
+                    Use.getBackground().setAlpha(125);
                 } else if (event.getAction() == MotionEvent.ACTION_UP ) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(20, 0);
-                    animator.setTarget(Use);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            Use.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
+                    Use.getBackground().setAlpha(255);
                 }
                 break;
-            case R.id.give_up:
+            case R.id.cancel:
                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(0, 20);
-                    animator.setTarget(Give_Up);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-                    {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation)
-                        {
-                            Give_Up.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
+                    Cancel.getBackground().setAlpha(125);
                 } else if (event.getAction() == MotionEvent.ACTION_UP ) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(20, 0);
-                    animator.setTarget(Give_Up);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            Give_Up.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
+                    Cancel.getBackground().setAlpha(255);
                 }
+                break;
         }
         return false;
     }
@@ -200,9 +159,8 @@ public class CPokeMonTool extends AppCompatActivity implements View.OnClickListe
                     Bag_Pic.setBackgroundResource(ownItem.getImageResourceId());
                     Bag_Pic.startAnimation(anim4);
 
-                    Item.setVisibility(View.GONE);
                     Use.setVisibility(View.VISIBLE);
-                    Give_Up.setVisibility(View.VISIBLE);
+                    Cancel.setVisibility(View.VISIBLE);
                 }
             });
             return holder;

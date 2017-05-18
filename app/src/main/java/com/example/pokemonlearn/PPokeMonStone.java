@@ -1,6 +1,5 @@
 package com.example.pokemonlearn;
 
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,7 +47,10 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
 
     private ImageView Item;
     private Button Use;
-    private Button Give_Up;
+    private Button Cancel;
+
+    private boolean able;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,10 +100,9 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         Use = (Button) findViewById(R.id.use);
         Use.setOnClickListener(this);
         Use.setOnTouchListener(this);
-        Give_Up = (Button) findViewById(R.id.give_up);
-        Give_Up.setOnClickListener(this);
-        Give_Up.setOnTouchListener(this);
-
+        Cancel = (Button) findViewById(R.id.cancel);
+        Cancel.setOnClickListener(this);
+        Cancel.setOnTouchListener(this);
     }
 
     @Override
@@ -113,16 +113,21 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                 Bag_Pic.setBackgroundResource(R.drawable.init_ball3);
                 Item.setVisibility(View.VISIBLE);
                 Use.setVisibility(View.GONE);
-                Give_Up.setVisibility(View.GONE);
+                Cancel.setVisibility(View.GONE);
                 break;
             case R.id.use:
-                String PMStone = Item_name.getText().toString();
-                Intent intent1 = new Intent(PPokeMonStone.this, Evolve.class);
-                intent1.putExtra("PMStone", PMStone);
-                startActivity(intent1);
-                finish();
+                if (able) {
+                    String PMStone = Item_name.getText().toString();
+                    Intent intent1 = new Intent(PPokeMonStone.this, Evolve.class);
+                    intent1.putExtra("PMName", P_PokeMon.getName());
+                    intent1.putExtra("PMStone", PMStone);
+                    startActivity(intent1);
+                    finish();
+                } else {
+
+                }
                 break;
-            case R.id.give_up:
+            case R.id.cancel:
                 Intent intent2 = new Intent();
                 setResult(RESULT_CANCELED, intent2);
                 finish();
@@ -134,54 +139,19 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()) {
             case R.id.use:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(0, 20);
-                    animator.setTarget(Use);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            Use.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(20, 0);
-                    animator.setTarget(Use);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            Use.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
+                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                    Use.getBackground().setAlpha(125);
+                } else if (event.getAction() == MotionEvent.ACTION_UP ) {
+                    Use.getBackground().setAlpha(255);
                 }
                 break;
-            case R.id.give_up:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(0, 20);
-                    animator.setTarget(Give_Up);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            Give_Up.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(20, 0);
-                    animator.setTarget(Give_Up);
-                    animator.setDuration(100).start();
-                    animator.setInterpolator(new LinearInterpolator());
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            Give_Up.setTranslationY((Float) animation.getAnimatedValue());
-                        }
-                    });
+            case R.id.cancel:
+                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                    Cancel.getBackground().setAlpha(125);
+                } else if (event.getAction() == MotionEvent.ACTION_UP ) {
+                    Cancel.getBackground().setAlpha(255);
                 }
+                break;
         }
         return false;
     }
@@ -211,9 +181,17 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                     Bag_Pic.setBackgroundResource(ownItem.getImageResourceId());
                     Bag_Pic.startAnimation(anim4);
 
-                    Item.setVisibility(View.GONE);
                     Use.setVisibility(View.VISIBLE);
-                    Give_Up.setVisibility(View.VISIBLE);
+                    Cancel.setVisibility(View.VISIBLE);
+
+                    able = false;
+                    for (int i = 0; i < Evolve.length; i++) {
+                        if (Evolve[i][0] == ownItem.getNumberInDex()) {
+                            able = true;
+                            break;
+                        }
+                    }
+                    Log.i("Able", String.valueOf(able));
                 }
             });
             return holder;

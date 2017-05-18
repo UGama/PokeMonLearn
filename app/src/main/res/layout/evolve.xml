@@ -128,15 +128,6 @@
     </android.support.percent.PercentRelativeLayout>
 
     <ImageView
-        android:id="@+id/coin"
-        android:src="@drawable/coin"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        />
-    <ImageView
         android:id="@+id/transfer1"
         android:background="@drawable/transfer"
         android:layout_width="match_parent"
