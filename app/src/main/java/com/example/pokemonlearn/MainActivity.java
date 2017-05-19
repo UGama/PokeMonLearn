@@ -271,6 +271,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
         Button pretend = (Button) findViewById(R.id.pretend);
         pretend.setOnClickListener(this);
+        Button pe = (Button) findViewById(R.id.pe);
+        pe.setOnClickListener(this);
 
         warning = (ImageView) findViewById(R.id.warning);
         warning.getBackground().setAlpha(200);
@@ -1053,6 +1055,12 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 startActivity(intent3);
                 overridePendingTransition(0, 0);
                 break;
+            case R.id.pe:
+                Intent intent4 = new Intent(MainActivity.this, Evolve.class);
+                intent4.putExtra("PMName", "伊布");
+                intent4.putExtra("PMStone", "火之石");
+                intent4.putExtra("S-PMName", "火伊布");
+                startActivity(intent4);
         }
     }
 

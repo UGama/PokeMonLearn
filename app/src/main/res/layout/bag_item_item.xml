@@ -41,8 +41,8 @@
         android:background="@drawable/able"
         android:layout_alignParentRight="true"
         app:layout_marginRightPercent="10%"
-        app:layout_widthPercent="13%"
-        app:layout_heightPercent="35%"
+        app:layout_widthPercent="12%"
+        app:layout_heightPercent="32%"
         android:layout_centerVertical="true"
         android:visibility="gone"
         />

@@ -33,6 +33,7 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
 
     private OwnPet P_OwnPet;
     private PokeMon P_PokeMon;
+    private PokeMonStone P_PokeMonStone;
     private int[][] Evolve;
 
     private PercentRelativeLayout Layout_Up;
@@ -46,7 +47,6 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
 
     private TextView Item_name;
     private ImageView Bag_Pic;
-    private Animation anim4;
 
     private ImageView Item;
     private Button Use;
@@ -61,6 +61,8 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
     private ImageView Text;
     private ImageView Screen;
     private Animation Text_Show;
+
+    private Animation animation4;
 
 
     @Override
@@ -84,40 +86,15 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         Right_Shape1 = (PercentRelativeLayout) findViewById(R.id.right_shape1);
         Right_Shape2 = (PercentRelativeLayout) findViewById(R.id.right_shape2);
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        recyclerView.startAnimation(animation2);
         Connect1 = (ImageView) findViewById(R.id.connect1);
         Connect2 = (ImageView) findViewById(R.id.connect2);
-        Connect1.setVisibility(View.GONE);
-        Connect2.setVisibility(View.GONE);
         Left_Shape.startAnimation(animation2);
+        Connect1.startAnimation(animation2);
+        Connect2.startAnimation(animation2);
         Right_Shape1.startAnimation(animation2);
         Right_Shape2.startAnimation(animation2);
-        recyclerView.startAnimation(animation2);
         animation2.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Connect1.setVisibility(View.VISIBLE);
-                Connect2.setVisibility(View.VISIBLE);
-                Connect1.startAnimation(anim4);
-                Connect2.startAnimation(anim4);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        Item_name = (TextView) findViewById(R.id.item_name);
-        Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
-        Bag_Pic.setBackgroundResource(R.drawable.init_ball3);
-
-        anim4 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.anim4);
-        anim4.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
@@ -138,6 +115,10 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
 
             }
         });
+
+        Item_name = (TextView) findViewById(R.id.item_name);
+        Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
+        Bag_Pic.setBackgroundResource(R.drawable.init_ball3);
 
         List<OwnItem> ownItems = DataSupport.where("Type = ?", "3").find(OwnItem.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(PPokeMonStone.this);
@@ -169,6 +150,8 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         Text_Show = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.anim4);
 
         FirstTouch = true;
+
+        animation4 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.pc_series_show);
     }
 
     @Override
@@ -185,9 +168,22 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
             case R.id.use:
                 if (able) {
                     String PMStone = Item_name.getText().toString();
+                    List<PokeMonStone> pokeMonStones = DataSupport.where("Name = ?", PMStone).find(PokeMonStone.class);
+                    P_PokeMonStone = pokeMonStones.get(0);
+                    int Senior = 0;
+                    for (int i=0;i<Evolve.length;i++) {
+                        if (P_PokeMonStone.getNumber() == Evolve[i][0]) {
+                            Senior = Evolve[i][1];
+                            break;
+                        }
+                    }
+                    Log.i("Senior Number", String.valueOf(Senior));
+                    List<PokeMon> pokeMons = DataSupport.where("Number = ?", String.valueOf(Senior)).find(PokeMon.class);
+                    PokeMon pokeMon = pokeMons.get(0);
                     Intent intent1 = new Intent(PPokeMonStone.this, Evolve.class);
                     intent1.putExtra("PMName", P_PokeMon.getName());
                     intent1.putExtra("PMStone", PMStone);
+                    intent1.putExtra("S-PMName", pokeMon.getName());
                     startActivity(intent1);
                     finish();
                 } else {
@@ -248,7 +244,7 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                     OwnItem ownItem = list.get(0);
                     Item_name.setText(ownItem.getName());
                     Bag_Pic.setBackgroundResource(ownItem.getImageResourceId());
-                    Bag_Pic.startAnimation(anim4);
+                    Bag_Pic.startAnimation(animation4);
 
                     if (FirstTouch) {
                         Use.setVisibility(View.VISIBLE);
@@ -257,7 +253,6 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                         Cancel.startAnimation(Float3);
                         FirstTouch = false;
                     }
-
 
                     able = false;
                     for (int i = 0; i < Evolve.length; i++) {

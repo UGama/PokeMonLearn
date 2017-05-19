@@ -61,8 +61,6 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
 
     private TextView Shop_Wood;
     private ImageView Cast;
-    private Animation Up;
-    private Animation Down;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -253,6 +251,7 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
         Cast.setVisibility(View.GONE);
 
     }
+
     public void CoinShow() {
         Coin.setVisibility(View.VISIBLE);
         ViewGroup.LayoutParams para = Coin.getLayoutParams();

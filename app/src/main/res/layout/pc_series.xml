@@ -22,7 +22,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RecyclerView"
             app:layout_widthPercent="48%"
-            app:layout_heightPercent="66%"
+            app:layout_heightPercent="68%"
             app:layout_marginTopPercent="3%"
             app:layout_marginLeftPercent="4%"
             android:background="#f9f8c8"
