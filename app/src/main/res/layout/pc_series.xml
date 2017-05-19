@@ -146,6 +146,7 @@
             android:layout_alignParentBottom="true"
             app:layout_marginBottomPercent="4%"
             app:layout_marginRightPercent="5%"
+            android:visibility="gone"
             />
     </android.support.percent.PercentRelativeLayout>
 

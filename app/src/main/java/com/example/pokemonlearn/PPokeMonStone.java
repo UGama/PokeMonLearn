@@ -1,5 +1,7 @@
 package com.example.pokemonlearn;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,8 +51,16 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
     private ImageView Item;
     private Button Use;
     private Button Cancel;
+    private Animation Float2;
+    private Animation Float3;
+    private boolean FirstTouch;
 
     private boolean able;
+
+    private TextView Message;
+    private ImageView Text;
+    private ImageView Screen;
+    private Animation Text_Show;
 
 
     @Override
@@ -75,18 +86,58 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         Connect1 = (ImageView) findViewById(R.id.connect1);
         Connect2 = (ImageView) findViewById(R.id.connect2);
+        Connect1.setVisibility(View.GONE);
+        Connect2.setVisibility(View.GONE);
         Left_Shape.startAnimation(animation2);
         Right_Shape1.startAnimation(animation2);
         Right_Shape2.startAnimation(animation2);
         recyclerView.startAnimation(animation2);
-        Connect1.startAnimation(animation2);
-        Connect2.startAnimation(animation2);
+        animation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Connect1.setVisibility(View.VISIBLE);
+                Connect2.setVisibility(View.VISIBLE);
+                Connect1.startAnimation(anim4);
+                Connect2.startAnimation(anim4);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         Item_name = (TextView) findViewById(R.id.item_name);
         Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
         Bag_Pic.setBackgroundResource(R.drawable.init_ball3);
 
         anim4 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.anim4);
+        anim4.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Message.setVisibility(View.VISIBLE);
+                Text.setVisibility(View.VISIBLE);
+                Screen.setVisibility(View.VISIBLE);
+                Message.startAnimation(Text_Show);
+                Text.startAnimation(Text_Show);
+                Screen.startAnimation(Text_Show);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         List<OwnItem> ownItems = DataSupport.where("Type = ?", "3").find(OwnItem.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(PPokeMonStone.this);
@@ -98,11 +149,26 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         Item.setBackgroundResource(P_OwnPet.getImageResourceId());
 
         Use = (Button) findViewById(R.id.use);
+        Use.setVisibility(View.GONE);
         Use.setOnClickListener(this);
         Use.setOnTouchListener(this);
         Cancel = (Button) findViewById(R.id.cancel);
+        Cancel.setVisibility(View.GONE);
         Cancel.setOnClickListener(this);
         Cancel.setOnTouchListener(this);
+
+        Float2 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.cap_float2);
+        Float3 = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.cap_float3);
+
+        Message = (TextView) findViewById(R.id.PC_message);
+        Message.setVisibility(View.GONE);
+        Text = (ImageView) findViewById(R.id.PC_text);
+        Text.setVisibility(View.GONE);
+        Screen = (ImageView) findViewById(R.id.screen);
+        Screen.setVisibility(View.GONE);
+        Text_Show = AnimationUtils.loadAnimation(PPokeMonStone.this, R.anim.anim4);
+
+        FirstTouch = true;
     }
 
     @Override
@@ -114,6 +180,7 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                 Item.setVisibility(View.VISIBLE);
                 Use.setVisibility(View.GONE);
                 Cancel.setVisibility(View.GONE);
+                FirstTouch = true;
                 break;
             case R.id.use:
                 if (able) {
@@ -124,7 +191,9 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                     startActivity(intent1);
                     finish();
                 } else {
-
+                    String tip = Item_name.getText().toString() + " 不可使用。";
+                    Message.setText(tip);
+                    ScreenRun(Screen);
                 }
                 break;
             case R.id.cancel:
@@ -181,8 +250,14 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                     Bag_Pic.setBackgroundResource(ownItem.getImageResourceId());
                     Bag_Pic.startAnimation(anim4);
 
-                    Use.setVisibility(View.VISIBLE);
-                    Cancel.setVisibility(View.VISIBLE);
+                    if (FirstTouch) {
+                        Use.setVisibility(View.VISIBLE);
+                        Cancel.setVisibility(View.VISIBLE);
+                        Use.startAnimation(Float2);
+                        Cancel.startAnimation(Float3);
+                        FirstTouch = false;
+                    }
+
 
                     able = false;
                     for (int i = 0; i < Evolve.length; i++) {
@@ -260,5 +335,18 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         for (int i=0;i<Evolve.length;i++) {
             Log.i("EvolveString", String.valueOf(Evolve[i][0]) + " " + String.valueOf(Evolve[i][1]));
         }
+    }
+
+    public void ScreenRun(View view) {
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
+                1.0f, 0.0f);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
+                0, 450);
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.setDuration(1500);
+        animSet.setInterpolator(new LinearInterpolator());
+        animSet.playTogether(anim1, anim2);
+        animSet.start();
+
     }
 }

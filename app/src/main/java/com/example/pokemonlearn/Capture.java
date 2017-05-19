@@ -253,8 +253,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         StruggleCount = 0;
         Judgement = false;
 
-        fightText.setOnClickListener(this);
-
         trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);
         trans2_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_down);
     }

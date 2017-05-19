@@ -63,9 +63,10 @@ public class Evolve extends AppCompatActivity {
         Stone = (ImageView) findViewById(R.id.stone);
         Left = AnimationUtils.loadAnimation(Evolve.this, R.anim.dex_shape_left);
         Right = AnimationUtils.loadAnimation(Evolve.this, R.anim.dex_shape_right);
-        Roof1.startAnimation(Right);
-        PokeMon.startAnimation(Right);
-        Roof2.startAnimation(Left);
-        Stone.startAnimation(Left);
+        Roof1.startAnimation(Left);
+        PokeMon.startAnimation(Left);
+        Roof2.startAnimation(Right);
+        Stone.startAnimation(Right);
+        
     }
 }

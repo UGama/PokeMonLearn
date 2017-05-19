@@ -46,6 +46,16 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
     private ImageView Item;
     private Button Use;
     private Button Cancel;
+    private Animation Float2;
+    private Animation Float3;
+    private boolean FirstTouch;
+
+    private boolean able;
+
+    private TextView Message;
+    private ImageView Text;
+    private ImageView Screen;
+    private Animation Text_Show;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,18 +77,60 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         Connect1 = (ImageView) findViewById(R.id.connect1);
         Connect2 = (ImageView) findViewById(R.id.connect2);
+        Connect1.setVisibility(View.GONE);
+        Connect2.setVisibility(View.GONE);
         Left_Shape.startAnimation(animation2);
         Right_Shape1.startAnimation(animation2);
         Right_Shape2.startAnimation(animation2);
         recyclerView.startAnimation(animation2);
         Connect1.startAnimation(animation2);
         Connect2.startAnimation(animation2);
+        animation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Connect1.setVisibility(View.VISIBLE);
+                Connect2.setVisibility(View.VISIBLE);
+                Connect1.startAnimation(anim4);
+                Connect2.startAnimation(anim4);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         Item_name = (TextView) findViewById(R.id.item_name);
         Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
         Bag_Pic.setBackgroundResource(R.drawable.init_ball4);
 
         anim4 = AnimationUtils.loadAnimation(PPokeMonBook.this, R.anim.anim4);
+        anim4.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Message.setVisibility(View.VISIBLE);
+                Text.setVisibility(View.VISIBLE);
+                Screen.setVisibility(View.VISIBLE);
+                Message.startAnimation(Text_Show);
+                Text.startAnimation(Text_Show);
+                Screen.startAnimation(Text_Show);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         List<OwnItem> ownItems = DataSupport.where("Type = ?", "4").find(OwnItem.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(PPokeMonBook.this);
@@ -90,11 +142,26 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
         Item.setBackgroundResource(P_OwnPet.getImageResourceId());
 
         Use = (Button) findViewById(R.id.use);
+        Use.setVisibility(View.GONE);
         Use.setOnClickListener(this);
         Use.setOnTouchListener(this);
         Cancel = (Button) findViewById(R.id.cancel);
+        Cancel.setVisibility(View.GONE);
         Cancel.setOnClickListener(this);
         Cancel.setOnTouchListener(this);
+
+        Float2 = AnimationUtils.loadAnimation(PPokeMonBook.this, R.anim.cap_float2);
+        Float3 = AnimationUtils.loadAnimation(PPokeMonBook.this, R.anim.cap_float3);
+
+        Message = (TextView) findViewById(R.id.PC_message);
+        Message.setVisibility(View.GONE);
+        Text = (ImageView) findViewById(R.id.PC_text);
+        Text.setVisibility(View.GONE);
+        Screen = (ImageView) findViewById(R.id.screen);
+        Screen.setVisibility(View.GONE);
+        Text_Show = AnimationUtils.loadAnimation(PPokeMonBook.this, R.anim.anim4);
+
+        FirstTouch = true;
     }
 
     @Override
@@ -106,6 +173,7 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
                 Item.setVisibility(View.VISIBLE);
                 Use.setVisibility(View.GONE);
                 Cancel.setVisibility(View.GONE);
+                FirstTouch = true;
                 break;
             case R.id.use:
                 String PMStone = Item_name.getText().toString();
@@ -168,8 +236,13 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
                     Bag_Pic.setBackgroundResource(ownItem.getImageResourceId());
                     Bag_Pic.startAnimation(anim4);
 
-                    Use.setVisibility(View.VISIBLE);
-                    Cancel.setVisibility(View.VISIBLE);
+                    if (FirstTouch) {
+                        Use.setVisibility(View.VISIBLE);
+                        Cancel.setVisibility(View.VISIBLE);
+                        Use.startAnimation(Float2);
+                        Cancel.startAnimation(Float3);
+                        FirstTouch = false;
+                    }
                 }
             });
             return holder;
