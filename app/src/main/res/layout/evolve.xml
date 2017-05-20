@@ -141,4 +141,18 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         />
+    <ImageView
+        android:id="@+id/black"
+        android:background="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/white"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
 </android.support.percent.PercentRelativeLayout>

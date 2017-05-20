@@ -512,7 +512,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 return point;
             }
         });
-
         valueAnimator.start();
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

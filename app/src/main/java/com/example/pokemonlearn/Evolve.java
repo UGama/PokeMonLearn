@@ -3,9 +3,18 @@ package com.example.pokemonlearn;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -40,11 +49,20 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     private Animation trans_out1;
     private Animation trans_out2;
 
+    private PercentRelativeLayout Layout_Up;
     private ImageView Roof1;
     private ImageView Roof2;
     private ImageView PokeMon;
     private ImageView Stone;
     private ImageView Plus;
+    private int PWidth;
+    private int PHeight;
+    private int PTop;
+    private int PLeft;
+    private int SWidth;
+    private int SHeight;
+    private int STop;
+    private int SLeft;
 
     private Button Evolve;
     private Button Cancel;
@@ -83,6 +101,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         List<PokeMon> pokeMons = DataSupport.where("Name = ?", SName).find(PokeMon.class);
         ES_PokeMon = pokeMons.get(0);
 
+        Layout_Up = (PercentRelativeLayout) findViewById(R.id.Layout_up);
         Roof1 = (ImageView) findViewById(R.id.roof1);
         Roof1.setVisibility(View.GONE);
         Roof2 = (ImageView) findViewById(R.id.roof2);
@@ -193,8 +212,23 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.evolve:
+                Plus.setVisibility(View.GONE);
+                List<OwnItem> list = DataSupport.where("Name = ?", E_PokeMonStone.getName()).find(OwnItem.class);
+                OwnItem ownItem = list.get(0);
+                int a = ownItem.getNumber() - 1;
+                if (a == 0) {
+                    DataSupport.deleteAll(OwnItem.class, "Name = ?", ownItem.getName());
+                } else {
+                    OwnItem ownItem1 = new OwnItem();
+                    ownItem1.setNumber(a);
+                    ownItem1.updateAll("Name = ?", E_PokeMonStone.getName());
+                }
+                Message.setText("");
+                Combine();
                 break;
             case R.id.cancel:
+                Intent intent2 = new Intent();
+                setResult(RESULT_CANCELED, intent2);
                 finish();
                 break;
         }
@@ -281,6 +315,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         });
 
     }
+
     public void ScreenRun(View view) {
         ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
                 1.0f, 0.0f);
@@ -293,4 +328,139 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         animSet.start();
 
     }
+
+    public void Combine() {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(Roof1, "Alpha", 1, 0);
+        objectAnimator.setDuration(800);
+        objectAnimator.start();
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Roof2, "Alpha", 1, 0);
+        objectAnimator1.setDuration(800);
+        objectAnimator1.start();
+        int[] a = new int[2];
+        PokeMon.getLocationInWindow(a);
+        PWidth = PokeMon.getWidth();
+        PHeight = PokeMon.getHeight();
+        PTop = PokeMon.getTop();
+        PLeft = PokeMon.getLeft();
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(1400);
+        valueAnimator.setObjectValues(new PointF(PLeft, PTop));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.x = PLeft - fraction * (PLeft - (Width / 2 - PWidth / 2));
+                point.y = PTop + fraction * ((Height * 0.48f / 2) - PHeight / 2 - PTop);
+                return point;
+            }
+        });
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                PokeMon.setX(point.x);
+                PokeMon.setY(point.y);
+            }
+        });
+        Stone.getLocationInWindow(a);
+        SLeft = Stone.getLeft();
+        SWidth = Stone.getWidth();
+        SHeight = Stone.getHeight();
+        STop = Stone.getTop();
+        ValueAnimator valueAnimator1 = new ValueAnimator();
+        valueAnimator1.setDuration(1400);
+        valueAnimator1.setObjectValues(new PointF(SLeft, STop));
+        valueAnimator1.setInterpolator(new LinearInterpolator());
+        valueAnimator1.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.x = SLeft + fraction * (Width / 2 - SWidth / 2 - SLeft);
+                point.y = STop - fraction * (STop - Height * 0.48f / 2 + SHeight / 2);
+                return point;
+            }
+        });
+        valueAnimator1.start();
+        valueAnimator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Stone.setX(point.x);
+                Stone.setY(point.y);
+            }
+        });
+        valueAnimator1.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                PerPare();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 0.3f);
+        PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 0.3f);
+        PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("rotation", 0, 180);
+        PropertyValuesHolder propertyValuesHolder3 = PropertyValuesHolder.ofFloat("alpha", 1, 1, 1, 0);
+        ObjectAnimator.ofPropertyValuesHolder(Stone,
+                propertyValuesHolder, propertyValuesHolder1, propertyValuesHolder2, propertyValuesHolder3).
+               setDuration(1400).start();
+    }
+
+    public void PerPare() {
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(1000);
+        valueAnimator.setObjectValues(new PointF(PLeft, PTop));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.x = SLeft + fraction * (Width / 2 - SWidth / 2 - SLeft);
+                point.y = STop - fraction * (STop - Height * 0.48f / 2 + SHeight / 2);
+                return point;
+            }
+        });
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Stone.setX(point.x);
+                Stone.setY(point.y);
+            }
+        });
+        
+    }
+
+    class Light extends View {
+        public Light(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Paint p = new Paint();
+            p.setColor(Color.WHITE);
+            p.setAntiAlias(false);
+            canvas.drawCircle(Width / 2, (int) (Height * 0.48 / 2), 50, p);
+        }
+    }
+
+
 }
