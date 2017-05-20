@@ -8,8 +8,9 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import java.util.List;
  */
 
 public class Evolve extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
+    private PercentRelativeLayout Layout_Whole;
     private int Width;
     private int Height;
 
@@ -75,15 +77,19 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     private ImageView Next_Text;
     private Animation Float1;
 
+    private ImageView White;
+    private ImageView Black;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evolve);
 
+        Layout_Whole = (PercentRelativeLayout) findViewById(R.id.layout_whole);
         WindowManager manager = getWindowManager();
         DisplayMetrics metrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(metrics);
-        Width= metrics.widthPixels;
+        Width = metrics.widthPixels;
         Height = metrics.heightPixels;
         Log.i("Windows", String.valueOf(Height) + " " + String.valueOf(Width));
 
@@ -184,6 +190,9 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             }
         });
+
+        Black = (ImageView) findViewById(R.id.black);
+        White = (ImageView) findViewById(R.id.white);
 
     }
 
@@ -370,7 +379,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         SHeight = Stone.getHeight();
         STop = Stone.getTop();
         ValueAnimator valueAnimator1 = new ValueAnimator();
-        valueAnimator1.setDuration(1400);
+        valueAnimator1.setDuration(2000);
         valueAnimator1.setObjectValues(new PointF(SLeft, STop));
         valueAnimator1.setInterpolator(new LinearInterpolator());
         valueAnimator1.setEvaluator(new TypeEvaluator<PointF>() {
@@ -399,7 +408,31 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                PerPare();
+                Stone.setVisibility(View.GONE);
+                ObjectAnimator cd = ObjectAnimator.ofFloat(PokeMon, "rotation", 0, 0);
+                cd.setDuration(400);
+                cd.start();
+                cd.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        PrePare();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
             }
 
             @Override
@@ -412,26 +445,26 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             }
         });
-        PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 0.3f);
-        PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 0.3f);
+
+        PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 0.0f);
+        PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 0.0f);
         PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("rotation", 0, 180);
-        PropertyValuesHolder propertyValuesHolder3 = PropertyValuesHolder.ofFloat("alpha", 1, 1, 1, 0);
         ObjectAnimator.ofPropertyValuesHolder(Stone,
-                propertyValuesHolder, propertyValuesHolder1, propertyValuesHolder2, propertyValuesHolder3).
-               setDuration(1400).start();
+                propertyValuesHolder, propertyValuesHolder1, propertyValuesHolder2).
+                setDuration(2000).start();
     }
 
-    public void PerPare() {
+    public void PrePare() {
         ValueAnimator valueAnimator = new ValueAnimator();
-        valueAnimator.setDuration(1000);
-        valueAnimator.setObjectValues(new PointF(PLeft, PTop));
+        valueAnimator.setDuration(2000);
+        valueAnimator.setObjectValues(new PointF(Width / 2 - PWidth / 2, Height * 0.48f / 2 - PHeight / 2));
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
             @Override
             public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
                 PointF point = new PointF();
-                point.x = SLeft + fraction * (Width / 2 - SWidth / 2 - SLeft);
-                point.y = STop - fraction * (STop - Height * 0.48f / 2 + SHeight / 2);
+                point.x = Width / 2 - PWidth / 2;
+                point.y = Height * 0.48f / 2 - PHeight / 2 + fraction * Height * 0.26f;
                 return point;
             }
         });
@@ -440,27 +473,53 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 PointF point = (PointF) animation.getAnimatedValue();
-                Stone.setX(point.x);
-                Stone.setY(point.y);
+                PokeMon.setX(point.x);
+                PokeMon.setY(point.y);
             }
         });
-        
+        Black.setVisibility(View.VISIBLE);
+        ObjectAnimator black = ObjectAnimator.ofFloat(Black, "Alpha", 0, 1.0f);
+        black.setDuration(2000);
+        black.start();
+        black.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                LightDown();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
-    class Light extends View {
-        public Light(Context context) {
+    public void LightDown() {
+        Light1 light1 = new Light1(Evolve.this);
+        Layout_Whole.addView(light1);
+    }
+
+    class Light1 extends View {
+        public Light1(Context context) {
             super(context);
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light1);
             Paint p = new Paint();
-            p.setColor(Color.WHITE);
-            p.setAntiAlias(false);
-            canvas.drawCircle(Width / 2, (int) (Height * 0.48 / 2), 50, p);
+            canvas.drawBitmap(bitmap, Width / 2 - bitmap.getWidth() / 2, bitmap.getHeight(), p);
         }
     }
-
-
 }

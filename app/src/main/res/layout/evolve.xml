@@ -2,6 +2,7 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_whole"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/Layout_Up"
@@ -24,15 +25,6 @@
             app:layout_heightPercent="18%"
             android:layout_alignParentBottom="true"
             app:layout_marginBottomPercent="23%"
-            />
-
-        <ImageView
-            android:id="@+id/pokemon"
-            app:layout_marginTopPercent="7%"
-            app:layout_marginRightPercent="5%"
-            app:layout_widthPercent="35%"
-            app:layout_heightPercent="28%"
-            android:layout_alignParentEnd="true"
             />
 
         <ImageView
@@ -143,16 +135,24 @@
         />
     <ImageView
         android:id="@+id/black"
-        android:background="#000000"
+        android:background="@drawable/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         />
     <ImageView
         android:id="@+id/white"
-        android:background="#ffffff"
+        android:background="@drawable/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/pokemon"
+        app:layout_marginTopPercent="4.9%"
+        app:layout_widthPercent="35%"
+        app:layout_heightPercent="19.6%"
+        app:layout_marginRightPercent="5%"
+        android:layout_alignParentEnd="true"
         />
 </android.support.percent.PercentRelativeLayout>

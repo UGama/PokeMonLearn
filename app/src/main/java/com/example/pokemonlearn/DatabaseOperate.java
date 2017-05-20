@@ -278,22 +278,22 @@ public class DatabaseOperate extends AppCompatActivity {
         List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
         List<OwnItem> items = new ArrayList<>();
         for (PokeMonBall pokeMonBall : pokeMonBalls) {
-            OwnItem ownItem = new OwnItem(pokeMonBall.getName(), pokeMonBall.getNumber(), 1, pokeMonBall.getImageSourceId(), pokeMonBall.getNumber());
+            OwnItem ownItem = new OwnItem(pokeMonBall.getName(), 99, 1, pokeMonBall.getImageSourceId(), pokeMonBall.getNumber());
             items.add(ownItem);
         }
         List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
         for (PokeMonTool pokeMonTool : pokeMonTools) {
-            OwnItem ownItem = new OwnItem(pokeMonTool.getName(), pokeMonTool.getNumber(), 2, pokeMonTool.getImageResourceId(), pokeMonTool.getNumber());
+            OwnItem ownItem = new OwnItem(pokeMonTool.getName(), 99, 2, pokeMonTool.getImageResourceId(), pokeMonTool.getNumber());
             items.add(ownItem);
         }
         List<PokeMonStone> pokeMonStones = DataSupport.findAll(PokeMonStone.class);
         for (PokeMonStone pokeMonStone : pokeMonStones) {
-            OwnItem ownItem = new OwnItem(pokeMonStone.getName(), pokeMonStone.getNumber(), 3, pokeMonStone.getImageResourceId(), pokeMonStone.getNumber());
+            OwnItem ownItem = new OwnItem(pokeMonStone.getName(), 99, 3, pokeMonStone.getImageResourceId(), pokeMonStone.getNumber());
             items.add(ownItem);
         }
         List<PokeMonBook> pokeMonBooks = DataSupport.findAll(PokeMonBook.class);
         for (PokeMonBook pokeMonBook : pokeMonBooks) {
-            OwnItem ownItem = new OwnItem(pokeMonBook.getName(), pokeMonBook.getNumber(), 4, pokeMonBook.getImageResourceId(), pokeMonBook.getNumber());
+            OwnItem ownItem = new OwnItem(pokeMonBook.getName(), 99, 4, pokeMonBook.getImageResourceId(), pokeMonBook.getNumber());
             items.add(ownItem);
         }
         DataSupport.saveAll(items);
@@ -366,7 +366,6 @@ public class DatabaseOperate extends AppCompatActivity {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.database_item, parent, false);
             final ViewHolder holder = new ViewHolder(view);
-
             return holder;
         }
 
