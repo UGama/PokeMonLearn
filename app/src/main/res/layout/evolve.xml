@@ -28,14 +28,6 @@
             />
 
         <ImageView
-            android:id="@+id/stone"
-            android:layout_alignBottom="@+id/roof2"
-            app:layout_marginBottomPercent="7%"
-            app:layout_marginLeftPercent="5%"
-            app:layout_widthPercent="35%"
-            app:layout_heightPercent="28%"
-            />
-        <ImageView
             android:id="@+id/plus"
             android:background="@drawable/plus"
             android:layout_centerHorizontal="true"
@@ -148,6 +140,14 @@
         android:visibility="gone"
         />
     <ImageView
+        android:id="@+id/light3"
+        android:src="@drawable/light3"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+    <ImageView
         android:id="@+id/pokemon"
         app:layout_marginTopPercent="4.9%"
         app:layout_widthPercent="35%"
@@ -155,4 +155,28 @@
         app:layout_marginRightPercent="5%"
         android:layout_alignParentEnd="true"
         />
+    <ImageView
+        android:id="@+id/stone"
+        app:layout_marginTopPercent="38%"
+        app:layout_marginLeftPercent="10%"
+        app:layout_widthPercent="28%"
+        app:layout_heightPercent="12%"
+        />
+    <ImageView
+        android:id="@+id/light1"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/light1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/light2"
+        android:src="@drawable/light2"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
 </android.support.percent.PercentRelativeLayout>

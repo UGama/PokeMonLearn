@@ -6,12 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,12 +28,13 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
+import static android.animation.ObjectAnimator.ofFloat;
+
 /**
  * Created by Gama on 18/5/17.
  */
 
 public class Evolve extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
-    private PercentRelativeLayout Layout_Whole;
     private int Width;
     private int Height;
 
@@ -57,6 +53,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     private ImageView PokeMon;
     private ImageView Stone;
     private ImageView Plus;
+    int[] a = new int[2];
     private int PWidth;
     private int PHeight;
     private int PTop;
@@ -76,16 +73,20 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     private ImageView Screen;
     private ImageView Next_Text;
     private Animation Float1;
+    private Animation animation1;
+    private Animation animation2;
 
     private ImageView White;
     private ImageView Black;
+    private ImageView Light1;
+    private ImageView Light2;
+    private ImageView Light3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evolve);
 
-        Layout_Whole = (PercentRelativeLayout) findViewById(R.id.layout_whole);
         WindowManager manager = getWindowManager();
         DisplayMetrics metrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(metrics);
@@ -193,6 +194,9 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
         Black = (ImageView) findViewById(R.id.black);
         White = (ImageView) findViewById(R.id.white);
+        Light1 = (ImageView) findViewById(R.id.light1);
+        Light2 = (ImageView) findViewById(R.id.light2);
+        Light3 = (ImageView) findViewById(R.id.light3);
 
     }
 
@@ -234,6 +238,8 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                 }
                 Message.setText("");
                 Combine();
+                Evolve.setVisibility(View.GONE);
+                Cancel.setVisibility(View.GONE);
                 break;
             case R.id.cancel:
                 Intent intent2 = new Intent();
@@ -247,11 +253,11 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         Roof1.setVisibility(View.VISIBLE);
         PokeMon.setVisibility(View.VISIBLE);
 
-        ObjectAnimator Left1 = ObjectAnimator.ofFloat(Roof1, "translationX", -Width, 0);
+        ObjectAnimator Left1 = ofFloat(Roof1, "translationX", -Width, 0);
         Left1.setDuration(300);
-        ObjectAnimator Left2 = ObjectAnimator.ofFloat(PokeMon, "translationX", -Width, 0);
+        ObjectAnimator Left2 = ofFloat(PokeMon, "translationX", -Width, 0);
         Left2.setDuration(300);
-        ObjectAnimator cd = ObjectAnimator.ofFloat(Roof1, "rotation", 0, 0);
+        ObjectAnimator cd = ofFloat(Roof1, "rotation", 0, 0);
         cd.setDuration(300);
 
         AnimatorSet animatorSet1 = new AnimatorSet();
@@ -267,11 +273,11 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
             public void onAnimationEnd(Animator animation) {
                 Roof2.setVisibility(View.VISIBLE);
                 Stone.setVisibility(View.VISIBLE);
-                ObjectAnimator Right1 = ObjectAnimator.ofFloat(Roof2, "translationX", Width, 0);
+                ObjectAnimator Right1 = ofFloat(Roof2, "translationX", Width, 0);
                 Right1.setDuration(300);
-                ObjectAnimator Right2 = ObjectAnimator.ofFloat(Stone, "translationX", Width, 0);
+                ObjectAnimator Right2 = ofFloat(Stone, "translationX", Width, 0);
                 Right2.setDuration(300);
-                ObjectAnimator cd = ObjectAnimator.ofFloat(Roof2, "rotation", 0, 0);
+                ObjectAnimator cd = ofFloat(Roof2, "rotation", 0, 0);
                 cd.setDuration(200);
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 animatorSet2.play(Right1).with(Right2).before(cd);
@@ -285,9 +291,9 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         Plus.setVisibility(View.VISIBLE);
-                        ObjectAnimator Plus_Show1 = ObjectAnimator.ofFloat(Plus, "rotation", -90, 0);
+                        ObjectAnimator Plus_Show1 = ofFloat(Plus, "rotation", -90, 0);
                         Plus_Show1.setDuration(800);
-                        ObjectAnimator Plus_Show2 = ObjectAnimator.ofFloat(Plus, "Alpha", 0, 1);
+                        ObjectAnimator Plus_Show2 = ofFloat(Plus, "Alpha", 0, 1);
                         Plus_Show2.setDuration(800);
                         AnimatorSet animatorSet3 = new AnimatorSet();
                         animatorSet3.play(Plus_Show1).with(Plus_Show2);
@@ -323,12 +329,33 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
             }
         });
 
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(100);
+        valueAnimator.setObjectValues(new PointF());
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.y = (-1) * fraction * 500;
+                return point;
+            }
+        });
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Light1.setY(point.y);
+            }
+        });
+
     }
 
     public void ScreenRun(View view) {
-        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
+        ObjectAnimator anim1 = ofFloat(view, "scaleX",
                 1.0f, 0.0f);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
+        ObjectAnimator anim2 = ofFloat(view, "translationX",
                 0, 450);
         AnimatorSet animSet = new AnimatorSet();
         animSet.setDuration(1500);
@@ -339,20 +366,19 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     }
 
     public void Combine() {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(Roof1, "Alpha", 1, 0);
+        ObjectAnimator objectAnimator = ofFloat(Roof1, "Alpha", 1, 0);
         objectAnimator.setDuration(800);
         objectAnimator.start();
-        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Roof2, "Alpha", 1, 0);
+        ObjectAnimator objectAnimator1 = ofFloat(Roof2, "Alpha", 1, 0);
         objectAnimator1.setDuration(800);
         objectAnimator1.start();
-        int[] a = new int[2];
         PokeMon.getLocationInWindow(a);
         PWidth = PokeMon.getWidth();
         PHeight = PokeMon.getHeight();
         PTop = PokeMon.getTop();
         PLeft = PokeMon.getLeft();
         ValueAnimator valueAnimator = new ValueAnimator();
-        valueAnimator.setDuration(1400);
+        valueAnimator.setDuration(2000);
         valueAnimator.setObjectValues(new PointF(PLeft, PTop));
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
@@ -408,9 +434,8 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                Stone.setVisibility(View.GONE);
-                ObjectAnimator cd = ObjectAnimator.ofFloat(PokeMon, "rotation", 0, 0);
-                cd.setDuration(400);
+                ObjectAnimator cd = ofFloat(PokeMon, "rotation", 0, 0);
+                cd.setDuration(200);
                 cd.start();
                 cd.addListener(new Animator.AnimatorListener() {
                     @Override
@@ -446,8 +471,8 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
             }
         });
 
-        PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 0.0f);
-        PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 0.0f);
+        PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 0.3f);
+        PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 0.3f);
         PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("rotation", 0, 180);
         ObjectAnimator.ofPropertyValuesHolder(Stone,
                 propertyValuesHolder, propertyValuesHolder1, propertyValuesHolder2).
@@ -455,8 +480,61 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     }
 
     public void PrePare() {
+        Light2.setVisibility(View.VISIBLE);
+        Light2.getLocationInWindow(a);
+        ValueAnimator valueAnimator0 = new ValueAnimator();
+        valueAnimator0.setDuration(1000);
+        valueAnimator0.setObjectValues(new PointF());
+        valueAnimator0.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.y = (-1) * Light2.getHeight() + fraction * (Height / 2 + Light2.getHeight() / 2);
+                return point;
+            }
+        });
+        valueAnimator0.start();
+        valueAnimator0.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Light2.setY(point.y);
+            }
+        });
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(Light2, "Alpha", 0, 0);
+        objectAnimator.setDuration(1000);
+        objectAnimator.start();
+
+        Light3.setVisibility(View.VISIBLE);
+        Light3.getLocationInWindow(a);
+        ValueAnimator valueAnimator3 = new ValueAnimator();
+        valueAnimator3.setDuration(1000);
+        valueAnimator3.setObjectValues(new PointF());
+        valueAnimator3.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.y = (-1) * Light3.getHeight() + fraction * (Height / 2 + Light3.getHeight() / 2);
+                return point;
+            }
+        });
+        valueAnimator3.start();
+        valueAnimator3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Light3.setY(point.y);
+            }
+        });
+        PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 50f);
+        PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 50f);
+        PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("alpha", 0, 0);
+        ObjectAnimator.ofPropertyValuesHolder(Light3,
+                propertyValuesHolder, propertyValuesHolder1, propertyValuesHolder2).
+                setDuration(1000).start();
+
         ValueAnimator valueAnimator = new ValueAnimator();
-        valueAnimator.setDuration(2000);
+        valueAnimator.setDuration(3000);
         valueAnimator.setObjectValues(new PointF(Width / 2 - PWidth / 2, Height * 0.48f / 2 - PHeight / 2));
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
@@ -477,9 +555,37 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                 PokeMon.setY(point.y);
             }
         });
+
+        Stone.getLocationInWindow(a);
+
+        ValueAnimator valueAnimator1 = new ValueAnimator();
+        valueAnimator1.setDuration(3000);
+        valueAnimator1.setObjectValues(new PointF(Width / 2 - Stone.getWidth() / 2,
+                Height * 0.48f / 2 - Stone.getHeight() / 2));
+        valueAnimator1.setInterpolator(new LinearInterpolator());
+        valueAnimator1.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.x = Width / 2 - Stone.getWidth() / 2;
+                point.y = Height * 0.48f / 2 - Stone.getHeight() / 2 + fraction * Height * 0.26f;
+                return point;
+            }
+        });
+        valueAnimator1.start();
+        valueAnimator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Stone.setX(point.x);
+                Stone.setY(point.y);
+            }
+        });
+
         Black.setVisibility(View.VISIBLE);
-        ObjectAnimator black = ObjectAnimator.ofFloat(Black, "Alpha", 0, 1.0f);
-        black.setDuration(2000);
+        ObjectAnimator black = ofFloat(Black, "Alpha", 0, 1.0f);
+        black.setDuration(3000);
+        black.setInterpolator(new LinearInterpolator());
         black.start();
         black.addListener(new Animator.AnimatorListener() {
             @Override
@@ -489,6 +595,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                Shining();
                 LightDown();
             }
 
@@ -504,22 +611,328 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         });
     }
 
+    public void Shining() {
+        Light2.setVisibility(View.VISIBLE);
+
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(Light2, "ScaleX", 0, 0.7f, 1, 0.7f, 1, 0.7f);
+        objectAnimator.setDuration(4500);
+        objectAnimator.start();
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Light2, "ScaleY", 0, 0.7f, 1, 0.7f, 1, 0.7f);
+        objectAnimator1.setDuration(4500);
+        objectAnimator1.start();
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(Light2, "Alpha", 0, 1);
+        objectAnimator2.setDuration(400);
+        objectAnimator2.start();
+    }
+
     public void LightDown() {
-        Light1 light1 = new Light1(Evolve.this);
-        Layout_Whole.addView(light1);
+        Light1.setVisibility(View.VISIBLE);
+        Light1.getLocationInWindow(a);
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(5000);
+        valueAnimator.setStartDelay(500);
+        valueAnimator.setObjectValues(new PointF(Width / 2 - Light1.getWidth() / 2,
+                -Light1.getHeight()));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.x = Width / 2 - Light1.getWidth() / 2;
+                point.y = (-1) * Light1.getHeight() + fraction * (Height / 2 + Light1.getHeight() / 2);
+                return point;
+            }
+        });
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                Light1.setX(point.x);
+                Light1.setY(point.y);
+            }
+        });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                TheFlash();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        ObjectAnimator o = ObjectAnimator.ofFloat(Light1, "ScaleX", 1, 0.7f, 1, 0.7f, 1, 0.7f, 1);
+        o.setDuration(5000);
+        o.start();
+        ObjectAnimator o1 = ObjectAnimator.ofFloat(Light1, "ScaleY", 1, 0.7f, 1, 0.7f, 1, 0.7f, 1);
+        o1.setDuration(5000);
+        o1.start();
     }
 
-    class Light1 extends View {
-        public Light1(Context context) {
-            super(context);
-        }
+    public void TheFlash() {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(Light2, "ScaleX", 1, 50);
+        objectAnimator.setDuration(100);
+        objectAnimator.start();
+        ObjectAnimator cd = ObjectAnimator.ofFloat(Light2, "Alpha", 1, 1);
+        cd.setDuration(1000);
+        cd.start();
+        cd.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
 
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light1);
-            Paint p = new Paint();
-            canvas.drawBitmap(bitmap, Width / 2 - bitmap.getWidth() / 2, bitmap.getHeight(), p);
-        }
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Light2, "ScaleY", 1, 50);
+                objectAnimator1.setDuration(100);
+                objectAnimator1.start();
+                ObjectAnimator o = ObjectAnimator.ofFloat(Light3, "Alpha", 0, 1);
+                o.setDuration(100);
+                o.start();
+                objectAnimator1.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        PokeMon.setVisibility(View.GONE);
+                        Stone.setVisibility(View.GONE);
+                        White.setVisibility(View.VISIBLE);
+                        Light1.setVisibility(View.GONE);
+                        Light2.setVisibility(View.GONE);
+                        PokeMon.setImageResource(ES_PokeMon.getImageSourceId());
+                        ObjectAnimator cd = ObjectAnimator.ofFloat(Light3, "Rotation", 0, 0);
+                        cd.setDuration(2000);
+                        cd.start();
+                        cd.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                TheEnd();
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
+
+    public void TheEnd() {
+        PokeMon.setVisibility(View.VISIBLE);
+        ObjectAnimator o = ObjectAnimator.ofFloat(PokeMon, "Alpha", 0, 1);
+        o.setDuration(3000);
+        o.start();
+        ObjectAnimator o1 = ObjectAnimator.ofFloat(PokeMon, "ScaleX", 1, 2);
+        o1.setDuration(100);
+        o1.start();
+        ObjectAnimator o2 = ObjectAnimator.ofFloat(PokeMon, "ScaleY", 1, 2);
+        o2.setDuration(100);
+        o2.start();
+
+        ObjectAnimator cd = ObjectAnimator.ofFloat(PokeMon, "Rotation", 0, 0);
+        cd.setDuration(3000);
+        cd.start();
+
+        White.setVisibility(View.GONE);
+
+        ObjectAnimator o3 = ObjectAnimator.ofFloat(Light3, "ScaleX", 50, 2);
+        o3.setDuration(1000);
+        ObjectAnimator o4 = ObjectAnimator.ofFloat(Light3, "ScaleY", 50, 2);
+        o4.setDuration(1000);
+        AnimatorSet as = new AnimatorSet();
+        as.play(o3).with(o4).after(cd);
+        as.start();
+        as.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ObjectAnimator cd = ObjectAnimator.ofFloat(PokeMon, "rotation", 0, 0);
+                cd.setDuration(3000);
+                cd.start();
+                cd.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ComeBack();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+    }
+
+    public void ComeBack() {
+        ObjectAnimator o0 = ObjectAnimator.ofFloat(Light3, "Alpha", 1, 0);
+        o0.setDuration(1000);
+        o0.start();
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(3000);
+        valueAnimator.setObjectValues(new PointF(Width / 2 - PWidth / 2, Height / 2 - PHeight / 2));
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setEvaluator(new TypeEvaluator<PointF>() {
+            @Override
+            public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
+                PointF point = new PointF();
+                point.x = Width / 2 - PWidth / 2;
+                point.y = Height / 2 - PHeight / 2 - fraction * Height * 0.26f;
+                return point;
+            }
+        });
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                PointF point = (PointF) animation.getAnimatedValue();
+                PokeMon.setX(point.x);
+                PokeMon.setY(point.y);
+            }
+        });
+        ObjectAnimator o = ObjectAnimator.ofFloat(Black, "Alpha", 1, 0);
+        o.setDuration(3000);
+        o.start();
+        o.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                String tip = "恭喜！成功进化 " + ES_PokeMon.getName() + " ！";
+                Message.setText(tip);
+                ScreenRun(Screen);
+                Next_Text.setVisibility(View.VISIBLE);
+                animation1 = AnimationUtils.loadAnimation(Evolve.this, R.anim.up2);
+                animation1.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Next_Text.startAnimation(animation2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                animation2 = AnimationUtils.loadAnimation(Evolve.this, R.anim.down2);
+                animation2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Next_Text.startAnimation(animation1);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                Next_Text.startAnimation(animation1);
+                Text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
 }
