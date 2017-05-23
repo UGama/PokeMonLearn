@@ -226,7 +226,75 @@
 
     </android.support.percent.PercentRelativeLayout>
 
+    <ImageView
+        android:id="@+id/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:visibility="gone"
+        />
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/dialog"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_bag_explain"
+        app:layout_widthPercent="70%"
+        app:layout_heightPercent="30%"
+        android:visibility="gone"
+        >
+        <TextView
+            android:textSize="24sp"
+            android:text="请输入购买数量："
+            android:textColor="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_marginTopPercent="8%"
+            app:layout_marginLeftPercent="5%"
+            />
 
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="25%"
+            app:layout_widthPercent="80%"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ems="3"
+            android:background="@drawable/shape_bag_explain"
+            android:inputType="number"
+            android:hint="数量："
+            android:textColor="#000000"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/d_confirm"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="4%"
+            android:background="@drawable/pet_shape"
+            app:layout_widthPercent="40%"
+            app:layout_heightPercent="25%"
+            app:layout_marginLeftPercent="7%"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:text="购买"
+            android:gravity="center"
+            />
+        <Button
+            android:id="@+id/d_cancel"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="4%"
+            android:background="@drawable/pet_shape"
+            app:layout_widthPercent="40%"
+            app:layout_heightPercent="25%"
+            app:layout_marginLeftPercent="52%"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:text="取消"
+            android:gravity="center"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
     <ImageView
         android:id="@+id/transfer1"
         android:background="@drawable/transfer"
@@ -241,5 +309,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         />
+
+
 
 </android.support.percent.PercentRelativeLayout>

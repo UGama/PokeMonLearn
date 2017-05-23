@@ -3,10 +3,13 @@ package com.example.pokemonlearn;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,6 +74,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private TextView SBuy_Message;
     private ImageView SBuy_Text;
     private ImageView Screen;
+    private int Price;
 
     private ViewPage v1;
     private ViewPage v2;
@@ -81,6 +86,14 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private MyPagerAdapter myPagerAdapter;
     private ViewPagerIndicator indicator;
     private int PagesCount;
+
+    private int MessageCount;
+
+    private ImageView Black;
+    private PercentRelativeLayout Dialog;
+    private EditText editText;
+    private Button D_Confirm;
+    private Button D_Cancel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -349,18 +362,123 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         Item_Name.setVisibility(View.GONE);
 
         SBuy_Message = (TextView) findViewById(R.id.s_message);
+        SBuy_Text = (ImageView) findViewById(R.id.s_text);
         Screen = (ImageView) findViewById(R.id.screen);
 
         PagesCount = 1;
+        MessageCount = 0;
+
+        Black = (ImageView) findViewById(R.id.black);
+        Dialog = (PercentRelativeLayout) findViewById(R.id.dialog);
+        editText = (EditText) findViewById(R.id.editText);
+        D_Confirm = (Button) findViewById(R.id.d_confirm);
+        D_Confirm.setOnClickListener(this);
+        D_Confirm.setOnTouchListener(this);
+        D_Cancel = (Button) findViewById(R.id.d_cancel);
+        D_Cancel.setOnTouchListener(this);
+        D_Cancel.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.action:
+                if (MessageCount == 0) {
+                    Buy.setBackgroundResource(R.drawable.s_comfirm);
+                    Buy.startAnimation(float2);
+                    Cancel.startAnimation(float3);
+                    String tip = "确定要购买 " + Item_Name.getText().toString() + " 吗？";
+                    SBuy_Message.setText(tip);
+                    ScreenRun(Screen);
+                    MessageCount = 1;
+                } else if (MessageCount == 1) {
+                    Black.setVisibility(View.VISIBLE);
+                    Dialog.setVisibility(View.VISIBLE);
+                    Buy.setVisibility(View.GONE);
+                    Cancel.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.cancel:
+                if (MessageCount == 0) {
+                    finish();
+                } else if (MessageCount == 1) {
+                    MessageCount = 0;
+                    Buy.setBackgroundResource(R.drawable.s_buy);
+                    Buy.startAnimation(float2);
+                    Cancel.startAnimation(float3);
+                }
+                break;
+            case R.id.d_confirm:
+                int number = Integer.valueOf(editText.getText().toString());
+                if (number <= 0) {
+                    Dialog_Show();
+                } else {
+                    SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
+                    int MyCoin = preferences.getInt("Coins", 0);
+                    if (MyCoin >= Price * number) {
+                        MyCoin -= Price * number;
+                        SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                        editor.putInt("data", MyCoin);
+                        editor.apply();
+                        
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("抱歉")
+                                .setMessage("余额不足请充值。")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                }
+                break;
+            case R.id.d_cancel:
+                Dialog.setVisibility(View.GONE);
+                Black.setVisibility(View.GONE);
+                Buy.setVisibility(View.VISIBLE);
+                Buy.setBackgroundResource(R.drawable.s_buy);
+                Buy.startAnimation(float2);
+                Cancel.setVisibility(View.VISIBLE);
+                Cancel.startAnimation(float3);
+                MessageCount = 0;
+                break;
+        }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.action:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Buy.getBackground().setAlpha(120);
+                } else {
+                    Buy.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.cancel:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Cancel.getBackground().setAlpha(120);
+                } else {
+                    Cancel.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.d_confirm:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    D_Confirm.getBackground().setAlpha(120);
+                } else {
+                    D_Confirm.getBackground().setAlpha(255);
+                }
+                break;
+            case R.id.d_cancel:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    D_Cancel.getBackground().setAlpha(120);
+                } else {
+                    D_Cancel.getBackground().setAlpha(255);
+                }
+                break;
+        }
         return false;
     }
 
@@ -503,31 +621,38 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                             PokeMonBall pokeMonBall = pokeMonBalls.get(0);
                             Item_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
                             Item_Name.setText(pokeMonBall.getName());
+                            Price = pokeMonBall.getPrice();
                             break;
                         case 2:
                             List<PokeMonTool> pokeMonTools = DataSupport.where("Name = ?", name).find(PokeMonTool.class);
                             PokeMonTool pokeMonTool = pokeMonTools.get(0);
                             Item_Pic.setBackgroundResource(pokeMonTool.getImageResourceId());
                             Item_Name.setText(pokeMonTool.getName());
+                            Price = pokeMonTool.getPrice();
                             break;
                         case 3:
                             List<PokeMonStone> pokeMonStones = DataSupport.where("Name = ?", name).find(PokeMonStone.class);
                             PokeMonStone pokeMonStone = pokeMonStones.get(0);
                             Item_Pic.setBackgroundResource(pokeMonStone.getImageResourceId());
                             Item_Name.setText(pokeMonStone.getName());
+                            Price = pokeMonStone.getPrice();
                             break;
                         case 4:
                             List<PokeMonBook> pokeMonBooks = DataSupport.where("Name = ?", name).find(PokeMonBook.class);
                             PokeMonBook pokeMonBook = pokeMonBooks.get(0);
                             Item_Pic.setBackgroundResource(pokeMonBook.getImageResourceId());
                             Item_Name.setText(pokeMonBook.getName());
+                            Price = pokeMonBook.getPrice();
                             break;
                         case 5:
                             List<Scene> scenes = DataSupport.where("Number = ?", name).find(Scene.class);
                             Scene scene = scenes.get(0);
                             Pet_Init.setImageResource(scene.getImageResource());
+                            Item_Name.setText(String.valueOf(scene.getNumber()));
+                            Price = scene.getPrice();
                             break;
                     }
+                    Log.i("Price", String.valueOf(Price));
                 }
             });
             return holder;
@@ -587,6 +712,18 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         animSet.playTogether(anim1, anim2);
         animSet.start();
 
+    }
+
+    public void Dialog_Show() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("错误")
+                .setMessage("请输入正确的数字。")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
 }
