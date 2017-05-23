@@ -3,10 +3,13 @@ package com.example.pokemonlearn;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.percent.PercentRelativeLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -97,7 +100,6 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
         });
 
         list = findAll(OwnPet.class);
-
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -107,7 +109,10 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
         Pet_Init = (ImageView) findViewById(R.id.pet_init);
         Pet_Init.setVisibility(View.GONE);
-        Pet_Init.setOnClickListener(this);
+        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+        int pet_init = sharedPreferences.getInt("Scene", R.drawable.pet_init1);
+        Log.i("Scene", String.valueOf(pet_init));
+        Pet_Init.setImageResource(pet_init);
 
         animation2 = AnimationUtils.loadAnimation(Pet.this, R.anim.anim2);
         animation3 = AnimationUtils.loadAnimation(Pet.this, R.anim.anim3);
@@ -175,9 +180,6 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.pet_init:
-                //DecorateInit();
-                break;
             case R.id.learn:
                 Intent intent1 = new Intent(Pet.this, PPokeMonBook.class);
                 intent1.putExtra("PokeMon", Name);
@@ -199,6 +201,24 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                     overridePendingTransition(0, 0);
                 }
                 break;
+            case R.id.free:
+                DataSupport.deleteAll(OwnPet.class, "Where = ?", Name);
+                AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("放生")
+                        .setMessage(Name + " 被放生了！")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                list = findAll(OwnPet.class);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+                recyclerView.setLayoutManager(layoutManager);
+                OwnPetAdapter adapter = new OwnPetAdapter(list);
+                recyclerView.setAdapter(adapter);
+                break;
+
         }
     }
 

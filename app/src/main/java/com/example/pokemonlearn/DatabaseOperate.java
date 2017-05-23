@@ -1,5 +1,6 @@
 package com.example.pokemonlearn;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -106,6 +107,9 @@ public class DatabaseOperate extends AppCompatActivity {
         for (PokeMon pokeMon : pokeMonList) {
             OwnPet ownPet = new OwnPet(pokeMon.Name, pokeMon.getImageSourceId(), pokeMon.Number, R.drawable.master_ball);
             list.add(ownPet);
+            if (list.size() >= 9) {
+                break;
+            }
         }
         DataSupport.saveAll(list);
     }
@@ -334,6 +338,16 @@ public class DatabaseOperate extends AppCompatActivity {
         DataSupport.saveAll(scenes);
     }
 
+    public void AddCoins() {
+        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+        int MyCoin = sharedPreferences.getInt("Coins", 0);
+        MyCoin += 1000;
+        SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+        editor.putInt("Coins", MyCoin);
+        editor.apply();
+        Log.i("MyCoin", String.valueOf(MyCoin));
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -365,6 +379,7 @@ public class DatabaseOperate extends AppCompatActivity {
         DatabaseButton b20 = new DatabaseButton("QUERY OWN-ITEM", 20);
         DatabaseButton b21 = new DatabaseButton("DELETE OWN-ITEM", 21);
         DatabaseButton b22 = new DatabaseButton("重置场景", 22);
+        DatabaseButton b23 = new DatabaseButton("加1000金", 23);
 
         list.add(b1);list.add(b2);list.add(b3);
         list.add(b4);list.add(b5);list.add(b6);
@@ -373,7 +388,7 @@ public class DatabaseOperate extends AppCompatActivity {
         list.add(b13);list.add(b14);list.add(b15);
         list.add(b16);list.add(b17);list.add(b18);
         list.add(b19);list.add(b20);list.add(b21);
-        list.add(b22);
+        list.add(b22);list.add(b23);
 
         DatabaseOperateAdapter adapter = new DatabaseOperateAdapter(list);
         recyclerView.setAdapter(adapter);
@@ -493,6 +508,10 @@ public class DatabaseOperate extends AppCompatActivity {
                         case 22:
                             ResetScene();
                             Log.i("DatabasesTest", "ResetScene");
+                            break;
+                        case 23:
+                            AddCoins();
+                            Log.i("DatabasesTest", "AddCoins");
                             break;
                     }
                 }

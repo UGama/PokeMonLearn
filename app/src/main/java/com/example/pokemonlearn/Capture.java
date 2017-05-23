@@ -366,11 +366,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         break;
                     case 3:
                         MessageCount++;
-                        fightMessage.setText(C_PokeMon.getName() + " 逃跑了。");
+                        String tip = C_PokeMon.getName() + " 逃跑了。";
+                        fightMessage.setText(tip);
                         ScreenRun(Text_Screen);
                         break;
                     case 4:
-                        MessageCount++;
                         transfer21.setVisibility(View.VISIBLE);
                         transfer21.startAnimation(trans1_in);
                         transfer22.setVisibility(View.VISIBLE);
@@ -410,6 +410,16 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                             }
                         });
+                        break;
+                    case 5:
+                        MessageCount++;
+                        fightMessage.setText("你的宠物数量已达上限。");
+                        ScreenRun(Text_Screen);
+                        break;
+                    case 6:
+                        tip = "放弃 " + C_PokeMon.getName() + " ，还是放生已有宠物？";
+                        fightMessage.setText(tip);
+                        ScreenRun(Text_Screen);
                         break;
                 }
                 break;
@@ -899,8 +909,6 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
     public void Judge() {
         if (PMJudge()) {
-            OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2, C_PokeMonBall.getImageSourceId());
-            ownPet.save();
             fightMessage.setVisibility(View.VISIBLE);
             fightMessage.setText("恭喜！捕获成功！");
             next_text.setVisibility(View.VISIBLE);
@@ -948,7 +956,14 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             animSet.setInterpolator(new LinearInterpolator());
             animSet.playTogether(anim1, anim2);
             animSet.start();
-            MessageCount += 2;
+            List<OwnPet> list = DataSupport.findAll(OwnPet.class);
+            if (list.size() < 9) {
+                MessageCount += 2;
+                OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2, C_PokeMonBall.getImageSourceId());
+                ownPet.save();
+            } else {
+                MessageCount += 3;
+            }
         } else {
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
             objectAnimator.setDuration(300);

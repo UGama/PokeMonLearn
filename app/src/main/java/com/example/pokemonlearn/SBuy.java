@@ -94,6 +94,9 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private EditText editText;
     private Button D_Confirm;
     private Button D_Cancel;
+    private int number;//(Buy Count)
+    private int NumberInDex;
+    private int SceneResource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,7 +197,6 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                         Pet_Init.setVisibility(View.VISIBLE);
                         S_Pic.setImageResource(v5.SourceId1);
                         Pet_Init.setImageResource(v5.SourceId2);
-                        Pet_Init.startAnimation(anim4);
                         Item_Pic.setVisibility(View.GONE);
                         Item_Name.setVisibility(View.GONE);
                         PagesCount = 5;
@@ -392,10 +394,42 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                     ScreenRun(Screen);
                     MessageCount = 1;
                 } else if (MessageCount == 1) {
-                    Black.setVisibility(View.VISIBLE);
-                    Dialog.setVisibility(View.VISIBLE);
-                    Buy.setVisibility(View.GONE);
-                    Cancel.setVisibility(View.GONE);
+                    if (PagesCount == 5) {
+                        SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
+                        int MyCoin = preferences.getInt("Coins", 0);
+                        if (MyCoin >= Price) {
+                            MyCoin -= Price;
+                            SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                            editor.putInt("Scene", SceneResource);
+                            editor.putInt("Coins", MyCoin);
+                            editor.apply();
+                            Log.i("Scene", String.valueOf(SceneResource));
+                            AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("恭喜")
+                                    .setMessage("购买成功！")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("抱歉")
+                                    .setMessage("余额不足请充值。")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    } else {
+                        Black.setVisibility(View.VISIBLE);
+                        Dialog.setVisibility(View.VISIBLE);
+                        Buy.setVisibility(View.GONE);
+                        Cancel.setVisibility(View.GONE);
+                    }
                 }
                 break;
             case R.id.cancel:
@@ -409,7 +443,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                 }
                 break;
             case R.id.d_confirm:
-                int number = Integer.valueOf(editText.getText().toString());
+                number = Integer.valueOf(editText.getText().toString());
                 if (number <= 0) {
                     Dialog_Show();
                 } else {
@@ -418,9 +452,35 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                     if (MyCoin >= Price * number) {
                         MyCoin -= Price * number;
                         SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
-                        editor.putInt("data", MyCoin);
+                        editor.putInt("Coins", MyCoin);
                         editor.apply();
-                        
+                        String item_name = Item_Name.getText().toString();
+                        List<OwnItem> ownItems = DataSupport.findAll(OwnItem.class);
+                        boolean isHaven = false;
+                        for (OwnItem ownItem : ownItems) {
+                            if (ownItem.getName().equals(item_name)) {
+                                isHaven = true;
+                                ownItem.setNumber(ownItem.getNumber() + number);
+                                ownItem.updateAll("Name = ?", ownItem.getName());
+                                break;
+                            }
+                        }
+                        if (!isHaven) {
+                            OwnItem ownItem = new OwnItem(item_name, number, PagesCount, Item_Pic.getId(), NumberInDex);
+                            ownItem.save();
+                        }
+                        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("恭喜")
+                                .setMessage("购买成功！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        Dialog.setVisibility(View.GONE);
+                                        Black.setVisibility(View.GONE);
+                                        editText.setText("");
+                                    }
+                                })
+                                .show();
                     } else {
                         AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("抱歉")
                                 .setMessage("余额不足请充值。")
@@ -437,6 +497,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
             case R.id.d_cancel:
                 Dialog.setVisibility(View.GONE);
                 Black.setVisibility(View.GONE);
+                editText.setText("");
                 Buy.setVisibility(View.VISIBLE);
                 Buy.setBackgroundResource(R.drawable.s_buy);
                 Buy.startAnimation(float2);
@@ -622,6 +683,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                             Item_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
                             Item_Name.setText(pokeMonBall.getName());
                             Price = pokeMonBall.getPrice();
+                            NumberInDex = pokeMonBall.getNumber();
                             break;
                         case 2:
                             List<PokeMonTool> pokeMonTools = DataSupport.where("Name = ?", name).find(PokeMonTool.class);
@@ -629,6 +691,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                             Item_Pic.setBackgroundResource(pokeMonTool.getImageResourceId());
                             Item_Name.setText(pokeMonTool.getName());
                             Price = pokeMonTool.getPrice();
+                            NumberInDex = pokeMonTool.getNumber();
                             break;
                         case 3:
                             List<PokeMonStone> pokeMonStones = DataSupport.where("Name = ?", name).find(PokeMonStone.class);
@@ -636,6 +699,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                             Item_Pic.setBackgroundResource(pokeMonStone.getImageResourceId());
                             Item_Name.setText(pokeMonStone.getName());
                             Price = pokeMonStone.getPrice();
+                            NumberInDex = pokeMonStone.getNumber();
                             break;
                         case 4:
                             List<PokeMonBook> pokeMonBooks = DataSupport.where("Name = ?", name).find(PokeMonBook.class);
@@ -643,6 +707,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                             Item_Pic.setBackgroundResource(pokeMonBook.getImageResourceId());
                             Item_Name.setText(pokeMonBook.getName());
                             Price = pokeMonBook.getPrice();
+                            NumberInDex = pokeMonBook.getNumber();
                             break;
                         case 5:
                             List<Scene> scenes = DataSupport.where("Number = ?", name).find(Scene.class);
@@ -650,6 +715,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                             Pet_Init.setImageResource(scene.getImageResource());
                             Item_Name.setText(String.valueOf(scene.getNumber()));
                             Price = scene.getPrice();
+                            SceneResource = scene.getImageResource();
                             break;
                     }
                     Log.i("Price", String.valueOf(Price));

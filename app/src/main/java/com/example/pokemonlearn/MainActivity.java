@@ -876,52 +876,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 MenuLayout.startAnimation(anim1);
                 break;
             case R.id.myBag:
-                /*Intent intent = new Intent(MainActivity.this, Bag.class);
+                Intent intent = new Intent(MainActivity.this, Bag.class);
                 startActivity(intent);
-                overridePendingTransition(0, 0);*/
-                trans1_in = AnimationUtils.loadAnimation(MainActivity.this, R.anim.trans_in_up);
-                trans2_in = AnimationUtils.loadAnimation(MainActivity.this, R.anim.trans_in_down);
-                transfer1.setVisibility(View.VISIBLE);
-                transfer1.startAnimation(trans1_in);
-                transfer2.setVisibility(View.VISIBLE);
-                transfer2.startAnimation(trans2_in);
-                trans1_in.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        Intent intent = new Intent(MainActivity.this, Bag.class);
-                        startActivity(intent);
-                        overridePendingTransition(0, 0);
-                        transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
-                        transfer1.startAnimation(transit);
-                        transit.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                transfer1.setVisibility(View.GONE);
-                                transfer2.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
+                overridePendingTransition(0, 0);
                 break;
             case R.id.pokeDex:
                 Intent intent1 = new Intent(MainActivity.this, PokeDex.class);
