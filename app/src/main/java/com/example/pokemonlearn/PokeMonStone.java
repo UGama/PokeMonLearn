@@ -10,12 +10,15 @@ public class PokeMonStone extends DataSupport {
     private String Name;
     private int ImageResourceId;
     private int Number;
+    private int Price;
+
     public PokeMonStone() {}
 
-    public PokeMonStone(String name, int imageResourceId, int number) {
+    public PokeMonStone(String name, int imageResourceId, int number, int price) {
         this.Name = name;
         this.ImageResourceId = imageResourceId;
         this.Number = number;
+        this.Price = price;
     }
 
     public void setImageResourceId(int imageResourceId) {
@@ -42,4 +45,11 @@ public class PokeMonStone extends DataSupport {
         return Number;
     }
 
+    public int getPrice() {
+        return Price;
+    }
+
+    public void setPrice(int price) {
+        Price = price;
+    }
 }

@@ -267,7 +267,7 @@ public class Bag extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    public class MyPagerAdapter extends android.support.v4.view.PagerAdapter {
+    private class MyPagerAdapter extends android.support.v4.view.PagerAdapter {
 
         List<ViewPage> List = new ArrayList<>();
 
@@ -343,7 +343,7 @@ public class Bag extends AppCompatActivity implements View.OnClickListener {
 
         private List<OwnItem> List;
 
-        public ItemAdapter(List<OwnItem> List) {
+        private ItemAdapter(List<OwnItem> List) {
             this.List = List;
         }
 
@@ -394,18 +394,5 @@ public class Bag extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    class ViewPage {
-        private String Name;
-        private int SourceId1;
-        private int SourceId2;
-        private int Number;
-
-        public ViewPage(String name, int S1, int S2, int number) {
-            this.Name = name;
-            this.SourceId1 = S1;
-            this.SourceId2 = S2;
-            this.Number = number;
-        }
-    }
 }
 

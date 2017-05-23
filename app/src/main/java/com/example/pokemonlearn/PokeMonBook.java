@@ -10,12 +10,15 @@ public class PokeMonBook extends DataSupport {
     private String Name;
     private int ImageResourceId;
     private int Number;
+    private int Price;
+
     public PokeMonBook() {}
 
-    public PokeMonBook(String name, int imageResourceId, int number) {
+    public PokeMonBook(String name, int imageResourceId, int number, int Price) {
         this.Name = name;
         this.ImageResourceId = imageResourceId;
         this.Number = number;
+        this.Price = Price;
     }
 
     public void setNumber(int number) {
@@ -40,5 +43,13 @@ public class PokeMonBook extends DataSupport {
 
     public int getImageResourceId() {
         return ImageResourceId;
+    }
+
+    public void setPrice(int price) {
+        Price = price;
+    }
+
+    public int getPrice() {
+        return Price;
     }
 }

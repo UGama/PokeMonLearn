@@ -184,8 +184,7 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                     intent1.putExtra("PMName", P_PokeMon.getName());
                     intent1.putExtra("PMStone", PMStone);
                     intent1.putExtra("S-PMName", pokeMon.getName());
-                    startActivity(intent1);
-                    finish();
+                    startActivityForResult(intent1, 5);
                 } else {
                     String tip = Item_name.getText().toString() + " 不可使用。";
                     Message.setText(tip);
@@ -225,7 +224,7 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
 
         private List<OwnItem> List;
 
-        public ItemAdapter(List<OwnItem> List) {
+        private ItemAdapter(List<OwnItem> List) {
             this.List = List;
         }
 
@@ -272,16 +271,6 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
             OwnItem ownItem = List.get(position);
             holder.Name.setText(ownItem.getName());
             holder.Number.setText(String.valueOf(ownItem.getNumber()));
-            boolean isUsed = false;
-            for (int i=0;i<Evolve.length;i++) {
-                if (Evolve[i][0] == ownItem.getNumberInDex()) {
-                    isUsed = true;
-                    break;
-                }
-            }
-            if (isUsed) {
-                holder.Able.setVisibility(View.VISIBLE);
-            }
         }
 
         @Override
@@ -293,14 +282,12 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
             TextView Name;
             TextView Number;
             View ItemView;
-            ImageView Able;
 
             public ViewHolder(View view) {
                 super(view);
                 Name = (TextView) view.findViewById(R.id.name);
                 Number = (TextView) view.findViewById(R.id.number);
                 ItemView = view;
-                Able = (ImageView) view.findViewById(R.id.able);
             }
         }
     }
@@ -343,5 +330,18 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
         animSet.playTogether(anim1, anim2);
         animSet.start();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 5:
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+        }
     }
 }

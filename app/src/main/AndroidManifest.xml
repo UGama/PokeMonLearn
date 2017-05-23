@@ -47,6 +47,7 @@
         <activity android:name=".PPokeMonStone" />
         <activity android:name=".PPokeMonBook" />
         <activity android:name=".Evolve" />
+        <activity android:name=".SBuy" />
     </application>
 
 </manifest>

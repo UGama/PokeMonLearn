@@ -47,6 +47,7 @@
             app:layout_marginRightPercent="21%"
             app:layout_marginBottomPercent="1%"
             android:id="@+id/indicator"/>
+
         <ImageView
             android:id="@+id/right_arrow"
             android:layout_width="wrap_content"

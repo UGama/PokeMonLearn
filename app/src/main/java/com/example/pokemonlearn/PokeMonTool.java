@@ -10,13 +10,15 @@ public class PokeMonTool extends DataSupport {
     private String Name;
     private int ImageResourceId;
     private int Number;
+    private int Price;
 
     public PokeMonTool() {}
 
-    public PokeMonTool(String name, int imageResourceId, int number) {
+    public PokeMonTool(String name, int imageResourceId, int number, int price) {
         this.Name = name;
         this.ImageResourceId = imageResourceId;
         this.Number = number;
+        this.Price = price;
     }
 
     public int getNumber() {
@@ -41,5 +43,13 @@ public class PokeMonTool extends DataSupport {
 
     public void setImageResourceId(int imageResourceId) {
         ImageResourceId = imageResourceId;
+    }
+
+    public void setPrice(int price) {
+        Price = price;
+    }
+
+    public int getPrice() {
+        return Price;
     }
 }

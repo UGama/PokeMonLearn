@@ -259,6 +259,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                         TempView = v;
                         ImageView arrow = (ImageView) v.findViewById(R.id.arrow);
                         arrow.setVisibility(View.VISIBLE);
+                        Log.i("Pet", "Arrow Move");
                         Up_Down(arrow);
                         FirstTouch = false;
                         Gone = false;
@@ -271,6 +272,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                             ImageView old_arrow = (ImageView) TempView.findViewById(R.id.arrow);
                             old_arrow.setVisibility(View.GONE);
                             TempView = v;
+                            Log.i("Pet", "Arrow Move");
                             Up_Down(new_arrow);
                         }
                     }
@@ -279,6 +281,8 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                     List<OwnPet> list = DataSupport.where("Name = ?", Name).find(OwnPet.class);
                     OwnPet ownPet = list.get(0);
                     Pet_Pic.setImageResource(ownPet.getImageResourceId());
+                    Pet_Message.setText("");
+                    Log.i("Pet", Name);
                 }
             });
             return holder;
@@ -368,4 +372,21 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 4:
+                if (resultCode == RESULT_OK) {
+                    Layout_Left2.setVisibility(View.GONE);
+                    Connect2.setVisibility(View.GONE);
+                    FirstTouch = true;
+                    list = findAll(OwnPet.class);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    OwnPetAdapter adapter = new OwnPetAdapter(list);
+                    recyclerView.setAdapter(adapter);
+                }
+        }
+    }
 }

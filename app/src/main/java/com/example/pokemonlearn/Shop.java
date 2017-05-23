@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -393,7 +394,16 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
                         Sell.startAnimation(float2);
                         Buy.startAnimation(float1);
                         Leave.startAnimation(float3);
+                        break;
                 }
+                break;
+            case R.id.buy:
+                Intent intent1 = new Intent(Shop.this, SBuy.class);
+                startActivity(intent1);
+                finish();
+                break;
+            case R.id.leave:
+                finish();
                 break;
         }
     }

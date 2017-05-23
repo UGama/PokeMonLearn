@@ -11,14 +11,16 @@ public class PokeMonBall extends DataSupport {
     private int ImageSourceId;
     private int Number;
     private Double rate;
+    private int Price;
 
     public PokeMonBall() {}
 
-    public PokeMonBall(String Name, int ImageSourceId, int Number, Double rate) {
+    public PokeMonBall(String Name, int ImageSourceId, int Number, Double rate, int price) {
         this.Name = Name;
         this.ImageSourceId = ImageSourceId;
         this.Number = Number;
         this.rate = rate;
+        this.Price = price;
     }
 
     public void setName(String name) {
@@ -51,5 +53,13 @@ public class PokeMonBall extends DataSupport {
 
     public Double getRate() {
         return rate;
+    }
+
+    public int getPrice() {
+        return Price;
+    }
+
+    public void setPrice(int price) {
+        Price = price;
     }
 }

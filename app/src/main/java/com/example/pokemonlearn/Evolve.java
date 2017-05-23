@@ -236,6 +236,9 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                     ownItem1.setNumber(a);
                     ownItem1.updateAll("Name = ?", E_PokeMonStone.getName());
                 }
+                OwnPet ownPet = new OwnPet(ES_PokeMon.getName(), ES_PokeMon.getImageSourceId(),
+                        E_OwnPet.getNumber(), E_OwnPet.getBallImageResourceId());
+                ownPet.updateAll("Number = ?", String.valueOf(E_OwnPet.getNumber()));
                 Message.setText("");
                 Combine();
                 Evolve.setVisibility(View.GONE);
@@ -918,6 +921,8 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                 Text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 });

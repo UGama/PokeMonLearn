@@ -2,6 +2,7 @@ package com.example.pokemonlearn;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -119,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     private Button Database;
     private PokeMon[] Pokemon;
+
+    private TextView MyCoins;
 
     @Override
 
@@ -341,6 +345,12 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 startActivity(intent);
             }
         });
+
+        MyCoins = (TextView) findViewById(R.id.myCoin);
+        SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
+        int Number = preferences.getInt("Coins", 0);
+        String Coins = String.valueOf(Number) + "  ";
+        MyCoins.setText(Coins);
     }
 
     public void initOverlay() {
@@ -1061,6 +1071,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 intent4.putExtra("PMStone", "火之石");
                 intent4.putExtra("S-PMName", "火伊布");
                 startActivity(intent4);
+                break;
         }
     }
 
@@ -1407,7 +1418,6 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     }*/
     protected void onPause() {
         mMapView.onPause();
-        overridePendingTransition(0,0);
         super.onPause();
     }
 
@@ -1430,10 +1440,11 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     @Override
     protected void onRestart() {
-        transfer1.setVisibility(View.VISIBLE);
-        transfer2.setVisibility(View.VISIBLE);
-        transfer1.startAnimation(trans_out1);
-        transfer2.startAnimation(trans_out2);
+        SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
+        int Number = preferences.getInt("Coins", 0);
+        String Coins = String.valueOf(Number) + "  ";
+        MyCoins.setText(Coins);
+        overridePendingTransition(0,0);
         super.onRestart();
     }
 }
