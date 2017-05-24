@@ -42,6 +42,8 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
     private ImageView Item;
     private Button Use;
     private Button Cancel;
+    private Animation float2;
+    private Animation float3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,11 +82,15 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
         Item.setBackgroundResource(R.drawable.bag_decorate);
 
         Use = (Button) findViewById(R.id.use);
+        Use.setVisibility(View.GONE);
         Use.setOnClickListener(this);
         Use.setOnTouchListener(this);
         Cancel = (Button) findViewById(R.id.cancel);
         Cancel.setOnClickListener(this);
         Cancel.setOnTouchListener(this);
+        Cancel.setVisibility(View.GONE);
+        float2 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.cap_float2);
+        float3 = AnimationUtils.loadAnimation(CPokeMonBall.this, R.anim.cap_float3);
     }
 
     @Override
@@ -159,7 +165,9 @@ public class CPokeMonBall extends AppCompatActivity implements View.OnClickListe
                     Bag_Pic.startAnimation(anim4);
 
                     Use.setVisibility(View.VISIBLE);
+                    Use.startAnimation(float2);
                     Cancel.setVisibility(View.VISIBLE);
+                    Cancel.startAnimation(float3);
                 }
             });
             return holder;

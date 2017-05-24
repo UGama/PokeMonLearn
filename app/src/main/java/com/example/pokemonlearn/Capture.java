@@ -5,23 +5,32 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
+
+import static android.animation.ObjectAnimator.ofFloat;
 
 /**
  * Created by Gama on 7/4/17.
@@ -32,6 +41,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private ImageView white;
     private Animation shrink_white;
     private Animation shrink;
+
+    private int Width;
+    private int Height;
 
     private ImageView Pokemon;
     private ImageView Pokemon2;
@@ -67,6 +79,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private ImageView transfer22;
     private Animation transit;
 
+    private LinearLayout LeftLayout;
+    private LinearLayout RightLayout;
+    private GiveUpButton giveUpButton;
+    private FreeButton freeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +92,13 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         Intent intent = getIntent();
         String name = intent.getStringExtra("Name");
         Log.i("Capture", name);
+
+        WindowManager manager = getWindowManager();
+        DisplayMetrics metrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(metrics);
+        Width= metrics.widthPixels;
+        Height = metrics.heightPixels;
+        Log.i("Windows", String.valueOf(Height) + " " + String.valueOf(Width));
 
         List<PokeMon> List;
         List = DataSupport.where("Name = ?", name).find(PokeMon.class);
@@ -255,6 +279,13 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
         trans1_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_up);
         trans2_in = AnimationUtils.loadAnimation(Capture.this, R.anim.trans_in_down);
+
+        LeftLayout = (LinearLayout) findViewById(R.id.LeftLayout);
+        RightLayout = (LinearLayout) findViewById(R.id.RightLayout);
+        giveUpButton = new GiveUpButton(Capture.this);
+        freeButton = new FreeButton(Capture.this);
+        LeftLayout.addView(giveUpButton);
+        RightLayout.addView(freeButton);
     }
 
     @Override
@@ -314,9 +345,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             case R.id.fight_text:
                 switch (MessageCount) {
                     case 1:
-                        ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+                        ObjectAnimator anim1 = ofFloat(Text_Screen, "scaleX",
                                 1.0f, 0.0f);
-                        ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+                        ObjectAnimator anim2 = ofFloat(Text_Screen, "translationX",
                                 0, 450);
                         AnimatorSet animSet = new AnimatorSet();
                         animSet.setDuration(2500);
@@ -417,12 +448,35 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         ScreenRun(Text_Screen);
                         break;
                     case 6:
-                        tip = "放弃 " + C_PokeMon.getName() + " ，还是放生已有宠物？";
+                        tip = "放弃 " + C_PokeMon.getName() + " ，";
+                        MessageCount++;
                         fightMessage.setText(tip);
                         ScreenRun(Text_Screen);
                         break;
+                    case 7:
+                        MessageCount++;
+                        tip = "还是放生已有宠物？";
+                        fightMessage.setText(tip);
+                        ScreenRun(Text_Screen);
+                        giveUpButton.setVisibility(View.VISIBLE);
+                        giveUpButton.startAnimation(float2);
+                        giveUpButton.setOnClickListener(this);
+                        giveUpButton.setOnTouchListener(this);
+                        freeButton.setVisibility(View.VISIBLE);
+                        freeButton.startAnimation(float3);
+                        freeButton.setOnClickListener(this);
+                        freeButton.setOnTouchListener(this);
+                        break;
                 }
                 break;
+            default:
+                break;
+        }
+        if (v == giveUpButton) {
+            finish();
+        } else if (v == freeButton) {
+            Intent intent = new Intent(Capture.this, Pet.class);
+            startActivity(intent);
         }
     }
 
@@ -450,6 +504,27 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                     run.getBackground().setAlpha(255);
                 }
                 break;
+        }
+        if (v == giveUpButton) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(giveUpButton, "TranslationY", 0, 40);
+                objectAnimator.setDuration(100);
+                objectAnimator.start();
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(giveUpButton, "TranslationY", 40, 0);
+                objectAnimator.setDuration(100);
+                objectAnimator.start();
+            }
+        } else if (v == freeButton) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(freeButton, "TranslationY", 0, 40);
+                objectAnimator.setDuration(100);
+                objectAnimator.start();
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(freeButton, "TranslationY", 40, 0);
+                objectAnimator.setDuration(100);
+                objectAnimator.start();
+            }
         }
         return false;
     }
@@ -492,9 +567,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     }
 
     public void ScreenRun(View view) {
-        ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
+        ObjectAnimator anim1 = ofFloat(view, "scaleX",
                 1.0f, 0.0f);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(view, "translationX",
+        ObjectAnimator anim2 = ofFloat(view, "translationX",
                 0, 450);
         AnimatorSet animSet = new AnimatorSet();
         animSet.setDuration(1500);
@@ -531,7 +606,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 V.setY(point.y);
             }
         });
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation",
+        ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation",
                 0.0f, 360f);
         objectAnimator.setDuration(200);
         objectAnimator.setRepeatCount(9);
@@ -560,7 +635,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     }
 
     public void PMInto() {
-        ObjectAnimator anim0 = ObjectAnimator.ofFloat(Pokemon, "rotation", 0, 0);
+        ObjectAnimator anim0 = ofFloat(Pokemon, "rotation", 0, 0);
         anim0.setDuration(200);
         anim0.start();
         anim0.addListener(new Animator.AnimatorListener() {
@@ -571,13 +646,13 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ObjectAnimator anim1 = ObjectAnimator.ofFloat(Pokemon, "scaleX",
+                ObjectAnimator anim1 = ofFloat(Pokemon, "scaleX",
                         1.0f, 0.0f);
-                ObjectAnimator anim2 = ObjectAnimator.ofFloat(Pokemon, "scaleY",
+                ObjectAnimator anim2 = ofFloat(Pokemon, "scaleY",
                         1.0f, 0.0f);
-                ObjectAnimator anim3 = ObjectAnimator.ofFloat(Pokemon, "rotation",
+                ObjectAnimator anim3 = ofFloat(Pokemon, "rotation",
                         0.0f, 360f);
-                ObjectAnimator anim4 = ObjectAnimator.ofFloat(Pokemon, "translationY",
+                ObjectAnimator anim4 = ofFloat(Pokemon, "translationY",
                         0, -200);
                 AnimatorSet animSet = new AnimatorSet();
                 animSet.setDuration(1000);
@@ -669,7 +744,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ObjectAnimator anim0 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+                ObjectAnimator anim0 = ofFloat(PMBall, "rotation", 0, 0);
                 anim0.setDuration(200);
                 anim0.start();
                 anim0.addListener(new Animator.AnimatorListener() {
@@ -708,8 +783,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     }
 
     public void Struggle() {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 45);
-        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+        ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation", 0, 45);
+        ObjectAnimator objectAnimator1 = ofFloat(PMBall, "rotation", 0, 0);
         ValueAnimator valueAnimator = new ValueAnimator();
         valueAnimator.setObjectValues(new PointF(70, 475));
         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -744,7 +819,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 45, 0);
+                ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation", 45, 0);
                 ValueAnimator valueAnimator = new ValueAnimator();
                 valueAnimator.setObjectValues(new PointF(70, 475));
                 valueAnimator.setInterpolator(new LinearInterpolator());
@@ -779,8 +854,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, -45);
-                        ObjectAnimator anim0 = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+                        ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation", 0, -45);
+                        ObjectAnimator anim0 = ofFloat(PMBall, "rotation", 0, 0);
                         ValueAnimator valueAnimator = new ValueAnimator();
                         valueAnimator.setObjectValues(new PointF(70, 475));
                         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -815,7 +890,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
-                                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", -45, 0);
+                                ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation", -45, 0);
                                 ValueAnimator valueAnimator = new ValueAnimator();
                                 valueAnimator.setObjectValues(new PointF(70, 475));
                                 valueAnimator.setInterpolator(new LinearInterpolator());
@@ -947,9 +1022,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 }
             });
             next_text.startAnimation(animation1);
-            ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+            ObjectAnimator anim1 = ofFloat(Text_Screen, "scaleX",
                     1.0f, 0.0f);
-            ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+            ObjectAnimator anim2 = ofFloat(Text_Screen, "translationX",
                     0, 450);
             AnimatorSet animSet = new AnimatorSet();
             animSet.setDuration(2000);
@@ -965,7 +1040,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                 MessageCount += 3;
             }
         } else {
-            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(PMBall, "rotation", 0, 0);
+            ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation", 0, 0);
             objectAnimator.setDuration(300);
             objectAnimator.start();
             objectAnimator.addListener(new Animator.AnimatorListener() {
@@ -1014,9 +1089,9 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         }
                     });
                     next_text.startAnimation(animation1);
-                    ObjectAnimator anim1 = ObjectAnimator.ofFloat(Text_Screen, "scaleX",
+                    ObjectAnimator anim1 = ofFloat(Text_Screen, "scaleX",
                             1.0f, 0.0f);
-                    ObjectAnimator anim2 = ObjectAnimator.ofFloat(Text_Screen, "translationX",
+                    ObjectAnimator anim2 = ofFloat(Text_Screen, "translationX",
                             0, 450);
                     AnimatorSet animSet = new AnimatorSet();
                     animSet.setDuration(2000);
@@ -1057,8 +1132,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     public void PMEscape() {
         PMBall.setVisibility(View.GONE);
         Pokemon2.setVisibility(View.VISIBLE);
-        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(Pokemon2, "scaleX", 0.0f, 1.0f);
-        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(Pokemon2, "scaleY", 0.0f, 1.0f);
+        ObjectAnimator objectAnimator1 = ofFloat(Pokemon2, "scaleX", 0.0f, 1.0f);
+        ObjectAnimator objectAnimator2 = ofFloat(Pokemon2, "scaleY", 0.0f, 1.0f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(500);
         animatorSet.playTogether(objectAnimator1, objectAnimator2);
@@ -1071,4 +1146,59 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         super.onPause();
     }
 
+    class GiveUpButton extends View{
+        public GiveUpButton(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Paint p = new Paint();
+            p.setStyle(Paint.Style.FILL);
+            p.setColor(Color.WHITE);
+            canvas.drawCircle(Width / 4, Height / 3, Width / 8, p);
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(30);
+            p.setColor(Color.RED);
+            canvas.drawCircle(Width / 4, Height / 3, Width / 8, p);
+            p.setStyle(Paint.Style.FILL);
+            p.setStrokeWidth(4);
+            p.setTextSize(72);
+            canvas.drawText("放弃", Width / 4 - 72, Height / 3 + 36, p);
+        }
+    }
+
+    class FreeButton extends View {
+        public FreeButton(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Paint p = new Paint();
+            p.setStyle(Paint.Style.FILL);
+            p.setColor(Color.WHITE);
+            canvas.drawCircle(Width / 4, Height / 3, Width / 8, p);
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(30);
+            p.setColor(Color.RED);
+            canvas.drawCircle(Width / 4, Height / 3, Width / 8, p);
+            p.setStyle(Paint.Style.FILL);
+            p.setStrokeWidth(4);
+            p.setTextSize(72);
+            canvas.drawText("放生", Width / 4 - 72, Height / 3 + 36, p);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        giveUpButton.setVisibility(View.GONE);
+        freeButton.setVisibility(View.GONE);
+        MessageCount = 2;
+        PMJudge();
+        Log.i("Capture", "Restart");
+    }
 }

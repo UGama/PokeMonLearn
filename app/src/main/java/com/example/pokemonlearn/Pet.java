@@ -202,7 +202,7 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                 }
                 break;
             case R.id.free:
-                DataSupport.deleteAll(OwnPet.class, "Where = ?", Name);
+                DataSupport.deleteAll(OwnPet.class, "Name = ?", Name);
                 AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("放生")
                         .setMessage(Name + " 被放生了！")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -217,6 +217,10 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                 recyclerView.setLayoutManager(layoutManager);
                 OwnPetAdapter adapter = new OwnPetAdapter(list);
                 recyclerView.setAdapter(adapter);
+                FirstTouch = true;
+                Evolve.setVisibility(View.GONE);
+                Learn.setVisibility(View.GONE);
+                Free.setVisibility(View.GONE);
                 break;
 
         }
