@@ -1,5 +1,6 @@
 package com.example.pokemonlearn;
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +43,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.animation.ObjectAnimator.ofFloat;
+
 /**
  * Created by Gama on 8/3/17 (Test Version) (Happy Birthday, Cloud!).
  * Created by Gama on 9/3/17 (First Version) (Happy Birthday, TaeYeon!).
@@ -82,9 +85,14 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     private Button littleMap;
     private Button setting;
+    private Button show;
     private Button Menu;
+    private PercentRelativeLayout Show_Menu;
+    private ImageView Show_Background;
     private Animation animation1;
     private Animation animation2;
+    private Animation Show_Menu_Show;
+    private int ShowCount;
 
     private PercentRelativeLayout littleMapLayout;
     private Button finish;
@@ -98,11 +106,10 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     private Button egg;
     private Button compete;
     private Button gym;
+    private Button back;
 
     private ImageView transfer1;
     private ImageView transfer2;
-    private Animation trans1_in;
-    private Animation trans2_in;
     private Animation transit;
 
     private ImageView warning;
@@ -185,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         mLocClient.setLocOption(option);
         mLocClient.start();
 
-        //initOverlay();
+        initOverlay();
 
         anim0 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch2);
         anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch1);
@@ -194,9 +201,18 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         littleMap.setOnClickListener(this);
         littleMap.setOnTouchListener(this);
 
+        show = (Button) findViewById(R.id.show);
+        show.setOnClickListener(this);
+        show.setOnTouchListener(this);
+
         setting = (Button) findViewById(R.id.setting);
         setting.setOnClickListener(this);
         setting.setOnTouchListener(this);
+
+        Show_Menu = (PercentRelativeLayout) findViewById(R.id.show_menu);
+        Show_Background = (ImageView) findViewById(R.id.show_background);
+        Show_Background.getBackground().setAlpha(125);
+        ShowCount = 0;
 
         Menu = (Button) findViewById(R.id.menu);
         Menu.setOnTouchListener(this);
@@ -272,6 +288,10 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         gym = (Button) findViewById(R.id.gym);
         gym.setOnClickListener(this);
         gym.setOnTouchListener(this);
+
+        back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(this);
+        back.setOnTouchListener(this);
 
         Button pretend = (Button) findViewById(R.id.pretend);
         pretend.setOnClickListener(this);
@@ -859,10 +879,21 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.littlemap:
-                MenuLayout.setVisibility(View.GONE);
+                /*MenuLayout.setVisibility(View.GONE);
                 littleMapLayout.setVisibility(View.VISIBLE);
                 Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim);
-                littleMapLayout.startAnimation(anim);
+                littleMapLayout.startAnimation(anim);*/
+                break;
+            case R.id.show:
+                if (ShowCount == 0) {
+                    Show_Menu.setVisibility(View.VISIBLE);
+                    Show_Menu_Show = AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_menu);
+                    Show_Menu.startAnimation(Show_Menu_Show);
+                    ShowCount = 1;
+                } else if (ShowCount == 1) {
+                    Show_Menu.setVisibility(View.GONE);
+                    ShowCount = 0;
+                }
                 break;
             case R.id.finish:
                 littleMapLayout.setVisibility(View.GONE);
@@ -889,6 +920,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 Intent intent2 = new Intent(MainActivity.this, Pet.class);
                 startActivity(intent2);
                 overridePendingTransition(0, 0);
+                break;
+            case R.id.back:
+                MenuLayout.setVisibility(View.GONE);
                 break;
             case R.id.pretend:
                 WarningTimes = 0;
@@ -1099,11 +1133,29 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                     v.setBackgroundResource(R.drawable.gym);
                 }
                 break;
+            case R.id.back:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setBackgroundResource(R.drawable.back2);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.setBackgroundResource(R.drawable.back);
+                }
+                break;
             case R.id.littlemap:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     v.setBackgroundResource(R.drawable.littlemap2);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.setBackgroundResource(R.drawable.littlemap);
+                }
+                break;
+            case R.id.show:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ObjectAnimator objectAnimator = ofFloat(show, "TranslationY", 0, 30);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ObjectAnimator objectAnimator = ofFloat(show, "TranslationY", 30, 0);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
                 }
                 break;
             case R.id.setting:
@@ -1132,6 +1184,33 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 }
                 break;
             case R.id.following:
+                if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
+                    v.startAnimation(anim1);
+                } else {
+                    if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
+                        v.startAnimation(anim0);
+                    }
+                }
+                break;
+            case R.id.dataBase:
+                if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
+                    v.startAnimation(anim1);
+                } else {
+                    if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
+                        v.startAnimation(anim0);
+                    }
+                }
+                break;
+            case R.id.pretend:
+                if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
+                    v.startAnimation(anim1);
+                } else {
+                    if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
+                        v.startAnimation(anim0);
+                    }
+                }
+                break;
+            case R.id.pe:
                 if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
                     v.startAnimation(anim1);
                 } else {

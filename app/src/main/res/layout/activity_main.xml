@@ -25,6 +25,58 @@
         android:layout_marginTop="6dp"
         app:layout_widthPercent="10.5%"
         app:layout_heightPercent="9.5%" />
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/show_menu"
+        app:layout_marginTopPercent="18%"
+        app:layout_widthPercent="12.5%"
+        app:layout_heightPercent="30%"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="2dp"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/show_background"
+            android:layout_centerHorizontal="true"
+            android:background="#000000"
+            app:layout_widthPercent="50%"
+            android:layout_height="match_parent"
+            />
+        <Button
+            android:id="@+id/pretend"
+            app:layout_marginTopPercent="5%"
+            android:background="@drawable/show_capture"
+            android:layout_width="match_parent"
+            app:layout_heightPercent="27%"
+            />
+        <Button
+            android:id="@+id/pe"
+            app:layout_marginTopPercent="37%"
+            android:layout_width="match_parent"
+            android:background="@drawable/show_evolve"
+            app:layout_heightPercent="27%"
+            />
+        <Button
+            android:id="@+id/dataBase"
+            android:layout_width="match_parent"
+            app:layout_marginTopPercent="70%"
+            app:layout_heightPercent="27%"
+            android:background="@drawable/show_goldfinger"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <Button
+        android:id="@+id/show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="10.5%"
+        app:layout_heightPercent="8.5%"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/littlemap"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/show"
+        />
+
     <Button
         android:id="@+id/setting"
         android:background="@drawable/setting"
@@ -200,12 +252,22 @@
             android:layout_centerHorizontal="true"
             app:layout_marginBottomPercent="7.5%"
             />
+        <Button
+            android:id="@+id/back"
+            android:background="@drawable/back"
+            android:layout_width="75dp"
+            android:layout_height="108dp"
+            android:layout_alignParentBottom="true"
+            app:layout_marginBottomPercent="7.5%"
+            android:layout_alignParentRight="true"
+            app:layout_marginRightPercent="8.5%"
+            />
     </android.support.percent.PercentRelativeLayout>
 
     <TextView
         android:id="@+id/myCoin"
         android:text="0  "
-        android:textColor="#000000"
+        android:textColor="#f2202f"
         android:textSize="18sp"
         android:background="@drawable/pet_shape1"
         android:layout_alignParentBottom="true"
@@ -234,21 +296,6 @@
         android:background="@drawable/transfer2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-    <Button
-        android:id="@+id/pretend"
-        android:text="假装有战斗"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <Button
-        android:id="@+id/pe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="进化演示"
         />
     <ImageView
         android:layout_width="match_parent"
@@ -310,15 +357,6 @@
         android:layout_width="wrap_content"
         app:layout_heightPercent="12.5%"
         android:layout_below="@+id/fight_trans_07"
-        />
-    <Button
-        android:id="@+id/dataBase"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="DataBase"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         />
 
 </android.support.percent.PercentRelativeLayout>

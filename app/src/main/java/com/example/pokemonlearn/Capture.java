@@ -286,6 +286,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         freeButton = new FreeButton(Capture.this);
         LeftLayout.addView(giveUpButton);
         RightLayout.addView(freeButton);
+        giveUpButton.setVisibility(View.GONE);
+        freeButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -402,6 +404,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         ScreenRun(Text_Screen);
                         break;
                     case 4:
+                        MessageCount += 100;
                         transfer21.setVisibility(View.VISIBLE);
                         transfer21.startAnimation(trans1_in);
                         transfer22.setVisibility(View.VISIBLE);
@@ -467,6 +470,10 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                         freeButton.setOnClickListener(this);
                         freeButton.setOnTouchListener(this);
                         break;
+                    case 8:
+                        MessageCount = 2;
+                        Judge();
+                        break;
                 }
                 break;
             default:
@@ -475,6 +482,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         if (v == giveUpButton) {
             finish();
         } else if (v == freeButton) {
+            giveUpButton.setVisibility(View.GONE);
+            freeButton.setVisibility(View.GONE);
+            MessageCount = 8;
+            fightMessage.setText("重新检测您的宠物数量...");
+            ScreenRun(Text_Screen);
             Intent intent = new Intent(Capture.this, Pet.class);
             startActivity(intent);
         }
@@ -1032,6 +1044,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             animSet.playTogether(anim1, anim2);
             animSet.start();
             List<OwnPet> list = DataSupport.findAll(OwnPet.class);
+            Log.i("PetCount", String.valueOf(list.size()));
             if (list.size() < 9) {
                 MessageCount += 2;
                 OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2, C_PokeMonBall.getImageSourceId());
@@ -1192,13 +1205,4 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        giveUpButton.setVisibility(View.GONE);
-        freeButton.setVisibility(View.GONE);
-        MessageCount = 2;
-        PMJudge();
-        Log.i("Capture", "Restart");
-    }
 }
