@@ -41,10 +41,10 @@ public class DatabaseOperate extends AppCompatActivity {
         PokeMon p6 = new PokeMon(7, "超梦", R.drawable.mewtwo2, 1, R.drawable.mewtwo, null);
         PokeMon p7 = new PokeMon(8, "嘟嘟", R.drawable.doduo2, 18, R.drawable.doduo, null);
         PokeMon p8 = new PokeMon(9, "妙蛙草", R.drawable.ivysaur2, 0, 0, null);
-        PokeMon p9 = new PokeMon(10, "耿鬼", R.drawable.gengar2, 20, R.drawable.gengar, null);
-        PokeMon p10 = new PokeMon(11, "小磁怪", R.drawable.magnemite2, 4, R.drawable.magnemite, null);
-        PokeMon p11 = new PokeMon(12, "小猴怪", R.drawable.mankey2, 17, R.drawable.mankey, null);
-        PokeMon p12 = new PokeMon(13, "大岩蛇", R.drawable.onix2, 19, R.drawable.onix, null);
+        PokeMon p9 = new PokeMon(10, "鬼斯", R.drawable.gastly2, 10, R.drawable.gastly, "+5/11");
+        PokeMon p10 = new PokeMon(11, "鬼斯通", R.drawable.haunter2, 0, 0, null);
+        PokeMon p11 = new PokeMon(12, "猴怪", R.drawable.mankey2, 17, R.drawable.mankey, "+3/13");
+        PokeMon p12 = new PokeMon(13, "火爆猴", R.drawable.primeape2, 0, 0, null);
         PokeMon p13 = new PokeMon(14, "六尾", R.drawable.vulpix2, 4, R.drawable.vulpix, null);
         PokeMon p14 = new PokeMon(15, "火焰鸟", R.drawable.zapdos2, 1, R.drawable.zapdos, null);
         PokeMon p15 = new PokeMon(16, "喵喵", R.drawable.meowth2, 17, R.drawable.meowth, null);
@@ -53,17 +53,34 @@ public class DatabaseOperate extends AppCompatActivity {
         PokeMon p18 = new PokeMon(19, "水精灵", R.drawable.vaporeon2, 0, 0, null);
         PokeMon p19 = new PokeMon(20, "雷精灵", R.drawable.jolteon2, 0, 0, null);
         PokeMon p20 = new PokeMon(21, "火精灵", R.drawable.flareon2, 0, 0, null);
-        PokeMon p21 = new PokeMon(22, "月光精灵", R.drawable.umbreon2, 0, 0, null);
-        PokeMon p22 = new PokeMon(23, "日光精灵", R.drawable.espeon2, 0, 0, null);
+        PokeMon p21 = new PokeMon(22, "月亮精灵", R.drawable.umbreon2, 0, 0, null);
+        PokeMon p22 = new PokeMon(23, "太阳精灵", R.drawable.espeon2, 0, 0, null);
         PokeMon p23 = new PokeMon(24, "叶精灵", R.drawable.leafeon2, 0, 0, null);
         PokeMon p24 = new PokeMon(25, "冰精灵", R.drawable.glaceon2, 0, 0, null);
         PokeMon p25 = new PokeMon(26, "仙精灵", R.drawable.sylveon2, 0, 0, null);
+        PokeMon p26 = new PokeMon(27, "皮卡丘", R.drawable.pikachu2, 10, R.drawable.pikachu, "+9/28");
+        PokeMon p27 = new PokeMon(28, "雷丘", R.drawable.raichu2, 0, 0, null);
+        PokeMon p28 = new PokeMon(29, "六尾", R.drawable.vulpix2, 4, R.drawable.vulpix, "+3/30");
+        PokeMon p29 = new PokeMon(30, "九尾", R.drawable.ninetales2, 0, 0, null);
+        PokeMon p30 = new PokeMon(31, "大岩蛇", R.drawable.onix2, 19, R.drawable.onix, "+5/32");
+        PokeMon p31 = new PokeMon(32, "大钢蛇", R.drawable.steelix2, 0, 0, null);
+        PokeMon p32 = new PokeMon(33, "小磁怪", R.drawable.magnemite2, 4, R.drawable.magnemite, "+9/34");
+        PokeMon p33 = new PokeMon(34, "三磁怪", R.drawable.magneton2, 0, 0, "+9/35");
+        PokeMon p34 = new PokeMon(35, "自爆磁怪", R.drawable.magnezone2, 0, 0, null);
+        PokeMon p35 = new PokeMon(36, "小火马", R.drawable.ponyta2, 12, R.drawable.ponyta, "+3/37");
+        PokeMon p36 = new PokeMon(37, "烈焰马", R.drawable.rapidash2, 0, 0, null);
+        PokeMon p37 = new PokeMon(38, "壶壶", R.drawable.shuckle2, 8, R.drawable.shuckle, null);
+        PokeMon p38 = new PokeMon(39, "幼基拉斯", R.drawable.larvitar2, 3, R.drawable.larvitar, "+2/40");
+        PokeMon p39 = new PokeMon(40, "沙基拉斯", R.drawable.pupitar2, 0, 0, "+2/41");
+        PokeMon p40 = new PokeMon(41, "班基拉斯", R.drawable.tyranitar2, 0, 0, null);
 
         list.add(p);list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);
         list.add(p6);list.add(p7);list.add(p8);list.add(p9);list.add(p10);list.add(p11);
         list.add(p12);list.add(p13);list.add(p14);list.add(p15);list.add(p16);list.add(p17);
         list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);
-        list.add(p24);list.add(p25);
+        list.add(p24);list.add(p25);list.add(p26);list.add(p27);list.add(p28);list.add(p29);
+        list.add(p30);list.add(p31);list.add(p32);list.add(p33);list.add(p34);list.add(p35);
+        list.add(p36);list.add(p37);list.add(p38);list.add(p39);list.add(p40);
 
         DataSupport.saveAll(list);
     }

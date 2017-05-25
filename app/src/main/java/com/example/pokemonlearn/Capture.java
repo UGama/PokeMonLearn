@@ -1139,6 +1139,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         Double b = C_PokeMonBall.getRate();
         if (a <= b) {
             Judgement = true;
+            Intent intent = new Intent(Capture.this, CaptureMusicServer.class);
+            stopService(intent);
             playSuccessFile();
         } else {
             Judgement = false;
@@ -1224,4 +1226,11 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
+    }
+
 }

@@ -7,6 +7,7 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.PointF;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 /**
  * Created by Gama on 16/5/17.
@@ -62,6 +65,8 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
 
     private TextView Shop_Wood;
     private ImageView Cast;
+
+    private MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -251,6 +256,7 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
         Cast = (ImageView) findViewById(R.id.cast);
         Cast.setVisibility(View.GONE);
 
+        PlayShopFile();
     }
 
     public void CoinShow() {
@@ -400,12 +406,10 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
             case R.id.buy:
                 Intent intent1 = new Intent(Shop.this, SBuy.class);
                 startActivity(intent1);
-                finish();
                 break;
             case R.id.sell:
                 Intent intent2 = new Intent(Shop.this, SSell.class);
                 startActivity(intent2);
-                finish();
                 break;
             case R.id.leave:
                 finish();
@@ -441,6 +445,20 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
         return false;
     }
 
+    private void PlayShopFile() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.shop);
+        try {
+            mediaPlayer.prepare();
+        } catch (IllegalStateException e) {
+        } catch (IOException e) {
+        }
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+            }
+        });
+    }
     public void ScreenRun(View view) {
         ObjectAnimator anim1 = ObjectAnimator.ofFloat(view, "scaleX",
                 1.0f, 0.0f);
@@ -452,5 +470,11 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
         animSet.playTogether(anim1, anim2);
         animSet.start();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
     }
 }

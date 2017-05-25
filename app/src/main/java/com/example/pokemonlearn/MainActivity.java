@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +39,6 @@ import com.baidu.mapapi.utils.DistanceUtil;
 
 import org.litepal.crud.DataSupport;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +53,7 @@ import static android.animation.ObjectAnimator.ofFloat;
  * Noted by Gama on 11/5/17 (Love Seat With Me).
  * Noted by Gama on 15/5/17 (Ashamed Of Myself).
  * Noted by Gama on 18/5/17 (Result: 1:C-Bag 2:C-PokeMonBall 3:P-Learn 4:P-Evolve)
+ * Noted by Gama on 25/5/17 (<<Attention>>)
  */
 
 public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarkerClickListener, View.OnClickListener, View.OnTouchListener, BaiduMap.OnMapClickListener {
@@ -134,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     private TextView MyCoins;
 
-    private MediaPlayer mediaPlayer;
 
     @Override
 
@@ -200,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         mLocClient.setLocOption(option);
         mLocClient.start();
 
-        initOverlay();
+        //initOverlay();
 
         anim0 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch2);
         anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch1);
@@ -381,6 +379,20 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         int Number = preferences.getInt("Coins", 0);
         String Coins = "      " + String.valueOf(Number) + "  ";
         MyCoins.setText(Coins);
+
+        /*AVObject testObject = new AVObject("TestObject");
+        testObject.put("words","Hello World!");
+        Log.i("Test", "Test1");
+        testObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                Log.i("Test", "Test2");
+                if (e == null) {
+                    Log.d("saved", "success!");
+                }
+            }
+        });*/
+
     }
 
     public void initOverlay() {
@@ -949,7 +961,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
             case R.id.pretend:
                 Intent intent5 = new Intent(MainActivity.this, MusicServer.class);
                 stopService(intent5);
-                playLocalFile();
+                Intent intent6 = new Intent(MainActivity.this, CaptureMusicServer.class);
+                startService(intent6);
                 WarningTimes = 0;
                 warning.setVisibility(View.VISIBLE);
                 Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
@@ -1085,7 +1098,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 Intent intent4 = new Intent(MainActivity.this, Evolve.class);
                 intent4.putExtra("PMName", "伊布");
                 intent4.putExtra("PMStone", "火之石");
-                intent4.putExtra("S-PMName", "火伊布");
+                intent4.putExtra("S-PMName", "火精灵");
                 startActivity(intent4);
                 break;
         }
@@ -1381,22 +1394,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         return pokeMon;
     }
 
-    private void playLocalFile() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.fight);
-        try {
-            mediaPlayer.prepare();
-        } catch (IllegalStateException e) {
 
-        } catch (IOException e) {
-
-        }
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-                mp.start();
-            }
-        });
-        }
 
     /*public class MyLocationListener implements BDLocationListener {
         @Override
@@ -1530,9 +1528,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         String Coins = "      " + String.valueOf(Number) + "  ";
         MyCoins.setText(Coins);
         overridePendingTransition(0,0);
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-        }
+        Intent intent0 = new Intent(MainActivity.this, CaptureMusicServer.class);
+        stopService(intent0);
         Intent intent = new Intent(MainActivity.this, MusicServer.class);
         startService(intent);
         super.onRestart();
