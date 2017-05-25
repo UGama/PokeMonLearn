@@ -34,10 +34,10 @@ public class DatabaseOperate extends AppCompatActivity {
 
         PokeMon p = new PokeMon(1, "妙蛙种子", R.drawable.bulbasaur2, 20, R.drawable.bulbasaur, "+8/9");
         PokeMon p1 = new PokeMon(2, "小火龙", R.drawable.charmander2, 20, R.drawable.charmander, "+3/3");
-        PokeMon p5 = new PokeMon(3, "火恐龙", R.drawable.charmander2, 0, 0, "+3/4");
-        PokeMon p4 = new PokeMon(4, "喷火龙", R.drawable.charizard2, 0, 0, null);
-        PokeMon p2 = new PokeMon(5, "杰尼龟", R.drawable.squirtle2, 20, R.drawable.squirtle, null);
-        PokeMon p3 = new PokeMon(6, "走路草", R.drawable.oddish2, 19, R.drawable.oddish, null);
+        PokeMon p2 = new PokeMon(3, "火恐龙", R.drawable.charmeleon2, 0, 0, "+3/4");
+        PokeMon p3 = new PokeMon(4, "喷火龙", R.drawable.charizard2, 0, 0, null);
+        PokeMon p4 = new PokeMon(5, "杰尼龟", R.drawable.squirtle2, 20, R.drawable.squirtle, null);
+        PokeMon p5 = new PokeMon(6, "走路草", R.drawable.oddish2, 19, R.drawable.oddish, null);
         PokeMon p6 = new PokeMon(7, "超梦", R.drawable.mewtwo2, 1, R.drawable.mewtwo, null);
         PokeMon p7 = new PokeMon(8, "嘟嘟", R.drawable.doduo2, 18, R.drawable.doduo, null);
         PokeMon p8 = new PokeMon(9, "妙蛙草", R.drawable.ivysaur2, 0, 0, null);
@@ -59,32 +59,11 @@ public class DatabaseOperate extends AppCompatActivity {
         PokeMon p24 = new PokeMon(25, "冰精灵", R.drawable.glaceon2, 0, 0, null);
         PokeMon p25 = new PokeMon(26, "仙精灵", R.drawable.sylveon2, 0, 0, null);
 
-        list.add(p);
-        list.add(p1);
-        list.add(p2);
-        list.add(p3);
-        list.add(p4);
-        list.add(p5);
-        list.add(p6);
-        list.add(p7);
-        list.add(p8);
-        list.add(p9);
-        list.add(p10);
-        list.add(p11);
-        list.add(p12);
-        list.add(p13);
-        list.add(p14);
-        list.add(p15);
-        list.add(p16);
-        list.add(p17);
-        list.add(p18);
-        list.add(p19);
-        list.add(p20);
-        list.add(p21);
-        list.add(p22);
-        list.add(p23);
-        list.add(p24);
-        list.add(p25);
+        list.add(p);list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);
+        list.add(p6);list.add(p7);list.add(p8);list.add(p9);list.add(p10);list.add(p11);
+        list.add(p12);list.add(p13);list.add(p14);list.add(p15);list.add(p16);list.add(p17);
+        list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);
+        list.add(p24);list.add(p25);
 
         DataSupport.saveAll(list);
     }

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ import com.baidu.mapapi.utils.DistanceUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,12 +134,17 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     private TextView MyCoins;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(MainActivity.this, MusicServer.class);
+        startService(intent);
 
         transfer1 = (ImageView) findViewById(R.id.transfer1);
         transfer2 = (ImageView) findViewById(R.id.transfer2);
@@ -908,6 +915,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 break;
             case R.id.menu:
                 if (MenuCount == 0) {
+
                     Menu.startAnimation(animation1);
                     littleMapLayout.setVisibility(View.GONE);
                     MenuLayout.setVisibility(View.VISIBLE);
@@ -939,6 +947,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 MenuCount = 0;
                 break;
             case R.id.pretend:
+                Intent intent5 = new Intent(MainActivity.this, MusicServer.class);
+                stopService(intent5);
+                playLocalFile();
                 WarningTimes = 0;
                 warning.setVisibility(View.VISIBLE);
                 Warning = AnimationUtils.loadAnimation(MainActivity.this, R.anim.warning);
@@ -1370,6 +1381,22 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         return pokeMon;
     }
 
+    private void playLocalFile() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.fight);
+        try {
+            mediaPlayer.prepare();
+        } catch (IllegalStateException e) {
+
+        } catch (IOException e) {
+
+        }
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+        }
 
     /*public class MyLocationListener implements BDLocationListener {
         @Override
@@ -1473,6 +1500,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
             Log.i("BaiduLocationApiDem", sb.toString());
         }
     }*/
+
     protected void onPause() {
         mMapView.onPause();
         super.onPause();
@@ -1502,7 +1530,19 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         String Coins = "      " + String.valueOf(Number) + "  ";
         MyCoins.setText(Coins);
         overridePendingTransition(0,0);
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        Intent intent = new Intent(MainActivity.this, MusicServer.class);
+        startService(intent);
         super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        Intent intent = new Intent(MainActivity.this, MusicServer.class);
+        stopService(intent);
+        super.onStop();
     }
 }
 

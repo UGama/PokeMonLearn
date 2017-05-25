@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.util.List;
 
 import static android.animation.ObjectAnimator.ofFloat;
@@ -83,6 +85,8 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private LinearLayout RightLayout;
     private GiveUpButton giveUpButton;
     private FreeButton freeButton;
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1135,6 +1139,7 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         Double b = C_PokeMonBall.getRate();
         if (a <= b) {
             Judgement = true;
+            playSuccessFile();
         } else {
             Judgement = false;
         }
@@ -1205,4 +1210,18 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
+    private void playSuccessFile() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.capture_success);
+        try {
+            mediaPlayer.prepare();
+        } catch (IllegalStateException e) {
+        } catch (IOException e) {
+        }
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+            }
+        });
+    }
 }
