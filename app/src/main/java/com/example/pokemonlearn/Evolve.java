@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -47,7 +46,6 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     private Animation trans_out1;
     private Animation trans_out2;
 
-    private PercentRelativeLayout Layout_Up;
     private ImageView Roof1;
     private ImageView Roof2;
     private ImageView PokeMon;
@@ -75,6 +73,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
     private Animation Float1;
     private Animation animation1;
     private Animation animation2;
+    private int MessageCount;
 
     private ImageView White;
     private ImageView Black;
@@ -108,7 +107,6 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         List<PokeMon> pokeMons = DataSupport.where("Name = ?", SName).find(PokeMon.class);
         ES_PokeMon = pokeMons.get(0);
 
-        Layout_Up = (PercentRelativeLayout) findViewById(R.id.Layout_up);
         Roof1 = (ImageView) findViewById(R.id.roof1);
         Roof1.setVisibility(View.GONE);
         Roof2 = (ImageView) findViewById(R.id.roof2);
@@ -134,6 +132,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
         Float3 = AnimationUtils.loadAnimation(Evolve.this, R.anim.cap_float3);
 
         Text = (ImageView) findViewById(R.id.evolve_text);
+        Text.setOnClickListener(this);
         Text.setVisibility(View.GONE);
         Message = (TextView) findViewById(R.id.evolve_message);
         Message.setVisibility(View.GONE);
@@ -150,11 +149,43 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Evolve.setVisibility(View.VISIBLE);
-                Evolve.startAnimation(Float2);
-                Cancel.setVisibility(View.VISIBLE);
-                Cancel.startAnimation(Float3);
-                String tip = "确定使用 " + E_PokeMonStone.getName() + " 进化 " + E_OwnPet.getName() + " 吗？";
+                String tip = "确定使用 " + E_PokeMonStone.getName();
+                Next_Text.setVisibility(View.VISIBLE);
+                animation1 = AnimationUtils.loadAnimation(Evolve.this, R.anim.up2);
+                animation1.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Next_Text.startAnimation(animation2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                animation2 = AnimationUtils.loadAnimation(Evolve.this, R.anim.down2);
+                animation2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Next_Text.startAnimation(animation1);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                Next_Text.startAnimation(animation1);
                 Message.setText(tip);
                 ScreenRun(Screen);
             }
@@ -164,6 +195,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
             }
         });
+        MessageCount = 0;
 
         transfer1 = (ImageView) findViewById(R.id.transfer1);
         transfer1.setVisibility(View.VISIBLE);
@@ -249,6 +281,50 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                 setResult(RESULT_CANCELED, intent2);
                 finish();
                 break;
+            case R.id.evolve_text:
+                if (MessageCount == 0) {
+                    MessageCount++;
+                    String tip = "进化 " + E_OwnPet.getName() + " 吗？";
+                    ScreenRun(Screen);
+                    Message.setText(tip);
+                    animation1.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            Next_Text.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    animation2.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            Next_Text.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    Next_Text.setVisibility(View.GONE);
+                    Evolve.setVisibility(View.VISIBLE);
+                    Evolve.startAnimation(Float2);
+                    Cancel.setVisibility(View.VISIBLE);
+                    Cancel.startAnimation(Float3);
+                }
         }
     }
 
@@ -476,7 +552,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
 
         PropertyValuesHolder propertyValuesHolder = PropertyValuesHolder.ofFloat("scaleY", 1, 0.3f);
         PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1, 0.3f);
-        PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("rotation", 0, 180);
+        PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("rotation", 0, 360);
         ObjectAnimator.ofPropertyValuesHolder(Stone,
                 propertyValuesHolder, propertyValuesHolder1, propertyValuesHolder2).
                 setDuration(2000).start();

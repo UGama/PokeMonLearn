@@ -404,6 +404,12 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
+                                            MessageCount = 0;
+                                            Buy.setBackgroundResource(R.drawable.s_buy);
+                                            SBuy_Message.setText("");
+                                            Buy.setVisibility(View.GONE);
+                                            Cancel.setVisibility(View.GONE);
+                                            FirstTouch = true;
                                         }
                                     })
                                     .show();

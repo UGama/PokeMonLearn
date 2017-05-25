@@ -42,6 +42,7 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
     private TextView Item_name;
     private ImageView Bag_Pic;
     private Animation anim4;
+    private Animation animation4;
 
     private ImageView Item;
     private Button Use;
@@ -49,8 +50,6 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
     private Animation Float2;
     private Animation Float3;
     private boolean FirstTouch;
-
-    private boolean able;
 
     private TextView Message;
     private ImageView Text;
@@ -77,8 +76,6 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         Connect1 = (ImageView) findViewById(R.id.connect1);
         Connect2 = (ImageView) findViewById(R.id.connect2);
-        Connect1.setVisibility(View.GONE);
-        Connect2.setVisibility(View.GONE);
         Left_Shape.startAnimation(animation2);
         Right_Shape1.startAnimation(animation2);
         Right_Shape2.startAnimation(animation2);
@@ -86,31 +83,6 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
         Connect1.startAnimation(animation2);
         Connect2.startAnimation(animation2);
         animation2.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Connect1.setVisibility(View.VISIBLE);
-                Connect2.setVisibility(View.VISIBLE);
-                Connect1.startAnimation(anim4);
-                Connect2.startAnimation(anim4);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        Item_name = (TextView) findViewById(R.id.item_name);
-        Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
-        Bag_Pic.setBackgroundResource(R.drawable.init_ball4);
-
-        anim4 = AnimationUtils.loadAnimation(PPokeMonBook.this, R.anim.anim4);
-        anim4.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
@@ -131,6 +103,12 @@ public class PPokeMonBook extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+
+        Item_name = (TextView) findViewById(R.id.item_name);
+        Bag_Pic = (ImageView) findViewById(R.id.bag_pic);
+        Bag_Pic.setBackgroundResource(R.drawable.init_ball4);
+
+        anim4 = AnimationUtils.loadAnimation(PPokeMonBook.this, R.anim.anim4);
 
         List<OwnItem> ownItems = DataSupport.where("Type = ?", "4").find(OwnItem.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(PPokeMonBook.this);

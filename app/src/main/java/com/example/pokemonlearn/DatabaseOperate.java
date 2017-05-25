@@ -32,15 +32,15 @@ public class DatabaseOperate extends AppCompatActivity {
         pokeMontest.save();*/
         ArrayList<PokeMon> list = new ArrayList<>();
 
-        PokeMon p = new PokeMon(3, "妙蛙种子", R.drawable.bulbasaur2, 20, R.drawable.bulbasaur, null);
-        PokeMon p1 = new PokeMon(2, "小火龙", R.drawable.charmander2, 20, R.drawable.charmander, null);
-        PokeMon p2 = new PokeMon(1, "杰尼龟", R.drawable.squirtle2, 20, R.drawable.squirtle, null);
-        PokeMon p3 = new PokeMon(4, "走路草", R.drawable.oddish2, 19, R.drawable.oddish, null);
-        PokeMon p4 = new PokeMon(5, "绿毛虫", R.drawable.caterpie2, 20, R.drawable.caterpie, null);
-        PokeMon p5 = new PokeMon(6, "幸运蛋", R.drawable.chansey2, 19, R.drawable.chansey, null);
+        PokeMon p = new PokeMon(1, "妙蛙种子", R.drawable.bulbasaur2, 20, R.drawable.bulbasaur, "+8/9");
+        PokeMon p1 = new PokeMon(2, "小火龙", R.drawable.charmander2, 20, R.drawable.charmander, "+3/3");
+        PokeMon p5 = new PokeMon(3, "火恐龙", R.drawable.charmander2, 0, 0, "+3/4");
+        PokeMon p4 = new PokeMon(4, "喷火龙", R.drawable.charizard2, 0, 0, null);
+        PokeMon p2 = new PokeMon(5, "杰尼龟", R.drawable.squirtle2, 20, R.drawable.squirtle, null);
+        PokeMon p3 = new PokeMon(6, "走路草", R.drawable.oddish2, 19, R.drawable.oddish, null);
         PokeMon p6 = new PokeMon(7, "超梦", R.drawable.mewtwo2, 1, R.drawable.mewtwo, null);
         PokeMon p7 = new PokeMon(8, "嘟嘟", R.drawable.doduo2, 18, R.drawable.doduo, null);
-        PokeMon p8 = new PokeMon(9, "胖丁", R.drawable.jigglypuff2, 12, R.drawable.jigglypuff, null);
+        PokeMon p8 = new PokeMon(9, "妙蛙草", R.drawable.ivysaur2, 0, 0, null);
         PokeMon p9 = new PokeMon(10, "耿鬼", R.drawable.gengar2, 20, R.drawable.gengar, null);
         PokeMon p10 = new PokeMon(11, "小磁怪", R.drawable.magnemite2, 4, R.drawable.magnemite, null);
         PokeMon p11 = new PokeMon(12, "小猴怪", R.drawable.mankey2, 17, R.drawable.mankey, null);
@@ -50,14 +50,14 @@ public class DatabaseOperate extends AppCompatActivity {
         PokeMon p15 = new PokeMon(16, "喵喵", R.drawable.meowth2, 17, R.drawable.meowth, null);
         PokeMon p16 = new PokeMon(17, "果然翁", R.drawable.wobbuffet2, 4, R.drawable.wobbuffet, null);
         PokeMon p17 = new PokeMon(18, "伊布", R.drawable.eevee2, 4, R.drawable.eevee, "+4/19+9/20+3/21+2/22+1/23+8/24+7/25");
-        PokeMon p18 = new PokeMon(19, "水伊布", R.drawable.vaporeon2, 0, 0, null);
-        PokeMon p19 = new PokeMon(20, "雷伊布", R.drawable.jolteon2, 0, 0, null);
-        PokeMon p20 = new PokeMon(21, "火伊布", R.drawable.flareon2, 0, 0, null);
-        PokeMon p21 = new PokeMon(22, "月光伊布", R.drawable.espeon2, 0, 0, null);
-        PokeMon p22 = new PokeMon(23, "日光伊布", R.drawable.umbreon2, 0, 0, null);
-        PokeMon p23 = new PokeMon(24, "叶伊布", R.drawable.leafeon2, 0, 0, null);
-        PokeMon p24 = new PokeMon(25, "冰伊布", R.drawable.glaceon2, 0, 0, null);
-        PokeMon p25 = new PokeMon(26, "仙子伊布", R.drawable.sylveon2, 0, 0, null);
+        PokeMon p18 = new PokeMon(19, "水精灵", R.drawable.vaporeon2, 0, 0, null);
+        PokeMon p19 = new PokeMon(20, "雷精灵", R.drawable.jolteon2, 0, 0, null);
+        PokeMon p20 = new PokeMon(21, "火精灵", R.drawable.flareon2, 0, 0, null);
+        PokeMon p21 = new PokeMon(22, "月光精灵", R.drawable.umbreon2, 0, 0, null);
+        PokeMon p22 = new PokeMon(23, "日光精灵", R.drawable.espeon2, 0, 0, null);
+        PokeMon p23 = new PokeMon(24, "叶精灵", R.drawable.leafeon2, 0, 0, null);
+        PokeMon p24 = new PokeMon(25, "冰精灵", R.drawable.glaceon2, 0, 0, null);
+        PokeMon p25 = new PokeMon(26, "仙精灵", R.drawable.sylveon2, 0, 0, null);
 
         list.add(p);
         list.add(p1);
@@ -376,7 +376,7 @@ public class DatabaseOperate extends AppCompatActivity {
         DatabaseButton b12 = new DatabaseButton("DELETE POKEMON-TOOL", 12);
         DatabaseButton b13 = new DatabaseButton("ADD POKEMON-STONE", 13);
         DatabaseButton b14 = new DatabaseButton("QUERY POKEMON-STONE", 14);
-        DatabaseButton b15 = new DatabaseButton("DELTE POKEMON-STONE", 15);
+        DatabaseButton b15 = new DatabaseButton("DELETE POKEMON-STONE", 15);
         DatabaseButton b16 = new DatabaseButton("ADD POKEMON-BOOK", 16);
         DatabaseButton b17 = new DatabaseButton("QUERY POKEMON-BOOK", 17);
         DatabaseButton b18 = new DatabaseButton("DELETE POKEMON-BOOK", 18);

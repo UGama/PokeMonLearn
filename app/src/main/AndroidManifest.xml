@@ -49,6 +49,7 @@
         <activity android:name=".Evolve" />
         <activity android:name=".SBuy" />
         <activity android:name=".SSell" />
+        <activity android:name=".Setting" />
     </application>
 
 </manifest>

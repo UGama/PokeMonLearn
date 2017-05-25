@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     private Button compete;
     private Button gym;
     private Button back;
+    private int MenuCount;
 
     private ImageView transfer1;
     private ImageView transfer2;
@@ -293,6 +294,8 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         back.setOnClickListener(this);
         back.setOnTouchListener(this);
 
+        MenuCount = 0;
+
         Button pretend = (Button) findViewById(R.id.pretend);
         pretend.setOnClickListener(this);
         Button pe = (Button) findViewById(R.id.pe);
@@ -369,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         MyCoins = (TextView) findViewById(R.id.myCoin);
         SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
         int Number = preferences.getInt("Coins", 0);
-        String Coins = String.valueOf(Number) + "  ";
+        String Coins = "      " + String.valueOf(Number) + "  ";
         MyCoins.setText(Coins);
     }
 
@@ -878,6 +881,10 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.setting:
+                Intent intent = new Intent(MainActivity.this, Setting.class);
+                startActivity(intent);
+                break;
             case R.id.littlemap:
                 /*MenuLayout.setVisibility(View.GONE);
                 littleMapLayout.setVisibility(View.VISIBLE);
@@ -900,15 +907,21 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 MenuLayout.setVisibility(View.GONE);
                 break;
             case R.id.menu:
-                Menu.startAnimation(animation1);
-                littleMapLayout.setVisibility(View.GONE);
-                MenuLayout.setVisibility(View.VISIBLE);
-                Animation anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim);
-                MenuLayout.startAnimation(anim1);
+                if (MenuCount == 0) {
+                    Menu.startAnimation(animation1);
+                    littleMapLayout.setVisibility(View.GONE);
+                    MenuLayout.setVisibility(View.VISIBLE);
+                    Animation anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim);
+                    MenuLayout.startAnimation(anim1);
+                    MenuCount = 1;
+                } else if (MenuCount == 1) {
+                    MenuLayout.setVisibility(View.GONE);
+                    MenuCount = 0;
+                }
                 break;
             case R.id.myBag:
-                Intent intent = new Intent(MainActivity.this, Bag.class);
-                startActivity(intent);
+                Intent intent0 = new Intent(MainActivity.this, Bag.class);
+                startActivity(intent0);
                 overridePendingTransition(0, 0);
                 break;
             case R.id.pokeDex:
@@ -923,6 +936,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 break;
             case R.id.back:
                 MenuLayout.setVisibility(View.GONE);
+                MenuCount = 0;
                 break;
             case R.id.pretend:
                 WarningTimes = 0;
@@ -978,7 +992,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
                                     Intent intent3 = new Intent(MainActivity.this, Capture.class);
-                                    intent3.putExtra("Name", "仙子伊布");
+                                    intent3.putExtra("Name", "果然翁");
                                     startActivity(intent3);
                                     overridePendingTransition(0, 0);
                                     transit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transit);
@@ -1193,30 +1207,36 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
                 }
                 break;
             case R.id.dataBase:
-                if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
-                    v.startAnimation(anim1);
-                } else {
-                    if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
-                        v.startAnimation(anim0);
-                    }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ObjectAnimator objectAnimator = ofFloat(v, "TranslationY", 0, 30);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ObjectAnimator objectAnimator = ofFloat(v, "TranslationY", 30, 0);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
                 }
                 break;
             case R.id.pretend:
-                if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
-                    v.startAnimation(anim1);
-                } else {
-                    if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
-                        v.startAnimation(anim0);
-                    }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ObjectAnimator objectAnimator = ofFloat(v, "TranslationY", 0, 30);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ObjectAnimator objectAnimator = ofFloat(v, "TranslationY", 30, 0);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
                 }
                 break;
             case R.id.pe:
-                if (event.getAction() == MotionEvent.ACTION_DOWN && Open_Close == 1) {
-                    v.startAnimation(anim1);
-                } else {
-                    if (event.getAction() == MotionEvent.ACTION_UP && Open_Close == 1) {
-                        v.startAnimation(anim0);
-                    }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ObjectAnimator objectAnimator = ofFloat(v, "TranslationY", 0, 30);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ObjectAnimator objectAnimator = ofFloat(v, "TranslationY", 30, 0);
+                    objectAnimator.setDuration(100);
+                    objectAnimator.start();
                 }
                 break;
         }
@@ -1226,6 +1246,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     @Override
     public void onMapClick(LatLng latLng) {
         MenuLayout.setVisibility(View.GONE);
+        MenuCount = 0;
     }
 
     @Override
@@ -1478,7 +1499,7 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     protected void onRestart() {
         SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
         int Number = preferences.getInt("Coins", 0);
-        String Coins = String.valueOf(Number) + "  ";
+        String Coins = "      " + String.valueOf(Number) + "  ";
         MyCoins.setText(Coins);
         overridePendingTransition(0,0);
         super.onRestart();

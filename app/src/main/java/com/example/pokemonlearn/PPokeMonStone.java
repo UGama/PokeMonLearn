@@ -180,11 +180,18 @@ public class PPokeMonStone extends AppCompatActivity implements View.OnClickList
                     Log.i("Senior Number", String.valueOf(Senior));
                     List<PokeMon> pokeMons = DataSupport.where("Number = ?", String.valueOf(Senior)).find(PokeMon.class);
                     PokeMon pokeMon = pokeMons.get(0);
-                    Intent intent1 = new Intent(PPokeMonStone.this, Evolve.class);
-                    intent1.putExtra("PMName", P_PokeMon.getName());
-                    intent1.putExtra("PMStone", PMStone);
-                    intent1.putExtra("S-PMName", pokeMon.getName());
-                    startActivityForResult(intent1, 5);
+                    List<OwnPet> ownPets = DataSupport.where("Name = ?", pokeMon.getName()).find(OwnPet.class);
+                    if (ownPets.size() == 0) {
+                        Intent intent1 = new Intent(PPokeMonStone.this, Evolve.class);
+                        intent1.putExtra("PMName", P_PokeMon.getName());
+                        intent1.putExtra("PMStone", PMStone);
+                        intent1.putExtra("S-PMName", pokeMon.getName());
+                        startActivityForResult(intent1, 5);
+                    } else {
+                        String tip = "你已经拥有 " + pokeMon.getName() + " 了。";
+                        Message.setText(tip);
+                        ScreenRun(Screen);
+                    }
                 } else {
                     String tip = Item_name.getText().toString() + " 不可使用。";
                     Message.setText(tip);

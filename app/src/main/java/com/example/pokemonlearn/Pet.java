@@ -140,6 +140,8 @@ public class Pet extends AppCompatActivity implements View.OnClickListener, View
                 objectAnimator2.setDuration(600);
                 objectAnimator2.setInterpolator(new LinearInterpolator());
                 objectAnimator2.start();
+                Pet_Message.setText("Tip：最多只能同时拥有9只宠物哦。");
+                ScreenRun(Screen);
             }
 
             @Override
