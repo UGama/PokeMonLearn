@@ -348,6 +348,11 @@ public class DatabaseOperate extends AppCompatActivity {
         Log.i("MyCoin", String.valueOf(MyCoin));
     }
 
+    public void Eevee() {
+        OwnPet Eevee = new OwnPet("伊布", R.drawable.eevee2, 18, R.drawable.pokeball);
+        Eevee.save();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -380,7 +385,7 @@ public class DatabaseOperate extends AppCompatActivity {
         DatabaseButton b21 = new DatabaseButton("DELETE OWN-ITEM", 21);
         DatabaseButton b22 = new DatabaseButton("重置场景", 22);
         DatabaseButton b23 = new DatabaseButton("加1000金", 23);
-
+        DatabaseButton b24 = new DatabaseButton("来只伊布", 24);
         list.add(b1);list.add(b2);list.add(b3);
         list.add(b4);list.add(b5);list.add(b6);
         list.add(b7);list.add(b8);list.add(b9);
@@ -388,7 +393,7 @@ public class DatabaseOperate extends AppCompatActivity {
         list.add(b13);list.add(b14);list.add(b15);
         list.add(b16);list.add(b17);list.add(b18);
         list.add(b19);list.add(b20);list.add(b21);
-        list.add(b22);list.add(b23);
+        list.add(b22);list.add(b23);list.add(b24);
 
         DatabaseOperateAdapter adapter = new DatabaseOperateAdapter(list);
         recyclerView.setAdapter(adapter);
@@ -512,6 +517,10 @@ public class DatabaseOperate extends AppCompatActivity {
                         case 23:
                             AddCoins();
                             Log.i("DatabasesTest", "AddCoins");
+                            break;
+                        case 24:
+                            Eevee();
+                            Log.i("DatabasesTest", "AddEevee");
                             break;
                     }
                 }

@@ -402,6 +402,11 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Vie
                 startActivity(intent1);
                 finish();
                 break;
+            case R.id.sell:
+                Intent intent2 = new Intent(Shop.this, SSell.class);
+                startActivity(intent2);
+                finish();
+                break;
             case R.id.leave:
                 finish();
                 break;

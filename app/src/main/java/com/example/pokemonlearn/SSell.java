@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Gama on 22/5/17.
+ * Created by Gama on 25/5/17.
  */
 
-public class SBuy extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
+public class SSell extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private ImageView transfer1;
     private ImageView transfer2;
@@ -64,11 +64,11 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private AnimatorSet Right;
     private AnimatorSet Left;
 
-    private Button Buy;
+    private Button Sell;
     private Button Cancel;
 
-    private TextView SBuy_Message;
-    private ImageView SBuy_Text;
+    private TextView SSell_Message;
+    private ImageView SSell_Text;
     private ImageView Screen;
     private int Price;
 
@@ -76,7 +76,6 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private ViewPage v2;
     private ViewPage v3;
     private ViewPage v4;
-    private ViewPage v5;
 
     private ViewPager viewPager;
     private MyPagerAdapter myPagerAdapter;
@@ -91,8 +90,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private Button D_Confirm;
     private Button D_Cancel;
     private int number;//(Buy Count)
-    private int NumberInDex;
-    private int SceneResource;
+    private int NumberInBag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,8 +101,8 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         transfer1.setVisibility(View.VISIBLE);
         transfer2 = (ImageView) findViewById(R.id.transfer2);
         transfer2.setVisibility(View.VISIBLE);
-        trans_out1 = AnimationUtils.loadAnimation(SBuy.this, R.anim.trans_out_up);
-        trans_out2 = AnimationUtils.loadAnimation(SBuy.this, R.anim.trans_out_down);
+        trans_out1 = AnimationUtils.loadAnimation(SSell.this, R.anim.trans_out_up);
+        trans_out2 = AnimationUtils.loadAnimation(SSell.this, R.anim.trans_out_down);
         transfer1.startAnimation(trans_out1);
         transfer2.startAnimation(trans_out2);
         trans_out2.setAnimationListener(new Animation.AnimationListener() {
@@ -131,7 +129,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         viewPager.setAdapter(myPagerAdapter);
         indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
         indicator.setLength(myPagerAdapter.List.size());
-        anim4 = AnimationUtils.loadAnimation(SBuy.this, R.anim.anim4);
+        anim4 = AnimationUtils.loadAnimation(SSell.this, R.anim.anim4);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -141,59 +139,36 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
             @Override
             public void onPageSelected(int position) {
                 indicator.setSelected(position);
-                position = position % 5;
+                position = position % 4;
                 FirstTouch = true;
-                Buy.setVisibility(View.GONE);
+                Sell.setVisibility(View.GONE);
                 Cancel.setVisibility(View.GONE);
+                Item_Name.setText(" ? ? ? ");
                 Log.i("Page", String.valueOf(position));
                 switch (position) {
                     case 0:
-                        Item_Pic.setVisibility(View.VISIBLE);
-                        Item_Name.setVisibility(View.VISIBLE);
-                        Pet_Init.setVisibility(View.GONE);
                         S_Pic.startAnimation(anim4);
                         S_Pic.setImageResource(v1.SourceId1);
                         Item_Pic.setBackgroundResource(v1.SourceId2);
-                        Item_Name.setText(" ? ? ? ");
                         PagesCount = 1;
                         break;
                     case 1:
-                        Item_Pic.setVisibility(View.VISIBLE);
-                        Item_Name.setVisibility(View.VISIBLE);
-                        Pet_Init.setVisibility(View.GONE);
                         S_Pic.startAnimation(anim4);
                         S_Pic.setImageResource(v2.SourceId1);
                         Item_Pic.setBackgroundResource(v2.SourceId2);
-                        Item_Name.setText(" ? ? ? ");
                         PagesCount = 2;
                         break;
                     case 2:
-                        Item_Pic.setVisibility(View.VISIBLE);
-                        Item_Name.setVisibility(View.VISIBLE);
-                        Pet_Init.setVisibility(View.GONE);
                         S_Pic.startAnimation(anim4);
                         S_Pic.setImageResource(v3.SourceId1);
                         Item_Pic.setBackgroundResource(v3.SourceId2);
-                        Item_Name.setText(" ? ? ? ");
                         PagesCount = 3;
                         break;
                     case 3:
-                        Item_Pic.setVisibility(View.VISIBLE);
-                        Item_Name.setVisibility(View.VISIBLE);
-                        Pet_Init.setVisibility(View.GONE);
                         S_Pic.startAnimation(anim4);
                         S_Pic.setImageResource(v4.SourceId1);
                         Item_Pic.setBackgroundResource(v4.SourceId2);
-                        Item_Name.setText(" ? ? ? ");
                         PagesCount = 4;
-                        break;
-                    case 4:
-                        Pet_Init.setVisibility(View.VISIBLE);
-                        S_Pic.setImageResource(v5.SourceId1);
-                        Pet_Init.setImageResource(v5.SourceId2);
-                        Item_Pic.setVisibility(View.GONE);
-                        Item_Name.setVisibility(View.GONE);
-                        PagesCount = 5;
                         break;
                 }
             }
@@ -210,8 +185,8 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         Pet_Init.setVisibility(View.GONE);
         Pet_Init.setOnClickListener(this);
 
-        animation2 = AnimationUtils.loadAnimation(SBuy.this, R.anim.anim2);
-        animation3 = AnimationUtils.loadAnimation(SBuy.this, R.anim.anim3);
+        animation2 = AnimationUtils.loadAnimation(SSell.this, R.anim.anim2);
+        animation3 = AnimationUtils.loadAnimation(SSell.this, R.anim.anim3);
         Layout_Left1 = (PercentRelativeLayout) findViewById(R.id.Layout_Left1);
         Layout_Right = (PercentRelativeLayout) findViewById(R.id.Layout_Right);
         Layout_Left1.startAnimation(animation2);
@@ -335,20 +310,19 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         Layout_Left2.startAnimation(animation2);
         Connect2 = (ImageView) findViewById(R.id.connect2);
         Connect2.startAnimation(animation3);
-        FirstTouch = true;
 
-        Buy = (Button) findViewById(R.id.action);
-        Buy.setOnClickListener(this);
-        Buy.setOnTouchListener(this);
-        Buy.setBackgroundResource(R.drawable.s_buy);
-        Buy.setVisibility(View.GONE);
+        Sell = (Button) findViewById(R.id.action);
+        Sell.setOnClickListener(this);
+        Sell.setOnTouchListener(this);
+        Sell.setBackgroundResource(R.drawable.s_sell);
+        Sell.setVisibility(View.GONE);
         Cancel = (Button) findViewById(R.id.cancel);
         Cancel.setOnClickListener(this);
         Cancel.setOnTouchListener(this);
         Cancel.setVisibility(View.GONE);
 
-        float2 = AnimationUtils.loadAnimation(SBuy.this, R.anim.cap_float2);
-        float3 = AnimationUtils.loadAnimation(SBuy.this, R.anim.cap_float3);
+        float2 = AnimationUtils.loadAnimation(SSell.this, R.anim.cap_float2);
+        float3 = AnimationUtils.loadAnimation(SSell.this, R.anim.cap_float3);
 
         S_Pic = (ImageView) findViewById(R.id.S_Pic);
         S_Pic.setVisibility(View.GONE);
@@ -357,8 +331,8 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         Item_Name = (TextView) findViewById(R.id.item_name);
         Item_Name.setVisibility(View.GONE);
 
-        SBuy_Message = (TextView) findViewById(R.id.s_message);
-        SBuy_Text = (ImageView) findViewById(R.id.s_text);
+        SSell_Message = (TextView) findViewById(R.id.s_message);
+        SSell_Text = (ImageView) findViewById(R.id.s_text);
         Screen = (ImageView) findViewById(R.id.screen);
 
         PagesCount = 1;
@@ -368,11 +342,14 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         Dialog = (PercentRelativeLayout) findViewById(R.id.dialog);
         editText = (EditText) findViewById(R.id.editText);
         D_Confirm = (Button) findViewById(R.id.d_confirm);
+        D_Confirm.setText("出售");
         D_Confirm.setOnClickListener(this);
         D_Confirm.setOnTouchListener(this);
         D_Cancel = (Button) findViewById(R.id.d_cancel);
         D_Cancel.setOnTouchListener(this);
         D_Cancel.setOnClickListener(this);
+
+        FirstTouch = true;
     }
 
     @Override
@@ -380,50 +357,18 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         switch (v.getId()) {
             case R.id.action:
                 if (MessageCount == 0) {
-                    Buy.setBackgroundResource(R.drawable.s_comfirm);
-                    Buy.startAnimation(float2);
+                    Sell.setBackgroundResource(R.drawable.s_comfirm);
+                    Sell.startAnimation(float2);
                     Cancel.startAnimation(float3);
-                    String tip = "确定要购买 " + Item_Name.getText().toString() + " 吗？";
-                    SBuy_Message.setText(tip);
+                    String tip = "确定要出售 " + Item_Name.getText().toString() + " 吗？";
+                    SSell_Message.setText(tip);
                     ScreenRun(Screen);
                     MessageCount = 1;
                 } else if (MessageCount == 1) {
-                    if (PagesCount == 5) {
-                        SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
-                        int MyCoin = preferences.getInt("Coins", 0);
-                        if (MyCoin >= Price) {
-                            MyCoin -= Price;
-                            SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
-                            editor.putInt("Scene", SceneResource);
-                            editor.putInt("Coins", MyCoin);
-                            editor.apply();
-                            Log.i("Scene", String.valueOf(SceneResource));
-                            AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("恭喜")
-                                    .setMessage("购买成功！")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .show();
-                        } else {
-                            AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("抱歉")
-                                    .setMessage("余额不足请充值。")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .show();
-                        }
-                    } else {
-                        Black.setVisibility(View.VISIBLE);
-                        Dialog.setVisibility(View.VISIBLE);
-                        Buy.setVisibility(View.GONE);
-                        Cancel.setVisibility(View.GONE);
-                    }
+                    Black.setVisibility(View.VISIBLE);
+                    Dialog.setVisibility(View.VISIBLE);
+                    Sell.setVisibility(View.GONE);
+                    Cancel.setVisibility(View.GONE);
                 }
                 break;
             case R.id.cancel:
@@ -431,70 +376,77 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                     finish();
                 } else if (MessageCount == 1) {
                     MessageCount = 0;
-                    Buy.setBackgroundResource(R.drawable.s_buy);
-                    Buy.startAnimation(float2);
+                    Sell.setBackgroundResource(R.drawable.s_sell);
+                    Sell.startAnimation(float2);
                     Cancel.startAnimation(float3);
                 }
                 break;
             case R.id.d_confirm:
                 number = Integer.valueOf(editText.getText().toString());
-                if (number <= 0) {
+                if (number < 0 || number > NumberInBag) {
                     Dialog_Show();
                 } else {
                     SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
                     int MyCoin = preferences.getInt("Coins", 0);
-                    if (MyCoin >= Price * number) {
-                        MyCoin -= Price * number;
-                        SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
-                        editor.putInt("Coins", MyCoin);
-                        editor.apply();
-                        String item_name = Item_Name.getText().toString();
-                        List<OwnItem> ownItems = DataSupport.findAll(OwnItem.class);
-                        boolean isHaven = false;
-                        for (OwnItem ownItem : ownItems) {
-                            if (ownItem.getName().equals(item_name)) {
-                                isHaven = true;
-                                ownItem.setNumber(ownItem.getNumber() + number);
-                                ownItem.updateAll("Name = ?", ownItem.getName());
-                                break;
-                            }
-                        }
-                        if (!isHaven) {
-                            OwnItem ownItem = new OwnItem(item_name, number, PagesCount, Item_Pic.getId(), NumberInDex);
-                            ownItem.save();
-                        }
-                        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("恭喜")
-                                .setMessage("购买成功！")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        Dialog.setVisibility(View.GONE);
-                                        Black.setVisibility(View.GONE);
-                                        editText.setText("");
-                                    }
-                                })
-                                .show();
-                    } else {
-                        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("抱歉")
-                                .setMessage("余额不足请充值。")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
+                    String item_name = Item_Name.getText().toString();
+                    switch (PagesCount) {
+                        case 1:
+                            List<PokeMonBall> pokeMonBalls = DataSupport.where("Name = ?", item_name).find(PokeMonBall.class);
+                            PokeMonBall pokeMonBall = pokeMonBalls.get(0);
+                            Price = pokeMonBall.getPrice();
+                            break;
+                        case 2:
+                            List<PokeMonTool> pokeMonTools = DataSupport.where("Name = ?", item_name).find(PokeMonTool.class);
+                            PokeMonTool pokeMonTool = pokeMonTools.get(0);
+                            Price = pokeMonTool.getPrice();
+                            break;
+                        case 3:
+                            List<PokeMonStone> pokeMonStones = DataSupport.where("Name = ?", item_name).find(PokeMonStone.class);
+                            PokeMonStone pokeMonStone = pokeMonStones.get(0);
+                            Price = pokeMonStone.getPrice();
+                            break;
+                        case 4:
+                            List<PokeMonBook> pokeMonBooks = DataSupport.where("Name = ?", item_name).find(PokeMonBook.class);
+                            PokeMonBook pokeMonBook = pokeMonBooks.get(0);
+                            Price = pokeMonBook.getPrice();
+                            break;
                     }
+                    SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                    MyCoin += number * Price / 2;
+                    editor.putInt("Coins", MyCoin);
+                    editor.apply();
+                    if (number == NumberInBag) {
+                        DataSupport.deleteAll(OwnItem.class, "Name = ?", Item_Name.getText().toString());
+                    }else {
+                        List<OwnItem> ownItems = DataSupport.where("Name = ?", Item_Name.getText().toString()).
+                                find(OwnItem.class);
+                        OwnItem ownItem = ownItems.get(0);
+                        ownItem.setNumber(NumberInBag - number);
+                        ownItem.save();
+                    }
+                    AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("恭喜")
+                            .setMessage("出售成功！")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Dialog.setVisibility(View.GONE);
+                                    Black.setVisibility(View.GONE);
+                                    editText.setText("");
+                                }
+                            }).show();
+                    SSell_Message.setText("");
+                    FirstTouch = true;
+                    MessageCount = 0;
                 }
                 break;
             case R.id.d_cancel:
                 Dialog.setVisibility(View.GONE);
                 Black.setVisibility(View.GONE);
                 editText.setText("");
-                Buy.setVisibility(View.VISIBLE);
-                Buy.setBackgroundResource(R.drawable.s_buy);
-                Buy.startAnimation(float2);
+                Sell.setVisibility(View.VISIBLE);
+                Sell.setBackgroundResource(R.drawable.s_buy);
+                Sell.startAnimation(float2);
                 Cancel.setVisibility(View.VISIBLE);
                 Cancel.startAnimation(float3);
                 MessageCount = 0;
@@ -507,9 +459,9 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         switch (v.getId()) {
             case R.id.action:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Buy.getBackground().setAlpha(120);
+                    Sell.getBackground().setAlpha(120);
                 } else {
-                    Buy.getBackground().setAlpha(255);
+                    Sell.getBackground().setAlpha(255);
                 }
                 break;
             case R.id.cancel:
@@ -546,12 +498,10 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
             v2 = new ViewPage("道具", R.drawable.bag_decorate1, R.drawable.init_ball2, 2);
             v3 = new ViewPage("进化石", R.drawable.bag_decorate2, R.drawable.init_ball3, 3);
             v4 = new ViewPage("秘籍", R.drawable.bag_decorate3, R.drawable.init_ball4, 4);
-            v5 = new ViewPage("场景", R.drawable.bag_decorate4, R.drawable.init_ball5, 5);
             List.add(v1);
             List.add(v2);
             List.add(v3);
             List.add(v4);
-            List.add(v5);
         }
 
         @Override
@@ -572,70 +522,38 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             position = position % List.size();
-            View view = LayoutInflater.from(SBuy.this).inflate(R.layout.bag_item, null);
+            View view = LayoutInflater.from(SSell.this).inflate(R.layout.bag_item, null);
             TextView textView = (TextView) view.findViewById(R.id.item);
             textView.setText(List.get(position).Name);
             recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
             switch (List.get(position).Number) {
                 case 1:
-                    List<PokeMonBall> pokeMonBalls = DataSupport.findAll(PokeMonBall.class);
-                    List<Item> items1 = new ArrayList<>();
-                    for (PokeMonBall pokeMonBall : pokeMonBalls) {
-                        Item item = new Item(pokeMonBall.getName(), pokeMonBall.getImageSourceId(), 1, pokeMonBall.getPrice());
-                        items1.add(item);
-                    }
-                    LinearLayoutManager layoutManager1 = new LinearLayoutManager(SBuy.this);
+                    List<OwnItem> ownItems1 = DataSupport.where("Type = ?", "1").find(OwnItem.class);
+                    LinearLayoutManager layoutManager1 = new LinearLayoutManager(SSell.this);
                     recyclerView.setLayoutManager(layoutManager1);
-                    ItemAdapter adapter1 = new ItemAdapter(items1);
+                    ItemAdapter adapter1 = new ItemAdapter(ownItems1);
                     recyclerView.setAdapter(adapter1);
                     break;
                 case 2:
-                    List<PokeMonTool> pokeMonTools = DataSupport.findAll(PokeMonTool.class);
-                    List<Item> items2 = new ArrayList<>();
-                    for (PokeMonTool pokeMonTool : pokeMonTools) {
-                        Item item = new Item(pokeMonTool.getName(), pokeMonTool.getImageResourceId(), 2, pokeMonTool.getPrice());
-                        items2.add(item);
-                    }
-                    LinearLayoutManager layoutManager2 = new LinearLayoutManager(SBuy.this);
+                    List<OwnItem> ownItems2 = DataSupport.where("Type = ?", "2").find(OwnItem.class);
+                    LinearLayoutManager layoutManager2 = new LinearLayoutManager(SSell.this);
                     recyclerView.setLayoutManager(layoutManager2);
-                    ItemAdapter adapter2 = new ItemAdapter(items2);
+                    ItemAdapter adapter2 = new ItemAdapter(ownItems2);
                     recyclerView.setAdapter(adapter2);
                     break;
                 case 3:
-                    List<PokeMonStone> pokeMonStones = DataSupport.findAll(PokeMonStone.class);
-                    List<Item> items3 = new ArrayList<>();
-                    for (PokeMonStone pokeMonStone : pokeMonStones) {
-                        Item item = new Item(pokeMonStone.getName(), pokeMonStone.getImageResourceId(), 3, pokeMonStone.getPrice());
-                        items3.add(item);
-                    }
-                    LinearLayoutManager layoutManager3 = new LinearLayoutManager(SBuy.this);
+                    List<OwnItem> ownItems3 = DataSupport.where("Type = ?", "3").find(OwnItem.class);
+                    LinearLayoutManager layoutManager3 = new LinearLayoutManager(SSell.this);
                     recyclerView.setLayoutManager(layoutManager3);
-                    ItemAdapter adapter3 = new ItemAdapter(items3);
+                    ItemAdapter adapter3 = new ItemAdapter(ownItems3);
                     recyclerView.setAdapter(adapter3);
                     break;
                 case 4:
-                    List<PokeMonBook> pokeMonBooks = DataSupport.findAll(PokeMonBook.class);
-                    List<Item> item4 = new ArrayList<>();
-                    for (PokeMonBook pokeMonBook : pokeMonBooks) {
-                        Item item = new Item(pokeMonBook.getName(), pokeMonBook.getImageResourceId(), 4, pokeMonBook.getPrice());
-                        item4.add(item);
-                    }
-                    LinearLayoutManager layoutManager4 = new LinearLayoutManager(SBuy.this);
+                    List<OwnItem> ownItems4 = DataSupport.where("Type = ?", "4").find(OwnItem.class);
+                    LinearLayoutManager layoutManager4 = new LinearLayoutManager(SSell.this);
                     recyclerView.setLayoutManager(layoutManager4);
-                    ItemAdapter adapter4 = new ItemAdapter(item4);
+                    ItemAdapter adapter4 = new ItemAdapter(ownItems4);
                     recyclerView.setAdapter(adapter4);
-                    break;
-                case 5:
-                    List<Scene> scenes = DataSupport.findAll(Scene.class);
-                    List<Item> item5 = new ArrayList<>();
-                    for (Scene scene : scenes) {
-                        Item item = new Item(String.valueOf(scene.getNumber()), scene.getImageResource(), 5, scene.getPrice());
-                        item5.add(item);
-                    }
-                    LinearLayoutManager layoutManager5 = new LinearLayoutManager(SBuy.this);
-                    recyclerView.setLayoutManager(layoutManager5);
-                    ItemAdapter adapter5 = new ItemAdapter(item5);
-                    recyclerView.setAdapter(adapter5);
                     break;
             }
             container.addView(view);
@@ -646,9 +564,9 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
 
     class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-        private List<Item> List;
+        private List<OwnItem> List;
 
-        public ItemAdapter(List<Item> List) {
+        private ItemAdapter(List<OwnItem> List) {
             this.List = List;
         }
 
@@ -663,56 +581,19 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                 public void onClick(View v) {
                     TextView Name = (TextView) v.findViewById(R.id.name);
                     String name = Name.getText().toString();
+                    List<OwnItem> list = DataSupport.where("Name = ?", name).find(OwnItem.class);
+                    OwnItem ownItem = list.get(0);
+                    Item_Pic.setBackgroundResource(ownItem.getImageResourceId());
+                    Item_Name.setText(ownItem.getName());
+                    NumberInBag = ownItem.getNumber();
                     if (FirstTouch) {
-                        Buy.setVisibility(View.VISIBLE);
-                        Buy.startAnimation(float2);
+                        Sell.setVisibility(View.VISIBLE);
+                        Sell.setBackgroundResource(R.drawable.s_sell);
+                        Sell.startAnimation(float2);
                         Cancel.setVisibility(View.VISIBLE);
                         Cancel.startAnimation(float3);
                         FirstTouch = false;
                     }
-                    switch (PagesCount) {
-                        case 1:
-                            List<PokeMonBall> pokeMonBalls = DataSupport.where("Name = ?", name).find(PokeMonBall.class);
-                            PokeMonBall pokeMonBall = pokeMonBalls.get(0);
-                            Item_Pic.setBackgroundResource(pokeMonBall.getImageSourceId());
-                            Item_Name.setText(pokeMonBall.getName());
-                            Price = pokeMonBall.getPrice();
-                            NumberInDex = pokeMonBall.getNumber();
-                            break;
-                        case 2:
-                            List<PokeMonTool> pokeMonTools = DataSupport.where("Name = ?", name).find(PokeMonTool.class);
-                            PokeMonTool pokeMonTool = pokeMonTools.get(0);
-                            Item_Pic.setBackgroundResource(pokeMonTool.getImageResourceId());
-                            Item_Name.setText(pokeMonTool.getName());
-                            Price = pokeMonTool.getPrice();
-                            NumberInDex = pokeMonTool.getNumber();
-                            break;
-                        case 3:
-                            List<PokeMonStone> pokeMonStones = DataSupport.where("Name = ?", name).find(PokeMonStone.class);
-                            PokeMonStone pokeMonStone = pokeMonStones.get(0);
-                            Item_Pic.setBackgroundResource(pokeMonStone.getImageResourceId());
-                            Item_Name.setText(pokeMonStone.getName());
-                            Price = pokeMonStone.getPrice();
-                            NumberInDex = pokeMonStone.getNumber();
-                            break;
-                        case 4:
-                            List<PokeMonBook> pokeMonBooks = DataSupport.where("Name = ?", name).find(PokeMonBook.class);
-                            PokeMonBook pokeMonBook = pokeMonBooks.get(0);
-                            Item_Pic.setBackgroundResource(pokeMonBook.getImageResourceId());
-                            Item_Name.setText(pokeMonBook.getName());
-                            Price = pokeMonBook.getPrice();
-                            NumberInDex = pokeMonBook.getNumber();
-                            break;
-                        case 5:
-                            List<Scene> scenes = DataSupport.where("Number = ?", name).find(Scene.class);
-                            Scene scene = scenes.get(0);
-                            Pet_Init.setImageResource(scene.getImageResource());
-                            Item_Name.setText(String.valueOf(scene.getNumber()));
-                            Price = scene.getPrice();
-                            SceneResource = scene.getImageResource();
-                            break;
-                    }
-                    Log.i("Price", String.valueOf(Price));
                 }
             });
             return holder;
@@ -720,10 +601,9 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Item item= List.get(position);
-            holder.Name.setText(item.Name);
-            holder.Number.setText(String.valueOf(item.Price));
-            holder.Coin.setVisibility(View.VISIBLE);
+            OwnItem ownItem = List.get(position);
+            holder.Name.setText(ownItem.getName());
+            holder.Number.setText(String.valueOf(ownItem.getNumber()));
         }
 
         @Override
@@ -734,30 +614,14 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView Name;
             TextView Number;
-            ImageView Coin;
             View ItemView;
 
             public ViewHolder(View view) {
                 super(view);
                 Name = (TextView) view.findViewById(R.id.name);
                 Number = (TextView) view.findViewById(R.id.number);
-                Coin = (ImageView) view.findViewById(R.id.coin);
                 ItemView = view;
             }
-        }
-    }
-
-    class Item {
-        String Name;
-        int ImageResourceId;
-        int Type;
-        int Price;
-
-        public Item(String Name, int ImageResourceId, int Type, int Price) {
-            this.Name = Name;
-            this.ImageResourceId = ImageResourceId;
-            this.Type = Type;
-            this.Price = Price;
         }
     }
 
