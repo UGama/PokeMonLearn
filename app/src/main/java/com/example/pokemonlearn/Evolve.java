@@ -270,7 +270,7 @@ public class Evolve extends AppCompatActivity implements View.OnTouchListener, V
                 }
                 OwnPet ownPet = new OwnPet(ES_PokeMon.getName(), ES_PokeMon.getImageSourceId(),
                         E_OwnPet.getNumber(), E_OwnPet.getBallImageResourceId());
-                ownPet.updateAll("Number = ?", String.valueOf(E_OwnPet.getNumber()));
+                ownPet.updateAll("Name = ?", E_OwnPet.getName());
                 Message.setText("");
                 Combine();
                 Evolve.setVisibility(View.GONE);

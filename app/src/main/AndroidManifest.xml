@@ -40,6 +40,13 @@
             </intent-filter>
         </service>
 
+        <service android:name=".ShopMusicServer">
+            <intent-filter>
+                <action android:name="com.angel.Android.MUSIC"/>
+                <category android:name="android.intent.category.default" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="76Ged3SGHKappCAo7cqRlWQ655dgX8rN" />

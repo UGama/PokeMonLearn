@@ -68,7 +68,6 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
     private Button Cancel;
 
     private TextView SBuy_Message;
-    private ImageView SBuy_Text;
     private ImageView Screen;
     private int Price;
 
@@ -358,7 +357,6 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         Item_Name.setVisibility(View.GONE);
 
         SBuy_Message = (TextView) findViewById(R.id.s_message);
-        SBuy_Text = (ImageView) findViewById(R.id.s_text);
         Screen = (ImageView) findViewById(R.id.screen);
 
         PagesCount = 1;
@@ -407,8 +405,6 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
                                             MessageCount = 0;
                                             Buy.setBackgroundResource(R.drawable.s_buy);
                                             SBuy_Message.setText("");
-                                            Buy.setVisibility(View.GONE);
-                                            Cancel.setVisibility(View.GONE);
                                             FirstTouch = true;
                                         }
                                     })

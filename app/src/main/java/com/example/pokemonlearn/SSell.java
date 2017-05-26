@@ -68,7 +68,6 @@ public class SSell extends AppCompatActivity implements View.OnClickListener, Vi
     private Button Cancel;
 
     private TextView SSell_Message;
-    private ImageView SSell_Text;
     private ImageView Screen;
     private int Price;
 
@@ -133,7 +132,6 @@ public class SSell extends AppCompatActivity implements View.OnClickListener, Vi
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -332,7 +330,6 @@ public class SSell extends AppCompatActivity implements View.OnClickListener, Vi
         Item_Name.setVisibility(View.GONE);
 
         SSell_Message = (TextView) findViewById(R.id.s_message);
-        SSell_Text = (ImageView) findViewById(R.id.s_text);
         Screen = (ImageView) findViewById(R.id.screen);
 
         PagesCount = 1;
@@ -445,7 +442,7 @@ public class SSell extends AppCompatActivity implements View.OnClickListener, Vi
                 Black.setVisibility(View.GONE);
                 editText.setText("");
                 Sell.setVisibility(View.VISIBLE);
-                Sell.setBackgroundResource(R.drawable.s_buy);
+                Sell.setBackgroundResource(R.drawable.s_sell);
                 Sell.startAnimation(float2);
                 Cancel.setVisibility(View.VISIBLE);
                 Cancel.startAnimation(float3);

@@ -1530,8 +1530,10 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         overridePendingTransition(0,0);
         Intent intent0 = new Intent(MainActivity.this, CaptureMusicServer.class);
         stopService(intent0);
-        Intent intent = new Intent(MainActivity.this, MusicServer.class);
-        startService(intent);
+        Intent intent1 = new Intent(MainActivity.this, MusicServer.class);
+        startService(intent1);
+        Intent intent2 = new Intent(MainActivity.this, ShopMusicServer.class);
+        stopService(intent2);
         super.onRestart();
     }
 

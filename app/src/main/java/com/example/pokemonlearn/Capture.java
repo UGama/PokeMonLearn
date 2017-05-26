@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
-import java.io.IOException;
 import java.util.List;
 
 import static android.animation.ObjectAnimator.ofFloat;
@@ -477,6 +476,18 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
                     case 8:
                         MessageCount = 2;
                         Judge();
+                        break;
+                    case 9:
+                        String tip1 = "由于你已经拥有 " + C_PokeMon.Name + " ，";
+                        fightMessage.setText(tip1);
+                        ScreenRun(Text_Screen);
+                        MessageCount++;
+                        break;
+                    case 10:
+                        String tip2 = C_PokeMon.Name + " 被放生了。";
+                        fightMessage.setText(tip2);
+                        ScreenRun(Text_Screen);
+                        MessageCount = 4;
                         break;
                 }
                 break;
@@ -1049,12 +1060,22 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
             animSet.start();
             List<OwnPet> list = DataSupport.findAll(OwnPet.class);
             Log.i("PetCount", String.valueOf(list.size()));
-            if (list.size() < 9) {
-                MessageCount += 2;
-                OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), 2, C_PokeMonBall.getImageSourceId());
-                ownPet.save();
+            boolean Repeat = false;
+            for (OwnPet ownPet : list) {
+                if (ownPet.getName().equals(C_PokeMon.Name)) {
+                    Repeat = true;
+                }
+            }
+            if (Repeat) {
+                MessageCount += 7;
             } else {
-                MessageCount += 3;
+                if (list.size() < 9) {
+                    MessageCount += 2;
+                    OwnPet ownPet = new OwnPet(C_PokeMon.Name, C_PokeMon.getImageSourceId(), list.size(), C_PokeMonBall.getImageSourceId());
+                    ownPet.save();
+                } else {
+                    MessageCount += 3;
+                }
             }
         } else {
             ObjectAnimator objectAnimator = ofFloat(PMBall, "rotation", 0, 0);
@@ -1162,7 +1183,10 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
 
     @Override
     protected void onPause() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
         super.onPause();
     }
 
@@ -1215,21 +1239,22 @@ public class Capture extends AppCompatActivity implements View.OnClickListener, 
     private void playSuccessFile() {
         mediaPlayer = MediaPlayer.create(this, R.raw.capture_success);
         try {
-            mediaPlayer.prepare();
+            mediaPlayer.prepareAsync();
         } catch (IllegalStateException e) {
-        } catch (IOException e) {
         }
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
-                mp.stop();
+                mp.start();
             }
         });
     }
 
     @Override
     protected void onDestroy() {
-        mediaPlayer.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
         super.onDestroy();
     }
 
