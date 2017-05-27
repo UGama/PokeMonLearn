@@ -193,12 +193,12 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);// 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
-        //option.setScanSpan(1000);
+        option.setScanSpan(2000);
 
         mLocClient.setLocOption(option);
         mLocClient.start();
 
-        //initOverlay();
+        initOverlay();
 
         anim0 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch2);
         anim1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.touch1);

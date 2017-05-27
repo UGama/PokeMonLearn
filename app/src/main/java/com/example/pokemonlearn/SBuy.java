@@ -363,6 +363,7 @@ public class SBuy extends AppCompatActivity implements View.OnClickListener, Vie
         MessageCount = 0;
 
         Black = (ImageView) findViewById(R.id.black);
+        Black.getBackground().setAlpha(120);
         Dialog = (PercentRelativeLayout) findViewById(R.id.dialog);
         editText = (EditText) findViewById(R.id.editText);
         D_Confirm = (Button) findViewById(R.id.d_confirm);

@@ -73,6 +73,8 @@ public class DatabaseOperate extends AppCompatActivity {
         PokeMon p38 = new PokeMon(39, "幼基拉斯", R.drawable.larvitar2, 3, R.drawable.larvitar, "+2/40");
         PokeMon p39 = new PokeMon(40, "沙基拉斯", R.drawable.pupitar2, 0, 0, "+2/41");
         PokeMon p40 = new PokeMon(41, "班基拉斯", R.drawable.tyranitar2, 0, 0, null);
+        PokeMon p41 = new PokeMon(42, "闪电鸟", R.drawable.zapdos2, 1, R.drawable.zapdos, null);
+        PokeMon p42 = new PokeMon(43, "火焰鸟", R.drawable.moltres2, 1, R.drawable.moltres, null);
 
         list.add(p);list.add(p1);list.add(p2);list.add(p3);list.add(p4);list.add(p5);
         list.add(p6);list.add(p7);list.add(p8);list.add(p9);list.add(p10);list.add(p11);
@@ -80,7 +82,8 @@ public class DatabaseOperate extends AppCompatActivity {
         list.add(p18);list.add(p19);list.add(p20);list.add(p21);list.add(p22);list.add(p23);
         list.add(p24);list.add(p25);list.add(p26);list.add(p27);list.add(p28);list.add(p29);
         list.add(p30);list.add(p31);list.add(p32);list.add(p33);list.add(p34);list.add(p35);
-        list.add(p36);list.add(p37);list.add(p38);list.add(p39);list.add(p40);
+        list.add(p36);list.add(p37);list.add(p38);list.add(p39);list.add(p40);list.add(p41);
+        list.add(p42);
 
         DataSupport.saveAll(list);
     }
